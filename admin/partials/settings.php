@@ -26,12 +26,8 @@ foreach ($this->sections as $section) {
 
 <div id="crypto-settings" class="wrap crypto-settings">
 
-    <h1><?php echo __('crypto', 'crypto') . ' ' . __('Plugin Settings', 'crypto'); ?></h1>
-    <div style="text-align:right">
-        <a href="<?php echo admin_url('admin.php?page=crypto'); ?>" class="button"><?php echo __('crypto', 'crypto'); ?> <?php echo __('Dashboard', 'crypto'); ?> </a>
-        <a href="<?php echo admin_url('admin.php?page=crypto&tab=pages'); ?>" class="button"><?php echo __('crypto', 'crypto'); ?> <?php echo __('Health', 'crypto'); ?> </a>
-        <a href="<?php echo admin_url('admin.php?page=crypto&tab=pro'); ?>" class="button"><?php echo __('crypto-Pro', 'crypto'); ?></a>
-    </div>
+    <h1><?php echo __('Crypto', 'crypto') . ' ' . __('Plugin Settings', 'crypto'); ?></h1>
+
     <?php settings_errors(); ?>
 
     <h2 class="nav-tab-wrapper">

@@ -20,7 +20,8 @@
  * @subpackage Crypto/public
  * @author     ODude <navneet@odude.com>
  */
-class Crypto_Public {
+class Crypto_Public
+{
 
 	/**
 	 * The ID of this plugin.
@@ -47,11 +48,11 @@ class Crypto_Public {
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -59,7 +60,8 @@ class Crypto_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -73,8 +75,8 @@ class Crypto_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/crypto-public.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/crypto-public.css', array(), $this->version, 'all');
+		wp_enqueue_style('flexi_min', plugin_dir_url(__FILE__) . 'css/flexi-public-min.css', array(), $this->version, 'all');
 	}
 
 	/**
@@ -82,7 +84,8 @@ class Crypto_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -96,8 +99,21 @@ class Crypto_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/crypto-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/crypto-public.js', array('jquery'), $this->version, false);
+		wp_register_script('block_ajax_process', plugin_dir_url(__FILE__) . 'js/block_ajax_process.js', array('jquery'), $this->version);
+		wp_enqueue_script('block_ajax_process');
 
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/blocklogin-public.js', array('jquery'), $this->version, false);
+
+		$serverUrl = crypto_get_option('moralis_url', 'crypto_general_settings', '0');
+		$translation_array = array(
+			'delete_string'   => __('Are you sure you want to delete?', 'flexi'),
+			'ajaxurl'         => admin_url('admin-ajax.php'),
+			'serverUrl'         => 'https://fndwqmzrkjah.usemoralis.com:2053/server',
+			'appId'         => 'Sv0G8DEHLXwXWflG14VUafOlWEhVbkJkHaOxbgfG',
+		);
+
+		wp_localize_script('block_ajax_process', 'BlockChainAjax', $translation_array);
+		wp_enqueue_script('block_ajax_process');
 	}
-
 }

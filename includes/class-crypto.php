@@ -133,6 +133,15 @@ class Crypto
 		 */
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-settings.php';
 
+		//Include common functions
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/functions.php';
+
+		//Load Ajax refresh
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-block_ajax_register.php';
+
+		//Connect Page
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-blocklogin-connect.php';
+
 		$this->loader = new Crypto_Loader();
 	}
 

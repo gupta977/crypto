@@ -107,6 +107,8 @@ class crypto_Admin_Settings
         return apply_filters('crypto_settings_tabs', $tabs);
     }
 
+
+
     /**
      * Get settings sections.
      *
@@ -117,7 +119,7 @@ class crypto_Admin_Settings
     {
         $sections = array(
             array(
-                'id'    => 'crypto_icon_settings',
+                'id'    => 'crypto_general_settings',
                 'title' => __('General settings', 'crypto'),
                 'tab'   => 'general',
             ),
@@ -147,21 +149,12 @@ class crypto_Admin_Settings
         $fields = array(
 
 
-            'crypto_icon_settings'               => array(
+            'crypto_general_settings'               => array(
                 array(
-                    'name'              => 'moralis_url',
-                    'label'             => __('Moralis URL', 'flexi'),
-                    'description'       => __('Enter moralis API Server URL', 'flexi'),
+                    'name'              => 'flexi_style_text_color',
+                    'label'             => __('Text color', 'flexi'),
+                    'description'       => __('fl-has-text-black fl-has-text-danger fl-has-text-success', 'flexi'),
                     'type'              => 'text',
-                    'size'              => '20',
-                    'sanitize_callback' => 'sanitize_key',
-                ),
-                array(
-                    'name'              => 'moralis_appid',
-                    'label'             => __('Moralis appId', 'flexi'),
-                    'description'       => __('Enter moralis application Id', 'flexi'),
-                    'type'              => 'text',
-                    'size'              => '20',
                     'sanitize_callback' => 'sanitize_key',
                 ),
 
