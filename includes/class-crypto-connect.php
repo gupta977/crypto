@@ -1,13 +1,18 @@
 <?php
-class Blocklogin_Connect
+class Crypto_Connect
 {
     private $help = ' <a style="text-decoration: none;" href="https://odude.com/docs/flexi-gallery/tutorial/ultimate-member-user-gallery/" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>';
+    private  $walletconnect;
+    private $metamask;
+    private $disconnect;
 
     public function __construct()
     {
+        $this->walletconnect = crypto_get_option('walletconnect_label', 'crypto_login_settings', 'WalletConnect');
+        $this->metamask = crypto_get_option('metamask_label', 'crypto_login_settings', 'Metamask');
+        $this->disconnect = crypto_get_option('disconnect_label', 'crypto_login_settings', 'Disconnect Wallet');
 
-        add_shortcode('blocklogin-connect', array($this, 'blocklogin_connect'));
-        add_shortcode('blocklogin-connect-extra', array($this, 'blocklogin_connect_extra'));
+        add_shortcode('crypto-connect', array($this, 'crypto_connect'));
         add_action('flexi_login_form', array($this, 'login_extra_note'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
@@ -41,7 +46,7 @@ class Blocklogin_Connect
                 array(
                     'id'          => 'crypto_login_settings',
                     'title'       => __('Crypto Login', 'flexi'),
-                    'description' => __('Let users to connect via Metamask or WalletConnect. ', 'flexi'),
+                    'description' => __('Let users to connect via Metamask or WalletConnect.', 'flexi') . "<br>" . "Get API from <a target='_blank' href='" . esc_url('https://moralis.io/') . "'>https://moralis.io/</a>",
                     'tab'         => 'login',
                 ),
             );
@@ -68,6 +73,27 @@ class Blocklogin_Connect
                         'name'              => 'moralis_appid',
                         'label'             => __('Moralis appId', 'flexi'),
                         'description'       => __('Enter Moralis application Id', 'flexi'),
+                        'type'              => 'text',
+                    ),
+                    array(
+                        'name'              => 'metamask_label',
+                        'label'             => __('Metamask button label', 'flexi'),
+                        'description'       => __('Label to display at metamask connect button', 'flexi'),
+                        'size' => 20,
+                        'type'              => 'text',
+                    ),
+                    array(
+                        'name'              => 'walletconnect_label',
+                        'label'             => __('WalletConnect button label', 'flexi'),
+                        'description'       => __('Label to display at WalletConnect button', 'flexi'),
+                        'size' => 20,
+                        'type'              => 'text',
+                    ),
+                    array(
+                        'name'              => 'disconnect_label',
+                        'label'             => __('Disconnect button label', 'flexi'),
+                        'description'       => __('Label to display at Disconnect Wallet button', 'flexi'),
+                        'size' => 20,
                         'type'              => 'text',
                     ),
 
@@ -118,55 +144,29 @@ class Blocklogin_Connect
     public function login_extra_note()
     {
 
-        echo $this->blocklogin_connect('');
+        echo $this->crypto_connect('');
     }
 
-    public function blocklogin_connect_extra($params)
-    {
-        $put   = "";
-        ob_start();
-?>
-        <span>
-            <a href="#" id="btn-login" class="fl-button fl-is-info fl-is-rounded">Metamask</a>
-            <a href="#" id="btn-login_wc" class="fl-button fl-is-info fl-is-rounded">WalletConnect</a>
-            <a href="#" id="btn-logout" class="fl-button fl-is-danger fl-is-rounded">Disconnect Wallet</a>
-            <div class="fl-notification fl-is-primary fl-is-light fl-mt-1" id="flexi_notification_box">
-                <button class="fl-delete" id="delete_notification"></button>
-                <div id="wallet_msg">&nbsp;</div>
-            </div>
-        </span>
-    <?php
-
-        $put = ob_get_clean();
-        return $put;
-    }
-
-    public function blocklogin_connect($params)
+    public function crypto_connect($params)
     {
         $put   = "";
         ob_start();
         $nonce = wp_create_nonce("block_ajax_process");
 
-    ?>
+?>
         <span>
-            <a href="#" id="btn-login" class="fl-button fl-is-info fl-is-rounded">Metamask</a>
-            <a href="#" id="btn-login_wc" class="fl-button fl-is-info fl-is-rounded">WalletConnect</a>
-            <a href="#" id="btn-logout" class="fl-button fl-is-danger fl-is-rounded">Disconnect Wallet</a>
+            <a href="#" id="btn-login" class="fl-button fl-is-info fl-is-rounded"><?php echo $this->metamask; ?></a>
+            <a href="#" id="btn-login_wc" class="fl-button fl-is-info fl-is-rounded"><?php echo $this->walletconnect; ?></a>
+            <a href="#" id="btn-logout" class="fl-button fl-is-danger fl-is-rounded"><?php echo $this->disconnect; ?></a>
             <div class="fl-notification fl-is-primary fl-is-light fl-mt-1" id="flexi_notification_box">
                 <button class="fl-delete" id="delete_notification"></button>
-                <div id="wallet_msg">&nbsp;/div>
-                </div>
+                <div id="wallet_msg">&nbsp;</div>
+            </div>
         </span>
-
-        <script>
-            // jQuery("#btn-logout").hide();
-
-            //alert("test");
-        </script>
 
 <?php
         $put = ob_get_clean();
         return $put;
     }
 }
-$connect_page = new Blocklogin_Connect();
+$connect_page = new Crypto_Connect();

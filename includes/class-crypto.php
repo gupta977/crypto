@@ -140,7 +140,7 @@ class Crypto
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-block_ajax_register.php';
 
 		//Connect Page
-		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-blocklogin-connect.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect.php';
 
 		$this->loader = new Crypto_Loader();
 	}

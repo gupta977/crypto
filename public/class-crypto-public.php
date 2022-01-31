@@ -105,12 +105,13 @@ class Crypto_Public
 
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/blocklogin-public.js', array('jquery'), $this->version, false);
 
-		$serverUrl = crypto_get_option('moralis_url', 'crypto_general_settings', '0');
+		$serverUrl = crypto_get_option('moralis_url', 'crypto_login_settings', '');
+		$appId = crypto_get_option('moralis_appid', 'crypto_login_settings', '');
 		$translation_array = array(
 			'delete_string'   => __('Are you sure you want to delete?', 'flexi'),
 			'ajaxurl'         => admin_url('admin-ajax.php'),
-			'serverUrl'         => 'https://fndwqmzrkjah.usemoralis.com:2053/server',
-			'appId'         => 'Sv0G8DEHLXwXWflG14VUafOlWEhVbkJkHaOxbgfG',
+			'serverUrl'         => $serverUrl,
+			'appId'         => $appId,
 		);
 
 		wp_localize_script('block_ajax_process', 'BlockChainAjax', $translation_array);
