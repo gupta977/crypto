@@ -17,7 +17,7 @@ class Crypto_Connect
         $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_settings', 'fl-button fl-is-danger fl-is-rounded');
 
         add_shortcode('crypto-connect', array($this, 'crypto_connect'));
-        add_action('flexi_login_form', array($this, 'login_extra_note'));
+        add_action('flexi_login_form', array($this, 'crypto_connect'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
         add_filter('crypto_settings_sections', array($this, 'add_section'));
@@ -152,8 +152,7 @@ class Crypto_Connect
 
     public function enqueue_scripts()
     {
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_settings', 0);
-        if ("1" == $enable_addon) {
+        if ($this->run_script()) {
             wp_register_script('crypto_connect_ajax_process', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_ajax_process.js', array('jquery'), CRYPTO_VERSION);
             wp_enqueue_script('crypto_connect_ajax_process');
             wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_login_script.js', array('jquery'), '', false);
@@ -163,16 +162,11 @@ class Crypto_Connect
         }
     }
 
-    public function login_extra_note()
-    {
-
-        echo $this->crypto_connect('');
-    }
 
     public function crypto_connect($params)
     {
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_settings', 0);
-        if ("1" == $enable_addon) {
+
+        if ($this->run_script()) {
             $put   = "";
             ob_start();
             $nonce = wp_create_nonce("crypto_connect_ajax_process");
@@ -193,6 +187,28 @@ class Crypto_Connect
 
             return $put;
         }
+    }
+
+    public function run_script()
+    {
+        global $post;
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_settings', 0);
+        if ("1" == $enable_addon) {
+            if (in_the_loop()) {
+                //add stylesheet for post/page here...
+                if (is_single() || is_page()) {
+                    if (has_shortcode($post->post_content, 'crypto-connect')) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                //add stylesheet for widget here...
+                return true;
+            }
+        }
+        return false;
     }
 }
 $connect_page = new Crypto_Connect();
