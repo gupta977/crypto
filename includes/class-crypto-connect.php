@@ -7,17 +7,21 @@ class Crypto_Connect
     private $disconnect;
     private $connect_class;
     private $disconnect_class;
+    private $enable_metamask;
+    private $enable_walletconnect;
 
     public function __construct()
     {
         $this->walletconnect = crypto_get_option('walletconnect_label', 'crypto_login_settings', 'WalletConnect');
         $this->metamask = crypto_get_option('metamask_label', 'crypto_login_settings', 'Metamask');
         $this->disconnect = crypto_get_option('disconnect_label', 'crypto_login_settings', 'Disconnect Wallet');
-        $this->connect_class = crypto_get_option('connect_class', 'crypto_login_settings', 'fl-button fl-is-info fl-is-rounded');
-        $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_settings', 'fl-button fl-is-danger fl-is-rounded');
+        $this->connect_class = crypto_get_option('connect_class', 'crypto_login_settings', 'fl-button fl-is-info');
+        $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_settings', 'fl-button fl-is-danger');
+        $this->enable_metamask = crypto_get_option('enable_metamask', 'crypto_login_settings', 1);
+        $this->enable_walletconnect = crypto_get_option('enable_walletconnect', 'crypto_login_settings', 1);
 
         add_shortcode('crypto-connect', array($this, 'crypto_connect'));
-        add_action('flexi_login_form', array($this, 'crypto_connect'));
+        add_action('flexi_login_form', array($this, 'crypto_connect_small'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
         add_filter('crypto_settings_sections', array($this, 'add_section'));
@@ -78,6 +82,30 @@ class Crypto_Connect
                         'label'             => __('Moralis appId', 'flexi'),
                         'description'       => __('Enter Moralis application Id', 'flexi'),
                         'type'              => 'text',
+                    ),
+                    array(
+                        'name'              => 'enable_metamask',
+                        'label'             => __('Metamask Button', 'flexi'),
+                        'description'       => __('Display Metamask Button', 'flexi'),
+                        'type'              => 'checkbox',
+                        'sanitize_callback' => 'intval',
+
+                    ),
+                    array(
+                        'name'              => 'enable_walletconnect',
+                        'label'             => __('WalletConnect Button', 'flexi'),
+                        'description'       => __('Display WalletConnect Button', 'flexi'),
+                        'type'              => 'checkbox',
+                        'sanitize_callback' => 'intval',
+
+                    ),
+                    array(
+                        'name'              => 'enable_flexi',
+                        'label'             => __('Enable at Flexi', 'flexi'),
+                        'description'       => __('Display connect button at Flexi login form.', 'flexi') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/flexi/') . "'>https://wordpress.org/plugins/flexi/</a>",
+                        'type'              => 'checkbox',
+                        'sanitize_callback' => 'intval',
+
                     ),
                     array(
                         'name'              => 'metamask_label',
@@ -163,7 +191,7 @@ class Crypto_Connect
     }
 
 
-    public function crypto_connect($params)
+    public function crypto_connect()
     {
 
         if ($this->run_script()) {
@@ -173,8 +201,18 @@ class Crypto_Connect
 
 ?>
             <span>
-                <a href="#" id="btn-login" class="<?php echo $this->connect_class; ?>"><?php echo $this->metamask; ?></a>
-                <a href="#" id="btn-login_wc" class="<?php echo $this->connect_class; ?>"><?php echo $this->walletconnect; ?></a>
+                <?php
+                if ($this->enable_metamask == "1") {
+                ?>
+                    <a href="#" id="btn-login" class="<?php echo $this->connect_class; ?>"><?php echo $this->metamask; ?></a>
+                <?php
+                }
+                if ($this->enable_walletconnect == "1") {
+                ?>
+                    <a href="#" id="btn-login_wc" class="<?php echo $this->connect_class; ?>"><?php echo $this->walletconnect; ?></a>
+                <?php
+                }
+                ?>
                 <a href="#" id="btn-logout" class="<?php echo $this->disconnect_class; ?>"><?php echo $this->disconnect; ?></a>
                 <div class="fl-notification fl-is-primary fl-is-light fl-mt-1" id="flexi_notification_box">
                     <button class="fl-delete" id="delete_notification"></button>
@@ -189,23 +227,27 @@ class Crypto_Connect
         }
     }
 
+    public function crypto_connect_small()
+    {
+        $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_settings', 1);
+        if ("1" == $enable_addon) {
+            echo  $this->crypto_connect();
+        }
+    }
+
     public function run_script()
     {
         global $post;
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_settings', 0);
         if ("1" == $enable_addon) {
-            if (in_the_loop()) {
-                //add stylesheet for post/page here...
-                if (is_single() || is_page()) {
-                    if (has_shortcode($post->post_content, 'crypto-connect')) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+
+            //add stylesheet for post/page here...
+            if (is_single() || is_page()) {
+                if (has_shortcode($post->post_content, 'crypto-connect')) {
+                    return true;
+                } else {
+                    return false;
                 }
-            } else {
-                //add stylesheet for widget here...
-                return true;
             }
         }
         return false;
