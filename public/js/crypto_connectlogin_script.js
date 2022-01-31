@@ -1,8 +1,8 @@
-function create_link_blocklogin(nonce, postid, method, param1, param2, param3) {
+function create_link_crypto_connectlogin(nonce, postid, method, param1, param2, param3) {
 
     newlink = document.createElement('a');
     newlink.innerHTML = '';
-    newlink.setAttribute('id', 'block_ajax_process');
+    newlink.setAttribute('id', 'crypto_connect_ajax_process');
     // newlink.setAttribute('class', 'xxx');
     newlink.setAttribute('data-nonce', nonce);
     newlink.setAttribute('data-id', postid);
@@ -13,10 +13,10 @@ function create_link_blocklogin(nonce, postid, method, param1, param2, param3) {
     document.body.appendChild(newlink);
 }
 
-function blocklogin_init() {
+function crypto_connectlogin_init() {
     /* Moralis init code */
-    const serverUrl = BlockChainAjax.serverUrl;
-    const appId = BlockChainAjax.appId;
+    const serverUrl = crypto_connectChainAjax.serverUrl;
+    const appId = crypto_connectChainAjax.appId;
     Moralis.start({
         serverUrl,
         appId
@@ -62,7 +62,7 @@ jQuery(document).ready(function () {
     if (web3 == undefined) {
 
         // alert("not defiend");
-        blocklogin_init();
+        crypto_connectlogin_init();
         jQuery("[id=btn-logout]").hide();
     }
 
@@ -107,19 +107,19 @@ function renderApp() {
         //Javascript version to check is_user_logged_in()
         if (jQuery('body').hasClass('logged-in')) {
             console.log("check after login");
-            create_link_blocklogin('<?php echo $nonce; ?>', '', 'check', curr_user, '', '');
-            //jQuery("#block_ajax_process").click();
+            create_link_crypto_connectlogin('<?php echo $nonce; ?>', '', 'check', curr_user, '', '');
+            //jQuery("#crypto_connect_ajax_process").click();
             setTimeout(function () {
-                jQuery('#block_ajax_process').trigger('click');
+                jQuery('#crypto_connect_ajax_process').trigger('click');
             }, 1000);
             onConnected();
 
         } else {
             console.log("register new");
-            create_link_blocklogin('<?php echo $nonce; ?>', '', 'register', curr_user, '', '');
-            //jQuery("#block_ajax_process").click();
+            create_link_crypto_connectlogin('<?php echo $nonce; ?>', '', 'register', curr_user, '', '');
+            //jQuery("#crypto_connect_ajax_process").click();
             setTimeout(function () {
-                jQuery('#block_ajax_process').trigger('click');
+                jQuery('#crypto_connect_ajax_process').trigger('click');
             }, 1000);
             onConnected();
         }

@@ -135,7 +135,7 @@ class Crypto_Connect
 
     public function enqueue_scripts()
     {
-        wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/blocklogin_script.js', array('jquery'), '', false);
+        wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/crypto_connectlogin_script.js', array('jquery'), '', false);
         wp_enqueue_script('crypto_moralis', 'https://unpkg.com/moralis@latest/dist/moralis.js', array('jquery'), '', false);
         wp_enqueue_script('crypto_web3', 'https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js', array('jquery'), '', false);
         wp_enqueue_script('crypto_web3-provider', 'https://github.com/WalletConnect/walletconnect-monorepo/releases/download/1.4.1/web3-provider.min.js', array('jquery'), '', false);
@@ -151,7 +151,7 @@ class Crypto_Connect
     {
         $put   = "";
         ob_start();
-        $nonce = wp_create_nonce("block_ajax_process");
+        $nonce = wp_create_nonce("crypto_connect_ajax_process");
 
 ?>
         <span>

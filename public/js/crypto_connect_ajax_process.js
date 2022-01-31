@@ -3,7 +3,7 @@ jQuery(document).ready(function () {
   var paged = 1;
   var count = 0;
 
-  jQuery(document).on("click", "#block_ajax_process", function (e) {
+  jQuery(document).on("click", "#crypto_connect_ajax_process", function (e) {
     e.preventDefault();
     id = jQuery(this).attr("data-id");
     method_name = jQuery(this).attr("data-method_name");
@@ -15,9 +15,9 @@ jQuery(document).ready(function () {
     jQuery.ajax({
       type: "post",
       dataType: "json",
-      url: BlockChainAjax.ajaxurl,
+      url: crypto_connectChainAjax.ajaxurl,
       data: {
-        action: "block_ajax_process",
+        action: "crypto_connect_ajax_process",
         id: id,
         method_name: method_name,
         param1: param1,
@@ -26,18 +26,18 @@ jQuery(document).ready(function () {
       },
       beforeSend: function () {
         //  alert("about to send");
-        //jQuery("#block_ajax_process_loader").show();
+        //jQuery("#crypto_connect_ajax_process_loader").show();
       },
       success: function (response) {
-        //  jQuery("#block_ajax_process_content").empty();
-        // jQuery("#block_ajax_process_content").append(response.msg).fadeIn("normal");
+        //  jQuery("#crypto_connect_ajax_process_content").empty();
+        // jQuery("#crypto_connect_ajax_process_content").append(response.msg).fadeIn("normal");
        // alert(response.msg);
         if (response.msg == "success") {
           location.reload();
         }
       },
       complete: function (data) {
-        jQuery("#block_ajax_process_loader").hide();
+        jQuery("#crypto_connect_ajax_process_loader").hide();
       },
     });
   });

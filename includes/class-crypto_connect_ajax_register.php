@@ -1,16 +1,16 @@
 <?php
-class block_ajax_process
+class crypto_connect_ajax_process
 {
     private $user;
 
     //Refresh function of specific position after some action
     public function __construct()
     {
-        add_action("wp_ajax_block_ajax_process", array($this, "block_ajax_process"));
-        add_action("wp_ajax_nopriv_block_ajax_process", array($this, "block_ajax_process"));
+        add_action("wp_ajax_crypto_connect_ajax_process", array($this, "crypto_connect_ajax_process"));
+        add_action("wp_ajax_nopriv_crypto_connect_ajax_process", array($this, "crypto_connect_ajax_process"));
     }
 
-    public function block_ajax_process()
+    public function crypto_connect_ajax_process()
     {
         $id = $_REQUEST["id"];
         $param1 = $_REQUEST["param1"];
@@ -95,7 +95,7 @@ class block_ajax_process
                 $existing_user_id = username_exists($user_login);
 
                 if ($existing_user_id) {
-                    //echo __('Username already exists.', 'blocklogin');
+                    //echo __('Username already exists.', 'crypto_connectlogin');
                     // flexi_log("Username already exists " . $user_login);
                     return $this->log_in($user_login);
                 } else {
@@ -155,4 +155,4 @@ class block_ajax_process
         }
     }
 }
-$process = new block_ajax_process();
+$process = new crypto_connect_ajax_process();
