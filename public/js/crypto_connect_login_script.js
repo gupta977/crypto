@@ -1,4 +1,4 @@
-function create_link_crypto_connectlogin(nonce, postid, method, param1, param2, param3) {
+function create_link_crypto_connect_login(nonce, postid, method, param1, param2, param3) {
 
     newlink = document.createElement('a');
     newlink.innerHTML = '';
@@ -13,7 +13,7 @@ function create_link_crypto_connectlogin(nonce, postid, method, param1, param2, 
     document.body.appendChild(newlink);
 }
 
-function crypto_connectlogin_init() {
+function crypto_connect_login_init() {
     /* Moralis init code */
     const serverUrl = crypto_connectChainAjax.serverUrl;
     const appId = crypto_connectChainAjax.appId;
@@ -62,7 +62,7 @@ jQuery(document).ready(function () {
     if (web3 == undefined) {
 
         // alert("not defiend");
-        crypto_connectlogin_init();
+        crypto_connect_login_init();
         jQuery("[id=btn-logout]").hide();
     }
 
@@ -107,7 +107,7 @@ function renderApp() {
         //Javascript version to check is_user_logged_in()
         if (jQuery('body').hasClass('logged-in')) {
             console.log("check after login");
-            create_link_crypto_connectlogin('<?php echo $nonce; ?>', '', 'check', curr_user, '', '');
+            create_link_crypto_connect_login('<?php echo $nonce; ?>', '', 'check', curr_user, '', '');
             //jQuery("#crypto_connect_ajax_process").click();
             setTimeout(function () {
                 jQuery('#crypto_connect_ajax_process').trigger('click');
@@ -116,7 +116,7 @@ function renderApp() {
 
         } else {
             console.log("register new");
-            create_link_crypto_connectlogin('<?php echo $nonce; ?>', '', 'register', curr_user, '', '');
+            create_link_crypto_connect_login('<?php echo $nonce; ?>', '', 'register', curr_user, '', '');
             //jQuery("#crypto_connect_ajax_process").click();
             setTimeout(function () {
                 jQuery('#crypto_connect_ajax_process').trigger('click');

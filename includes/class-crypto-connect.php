@@ -152,10 +152,15 @@ class Crypto_Connect
 
     public function enqueue_scripts()
     {
-        wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/crypto_connectlogin_script.js', array('jquery'), '', false);
-        wp_enqueue_script('crypto_moralis', 'https://unpkg.com/moralis@latest/dist/moralis.js', array('jquery'), '', false);
-        wp_enqueue_script('crypto_web3', 'https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js', array('jquery'), '', false);
-        wp_enqueue_script('crypto_web3-provider', 'https://github.com/WalletConnect/walletconnect-monorepo/releases/download/1.4.1/web3-provider.min.js', array('jquery'), '', false);
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_settings', 0);
+        if ("1" == $enable_addon) {
+            wp_register_script('crypto_connect_ajax_process', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_ajax_process.js', array('jquery'), CRYPTO_VERSION);
+            wp_enqueue_script('crypto_connect_ajax_process');
+            wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_login_script.js', array('jquery'), '', false);
+            wp_enqueue_script('crypto_moralis', 'https://unpkg.com/moralis@latest/dist/moralis.js', array('jquery'), '', false);
+            wp_enqueue_script('crypto_web3', 'https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js', array('jquery'), '', false);
+            wp_enqueue_script('crypto_web3-provider', 'https://github.com/WalletConnect/walletconnect-monorepo/releases/download/1.4.1/web3-provider.min.js', array('jquery'), '', false);
+        }
     }
 
     public function login_extra_note()
@@ -166,24 +171,28 @@ class Crypto_Connect
 
     public function crypto_connect($params)
     {
-        $put   = "";
-        ob_start();
-        $nonce = wp_create_nonce("crypto_connect_ajax_process");
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_settings', 0);
+        if ("1" == $enable_addon) {
+            $put   = "";
+            ob_start();
+            $nonce = wp_create_nonce("crypto_connect_ajax_process");
 
 ?>
-        <span>
-            <a href="#" id="btn-login" class="<?php echo $this->connect_class; ?>"><?php echo $this->metamask; ?></a>
-            <a href="#" id="btn-login_wc" class="<?php echo $this->connect_class; ?>"><?php echo $this->walletconnect; ?></a>
-            <a href="#" id="btn-logout" class="<?php echo $this->disconnect_class; ?>"><?php echo $this->disconnect; ?></a>
-            <div class="fl-notification fl-is-primary fl-is-light fl-mt-1" id="flexi_notification_box">
-                <button class="fl-delete" id="delete_notification"></button>
-                <div id="wallet_msg">&nbsp;</div>
-            </div>
-        </span>
+            <span>
+                <a href="#" id="btn-login" class="<?php echo $this->connect_class; ?>"><?php echo $this->metamask; ?></a>
+                <a href="#" id="btn-login_wc" class="<?php echo $this->connect_class; ?>"><?php echo $this->walletconnect; ?></a>
+                <a href="#" id="btn-logout" class="<?php echo $this->disconnect_class; ?>"><?php echo $this->disconnect; ?></a>
+                <div class="fl-notification fl-is-primary fl-is-light fl-mt-1" id="flexi_notification_box">
+                    <button class="fl-delete" id="delete_notification"></button>
+                    <div id="wallet_msg">&nbsp;</div>
+                </div>
+            </span>
 
 <?php
-        $put = ob_get_clean();
-        return $put;
+            $put = ob_get_clean();
+
+            return $put;
+        }
     }
 }
 $connect_page = new Crypto_Connect();

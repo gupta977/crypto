@@ -95,7 +95,7 @@ class crypto_connect_ajax_process
                 $existing_user_id = username_exists($user_login);
 
                 if ($existing_user_id) {
-                    //echo __('Username already exists.', 'crypto_connectlogin');
+                    //echo __('Username already exists.', 'crypto_connect_login');
                     // flexi_log("Username already exists " . $user_login);
                     return $this->log_in($user_login);
                 } else {

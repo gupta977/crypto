@@ -100,10 +100,8 @@ class Crypto_Public
 		 */
 
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/crypto-public.js', array('jquery'), $this->version, false);
-		wp_register_script('crypto_connect_ajax_process', plugin_dir_url(__FILE__) . 'js/crypto_connect_ajax_process.js', array('jquery'), $this->version);
-		wp_enqueue_script('crypto_connect_ajax_process');
 
-		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/crypto_connectlogin-public.js', array('jquery'), $this->version, false);
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/crypto_connect_login-public.js', array('jquery'), $this->version, false);
 
 		$serverUrl = crypto_get_option('moralis_url', 'crypto_login_settings', '');
 		$appId = crypto_get_option('moralis_appid', 'crypto_login_settings', '');
