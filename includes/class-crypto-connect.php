@@ -5,12 +5,16 @@ class Crypto_Connect
     private  $walletconnect;
     private $metamask;
     private $disconnect;
+    private $connect_class;
+    private $disconnect_class;
 
     public function __construct()
     {
         $this->walletconnect = crypto_get_option('walletconnect_label', 'crypto_login_settings', 'WalletConnect');
         $this->metamask = crypto_get_option('metamask_label', 'crypto_login_settings', 'Metamask');
         $this->disconnect = crypto_get_option('disconnect_label', 'crypto_login_settings', 'Disconnect Wallet');
+        $this->connect_class = crypto_get_option('connect_class', 'crypto_login_settings', 'fl-button fl-is-info fl-is-rounded');
+        $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_settings', 'fl-button fl-is-danger fl-is-rounded');
 
         add_shortcode('crypto-connect', array($this, 'crypto_connect'));
         add_action('flexi_login_form', array($this, 'login_extra_note'));
@@ -97,6 +101,19 @@ class Crypto_Connect
                         'type'              => 'text',
                     ),
 
+                    array(
+                        'name'              => 'connect_class',
+                        'label'             => __('Connect button class rule', 'flexi'),
+                        'description'       => __('fl-button fl-is-info fl-is-rounded', 'flexi'),
+                        'type'              => 'text',
+                    ),
+                    array(
+                        'name'              => 'disconnect_class',
+                        'label'             => __('Disconnect button class rule', 'flexi'),
+                        'description'       => __('fl-button fl-is-danger fl-is-rounded', 'flexi'),
+                        'type'              => 'text',
+                    ),
+
 
                 )
             );
@@ -155,9 +172,9 @@ class Crypto_Connect
 
 ?>
         <span>
-            <a href="#" id="btn-login" class="fl-button fl-is-info fl-is-rounded"><?php echo $this->metamask; ?></a>
-            <a href="#" id="btn-login_wc" class="fl-button fl-is-info fl-is-rounded"><?php echo $this->walletconnect; ?></a>
-            <a href="#" id="btn-logout" class="fl-button fl-is-danger fl-is-rounded"><?php echo $this->disconnect; ?></a>
+            <a href="#" id="btn-login" class="<?php echo $this->connect_class; ?>"><?php echo $this->metamask; ?></a>
+            <a href="#" id="btn-login_wc" class="<?php echo $this->connect_class; ?>"><?php echo $this->walletconnect; ?></a>
+            <a href="#" id="btn-logout" class="<?php echo $this->disconnect_class; ?>"><?php echo $this->disconnect; ?></a>
             <div class="fl-notification fl-is-primary fl-is-light fl-mt-1" id="flexi_notification_box">
                 <button class="fl-delete" id="delete_notification"></button>
                 <div id="wallet_msg">&nbsp;</div>
