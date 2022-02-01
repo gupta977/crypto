@@ -23,13 +23,14 @@ class Crypto_Connect
         add_shortcode('crypto-connect', array($this, 'crypto_connect'));
         add_action('flexi_login_form', array($this, 'crypto_connect_small'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
-        add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
+        // add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
         add_filter('crypto_settings_sections', array($this, 'add_section'));
         add_filter('crypto_settings_fields', array($this, 'add_fields'));
         add_filter('crypto_settings_fields', array($this, 'add_extension'));
     }
 
 
+    /*
     //add_filter flexi_settings_tabs
     public function add_tabs($new)
     {
@@ -44,11 +45,12 @@ class Crypto_Connect
         }
         return $new;
     }
+    */
 
     //Add Section title
     public function add_section($new)
     {
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_settings', 0);
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 1);
         if ("1" == $enable_addon) {
             $sections = array(
                 array(
@@ -66,7 +68,7 @@ class Crypto_Connect
     //Add section fields
     public function add_fields($new)
     {
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_settings', 0);
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 1);
         if ("1" == $enable_addon) {
             $fields = array(
                 'crypto_login_settings' => array(
@@ -154,7 +156,7 @@ class Crypto_Connect
     public function add_extension($new)
     {
 
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_settings', 0);
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 1);
         if ("1" == $enable_addon) {
 
             $description = ' <a style="text-decoration: none;" href="' . admin_url('admin.php?page=crypto_settings&tab=login&section=crypto_login_settings') . '"><span class="dashicons dashicons-admin-tools"></span></a>';
@@ -162,7 +164,7 @@ class Crypto_Connect
             $description = '';
         }
 
-        $fields = array('crypto_general_settings' => array(
+        $fields = array('crypto_general_login' => array(
             array(
                 'name'              => 'enable_crypto_login',
                 'label'             => __('Enable Crypto Login', 'flexi'),
@@ -238,7 +240,7 @@ class Crypto_Connect
     public function run_script()
     {
         global $post;
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_settings', 0);
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 0);
         if ("1" == $enable_addon) {
 
             //add stylesheet for post/page here...
