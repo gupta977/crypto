@@ -164,6 +164,7 @@ async function onConnected() {
     // login();
     const web3 = await Moralis.enableWeb3();
     const chainId = await Moralis.getChainId();
+    const chainId_new = crypto_connectChainAjax.chainId;
     console.log(chainId); // 97 for bsc test
     let user = Moralis.User.current();
 
@@ -176,11 +177,12 @@ async function onConnected() {
     } else {
         jQuery("[id=btn-logout]").hide();
     }
-    if (chainId != '0x13881') {
 
-        alert("Changing network to Polygon (MATIC)");
-        const chainId = "0x13881"; //Ethereum Mainnet https://docs.moralis.io/moralis-server/web3-sdk/intro
-        const chainIdHex = await Moralis.switchNetwork(chainId);
+    if ((chainId != chainId_new) && chainId_new != '') {
+
+        //alert("Changing network to Polygon (MATIC)");
+        //const chainId = "0x13881"; //Ethereum Mainnet https://docs.moralis.io/moralis-server/web3-sdk/intro
+        const chainIdHex = await Moralis.switchNetwork(chainId_new);
     }
 
 

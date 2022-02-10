@@ -85,6 +85,12 @@ class Crypto_Connect
                         'type' => 'text',
                     ),
                     array(
+                        'name' => 'moralis_chainid',
+                        'label' => __('Default Network Chain ID', 'flexi'),
+                        'description' => __('If specified, network wallet changes after connection. Eg. 0x89 for Matic & 0x38 for BSC', 'flexi') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
+                        'type' => 'text',
+                    ),
+                    array(
                         'name' => 'enable_metamask',
                         'label' => __('Metamask Button', 'flexi'),
                         'description' => __('Display Metamask Button', 'flexi'),
