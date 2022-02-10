@@ -48,6 +48,7 @@ jQuery(document).ready(function () {
     jQuery("[id=btn-logout]").click(function () {
         //alert("Logout");
         logOut();
+        location.reload();
     });
 
 
@@ -85,6 +86,9 @@ async function login(provider) {
         jQuery("[id=wallet_msg]").empty();
         jQuery("#flexi_notification_box").fadeIn("slow");
         jQuery("[id=wallet_msg]").append(error.message).fadeIn("normal");
+        jQuery("[id=btn-login]").show();
+        jQuery("[id=btn-login_wc]").show();
+        jQuery("[id=btn-logout]").hide();
         logOut();
     }
     renderApp();
@@ -124,7 +128,10 @@ function renderApp() {
             onConnected();
         }
     } else {
-        console.log("User not connected")
+        console.log("User not connected");
+        jQuery("[id=btn-login]").show();
+        jQuery("[id=btn-login_wc]").show();
+        jQuery("[id=btn-logout]").hide();
 
     }
 

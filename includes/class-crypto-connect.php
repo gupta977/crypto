@@ -202,7 +202,6 @@ class Crypto_Connect
             $put = "";
             ob_start();
             $nonce = wp_create_nonce("crypto_connect_ajax_process");
-
             ?>
 <span>
     <?php
@@ -238,7 +237,7 @@ $put = ob_get_clean();
     {
         $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_settings', 1);
         if ("1" == $enable_addon) {
-            echo $this->crypto_connect();
+            echo wp_kses_post($this->crypto_connect());
         }
     }
 
@@ -250,11 +249,7 @@ $put = ob_get_clean();
 
             //add stylesheet for post/page here...
             if (is_single() || is_page()) {
-                if (has_shortcode($post->post_content, 'crypto-connect')) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return true;
             }
         }
         return false;
