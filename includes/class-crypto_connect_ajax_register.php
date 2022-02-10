@@ -20,17 +20,14 @@ class crypto_connect_ajax_process
 
         $response = array(
             'error' => false,
-            'msg'   => 'No Message',
+            'msg' => 'No Message',
             'count' => '0',
         );
 
-
         $msg = $this->$method_name($id, $param1, $param2, $param3);
-        //   flexi_log('msg is ' . $msg);
         $response['msg'] = $msg;
-        $result = json_encode($response);
-        // flexi_log($result);
-        echo $result;
+        echo wp_json_encode($response);
+
         die();
     }
 
@@ -47,7 +44,6 @@ class crypto_connect_ajax_process
         }
     }
 
-
     public function check($id, $param1, $param2, $param3)
     {
         //flexi_log("ame hree ---" . $param1);
@@ -58,7 +54,7 @@ class crypto_connect_ajax_process
             $the_user_id = $this->get_userid_by_meta('crypto_wallet', trim($param1));
 
             if ($the_user_id != 0) {
-                //User is found with same wallet address. 
+                //User is found with same wallet address.
                 //Delete the wallet and link with current user
                 delete_user_meta($the_user_id, 'crypto_wallet');
                 //Assign this wallet to current user
@@ -90,7 +86,6 @@ class crypto_connect_ajax_process
                 $user = get_user_by('id', $the_user_id);
                 return $this->log_in($user->user_login);
             } else {
-
 
                 $existing_user_id = username_exists($user_login);
 
@@ -128,9 +123,7 @@ class crypto_connect_ajax_process
 
         if (!is_user_logged_in()) {
 
-
             if ($user = get_user_by('login', $username)) {
-
 
                 clean_user_cache($user->ID);
                 wp_clear_auth_cookie();
@@ -141,7 +134,6 @@ class crypto_connect_ajax_process
                 update_user_caches($user);
 
                 do_action('wp_login', $user->user_login);
-
 
                 if (is_user_logged_in()) {
 

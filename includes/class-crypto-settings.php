@@ -66,6 +66,71 @@ class crypto_Admin_Settings
         );
     }
 
+    public function allowed_html($html)
+    {
+        $allowed_html = array(
+            'input' => array(
+                'type' => array(),
+                'name' => array(),
+                'value' => array(),
+                'checked' => array(),
+                'class' => array(),
+                'id' => array(),
+                'min' => array(),
+                'max' => array(),
+                'step' => array(),
+                'checked' => array(),
+            ),
+            'p' => array(
+                'class' => array(),
+            ),
+            'pre' => array(
+                'class' => array(),
+            ),
+            'select' => array(
+                'class' => array(),
+                'name' => array(),
+                'id' => array(),
+            ),
+            'option' => array(
+                'value' => array(),
+                'selected' => array(),
+            ),
+            'a' => array(
+                'href' => array(),
+                'title' => array(),
+                'style' => array(),
+                'target' => array(),
+            ),
+            'textarea' => array(
+                'rows' => array(),
+                'id' => array(),
+                'class' => array(),
+                'cols' => array(),
+                'name' => array(),
+            ),
+            'span' => array(
+                'class' => array(),
+            ),
+            'label' => array(
+                'for' => array(),
+            ),
+            'img' => array(
+                'title' => array(),
+                'src' => array(),
+                'alt' => array(),
+                'class' => array(),
+                'id' => array(),
+                'size' => array(),
+            ),
+            'br' => array(),
+            'em' => array(),
+            'strong' => array(),
+            'fieldset' => array(),
+        );
+        return wp_kses($html, $allowed_html);
+    }
+
     /**
      * gallery settings form.
      *
@@ -83,9 +148,9 @@ class crypto_Admin_Settings
      */
     public function admin_init()
     {
-        $this->tabs     = $this->get_tabs();
+        $this->tabs = $this->get_tabs();
         $this->sections = $this->get_sections();
-        $this->fields   = $this->get_fields();
+        $this->fields = $this->get_fields();
 
         // Initialize settings
         $this->initialize_settings();
@@ -100,15 +165,13 @@ class crypto_Admin_Settings
     public function get_tabs()
     {
         $tabs = array(
-            'general'   => __('General', 'crypto'),
-            'login'   => __('Login', 'crypto'),
+            'general' => __('General', 'crypto'),
+            'login' => __('Login', 'crypto'),
 
         );
 
         return apply_filters('crypto_settings_tabs', $tabs);
     }
-
-
 
     /**
      * Get settings sections.
@@ -120,14 +183,14 @@ class crypto_Admin_Settings
     {
         $sections = array(
             array(
-                'id'    => 'crypto_general_settings',
+                'id' => 'crypto_general_settings',
                 'title' => __('General settings', 'crypto'),
-                'tab'   => 'general',
+                'tab' => 'general',
             ),
             array(
-                'id'    => 'crypto_general_login',
+                'id' => 'crypto_general_login',
                 'title' => __('Login settings', 'crypto'),
-                'tab'   => 'login',
+                'tab' => 'login',
             ),
         );
 
@@ -154,23 +217,22 @@ class crypto_Admin_Settings
 
         $fields = array(
 
-
-            'crypto_general_settings'               => array(
+            'crypto_general_settings' => array(
                 array(
-                    'name'              => 'flexi_style_text_color',
-                    'label'             => __('Text color', 'flexi'),
-                    'description'       => __('fl-has-text-black fl-has-text-danger fl-has-text-success', 'flexi'),
-                    'type'              => 'text',
+                    'name' => 'flexi_style_text_color',
+                    'label' => __('Text color', 'flexi'),
+                    'description' => __('fl-has-text-black fl-has-text-danger fl-has-text-success', 'flexi'),
+                    'type' => 'text',
                     'sanitize_callback' => 'sanitize_key',
                 ),
 
             ),
-            'crypto_general_login'               => array(
+            'crypto_general_login' => array(
                 array(
-                    'name'              => 'flexi_style_text_color',
-                    'label'             => __('Text color', 'flexi'),
-                    'description'       => __('fl-has-text-black fl-has-text-danger fl-has-text-success', 'flexi'),
-                    'type'              => 'text',
+                    'name' => 'flexi_style_text_color',
+                    'label' => __('Text color', 'flexi'),
+                    'description' => __('fl-has-text-black fl-has-text-danger fl-has-text-success', 'flexi'),
+                    'type' => 'text',
                     'sanitize_callback' => 'sanitize_key',
                 ),
 
@@ -211,29 +273,29 @@ class crypto_Admin_Settings
             $fields = $this->fields[$section['id']];
 
             foreach ($fields as $option) {
-                $name     = $option['name'];
-                $type     = isset($option['type']) ? $option['type'] : 'text';
-                $label    = isset($option['label']) ? $option['label'] : '';
+                $name = $option['name'];
+                $type = isset($option['type']) ? $option['type'] : 'text';
+                $label = isset($option['label']) ? $option['label'] : '';
                 $callback = isset($option['callback']) ? $option['callback'] : array($this, 'callback_' . $type);
-                $args     = array(
-                    'id'                => $name,
-                    'class'             => isset($option['class']) ? $option['class'] : $name,
-                    'label_for'         => "{$section['id']}[{$name}]",
-                    'description'       => isset($option['description']) ? $option['description'] : '',
-                    'name'              => $label,
-                    'section'           => $section['id'],
-                    'size'              => isset($option['size']) ? $option['size'] : null,
-                    'options'           => isset($option['options']) ? $option['options'] : '',
+                $args = array(
+                    'id' => $name,
+                    'class' => isset($option['class']) ? $option['class'] : $name,
+                    'label_for' => "{$section['id']}[{$name}]",
+                    'description' => isset($option['description']) ? $option['description'] : '',
+                    'name' => $label,
+                    'section' => $section['id'],
+                    'size' => isset($option['size']) ? $option['size'] : null,
+                    'options' => isset($option['options']) ? $option['options'] : '',
                     'sanitize_callback' => isset($option['sanitize_callback']) ? $option['sanitize_callback'] : '',
-                    'type'              => $type,
-                    'placeholder'       => isset($option['placeholder']) ? $option['placeholder'] : '',
-                    'min'               => isset($option['min']) ? $option['min'] : '',
-                    'max'               => isset($option['max']) ? $option['max'] : '',
-                    'step'              => isset($option['step']) ? $option['step'] : '',
-                    'name2'             => isset($option['name2']) ? $option['name2'] : '',
-                    'label_1'           => isset($option['label_1']) ? $option['label_1'] : '',
-                    'label_2'           => isset($option['label_2']) ? $option['label_2'] : '',
-                    'type_2'            => isset($option['type_2']) ? $option['type_2'] : '',
+                    'type' => $type,
+                    'placeholder' => isset($option['placeholder']) ? $option['placeholder'] : '',
+                    'min' => isset($option['min']) ? $option['min'] : '',
+                    'max' => isset($option['max']) ? $option['max'] : '',
+                    'step' => isset($option['step']) ? $option['step'] : '',
+                    'name2' => isset($option['name2']) ? $option['name2'] : '',
+                    'label_1' => isset($option['label_1']) ? $option['label_1'] : '',
+                    'label_2' => isset($option['label_2']) ? $option['label_2'] : '',
+                    'type_2' => isset($option['type_2']) ? $option['type_2'] : '',
                 );
 
                 add_settings_field("{$section['id']}[{$name}]", $label, $callback, $page_hook, $section['id'], $args);
@@ -268,26 +330,26 @@ class crypto_Admin_Settings
      */
     public function callback_text($args)
     {
-        $value       = esc_attr($this->get_option($args['id'], $args['section'], ''));
-        $size        = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
-        $type        = isset($args['type']) ? $args['type'] : 'text';
+        $value = esc_attr($this->get_option($args['id'], $args['section'], ''));
+        $size = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
+        $type = isset($args['type']) ? $args['type'] : 'text';
         $placeholder = empty($args['placeholder']) ? '' : ' placeholder="' . $args['placeholder'] . '"';
 
         $html = sprintf('<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"%6$s/>', $type, $size, $args['section'], $args['id'], $value, $placeholder);
         $html .= $this->get_field_description($args);
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     //Image display
     public function callback_image($args)
     {
 
-        $src  = CRYPTO_ROOT_URL;
+        $src = CRYPTO_ROOT_URL;
         $html = sprintf('<img src="' . $src . '%1$s" class="%2$s" id="%3$s" size="%4$s"/>', $args['id'], $args['class'], $args['id'], $args['size']);
         $html .= $this->get_field_description($args);
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     /**
@@ -309,42 +371,42 @@ class crypto_Admin_Settings
      */
     public function callback_number($args)
     {
-        $value       = esc_attr($this->get_option($args['id'], $args['section'], 0));
-        $size        = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
-        $type        = isset($args['type']) ? $args['type'] : 'number';
+        $value = esc_attr($this->get_option($args['id'], $args['section'], 0));
+        $size = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
+        $type = isset($args['type']) ? $args['type'] : 'number';
         $placeholder = empty($args['placeholder']) ? '' : ' placeholder="' . $args['placeholder'] . '"';
-        $min         = empty($args['min']) ? '' : ' min="' . $args['min'] . '"';
-        $max         = empty($args['max']) ? '' : ' max="' . $args['max'] . '"';
-        $step        = empty($args['max']) ? '' : ' step="' . $args['step'] . '"';
+        $min = empty($args['min']) ? '' : ' min="' . $args['min'] . '"';
+        $max = empty($args['max']) ? '' : ' max="' . $args['max'] . '"';
+        $step = empty($args['max']) ? '' : ' step="' . $args['step'] . '"';
 
         $html = sprintf('<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"%6$s%7$s%8$s%9$s/>', $type, $size, $args['section'], $args['id'], $value, $placeholder, $min, $max, $step);
         $html .= $this->get_field_description($args);
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     public function callback_double_input($args)
     {
-        $value       = esc_attr($this->get_option($args['id'], $args['section'], 0));
-        $size        = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
-        $type        = isset($args['type']) ? 'text' : 'number';
+        $value = esc_attr($this->get_option($args['id'], $args['section'], 0));
+        $size = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
+        $type = isset($args['type']) ? 'text' : 'number';
         $placeholder = empty($args['placeholder']) ? '' : ' placeholder="' . $args['placeholder'] . '"';
-        $min         = empty($args['min']) ? '' : ' min="' . $args['min'] . '"';
-        $max         = empty($args['max']) ? '' : ' max="' . $args['max'] . '"';
-        $step        = empty($args['max']) ? '' : ' step="' . $args['step'] . '"';
-        $name2       = empty($args['name2']) ? '' : $args['name2'];
-        $label_1     = empty($args['label_1']) ? '' : $args['label_1'];
-        $label_2     = empty($args['label_2']) ? '' : $args['label_2'];
-        $type_2      = empty($args['type_2']) ? '' : $args['type_2'];
+        $min = empty($args['min']) ? '' : ' min="' . $args['min'] . '"';
+        $max = empty($args['max']) ? '' : ' max="' . $args['max'] . '"';
+        $step = empty($args['max']) ? '' : ' step="' . $args['step'] . '"';
+        $name2 = empty($args['name2']) ? '' : $args['name2'];
+        $label_1 = empty($args['label_1']) ? '' : $args['label_1'];
+        $label_2 = empty($args['label_2']) ? '' : $args['label_2'];
+        $type_2 = empty($args['type_2']) ? '' : $args['type_2'];
 
-        $t_width  = crypto_get_option($args['id'], $args['section'], 0);
+        $t_width = crypto_get_option($args['id'], $args['section'], 0);
         $t_height = crypto_get_option($name2, $args['section'], 0);
 
         $html = $label_1 . " " . sprintf('<input type="%1$s" class="%2$s-number" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"%6$s%7$s%8$s%9$s/> ', $type_2, $size, $args['section'], $args['id'], $t_width, $placeholder, $min, $max, $step);
         $html .= $label_2 . " " . sprintf('<input type="%1$s" class="%2$s-number" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"%6$s%7$s%8$s%9$s/> ', $type_2, $size, $args['section'], $name2, $t_height, $placeholder, $min, $max, $step);
         $html .= $this->get_field_description($args);
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     /**
@@ -363,8 +425,7 @@ class crypto_Admin_Settings
         $html .= sprintf('<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[%2$s]" value="1" %3$s />', $args['section'], $args['id'], checked($value, 1, false));
         $html .= sprintf('%1$s</label>', $args['description']);
         $html .= '</fieldset>';
-
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     /**
@@ -388,7 +449,7 @@ class crypto_Admin_Settings
         $html .= $this->get_field_description($args);
         $html .= '</fieldset>';
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     /**
@@ -410,7 +471,7 @@ class crypto_Admin_Settings
         $html .= $this->get_field_description($args);
         $html .= '</fieldset>';
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     /**
@@ -422,7 +483,7 @@ class crypto_Admin_Settings
     public function callback_select($args)
     {
         $value = esc_attr($this->get_option($args['id'], $args['section'], ''));
-        $size  = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
+        $size = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
 
         $html = sprintf('<select class="%1$s" name="%2$s[%3$s]" id="%2$s[%3$s]">', $size, $args['section'], $args['id']);
         foreach ($args['options'] as $key => $label) {
@@ -431,10 +492,8 @@ class crypto_Admin_Settings
         $html .= sprintf('</select>');
         $html .= $this->get_field_description($args);
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
-
-
 
     /**
      * gallerys a textarea for a settings field.
@@ -444,14 +503,14 @@ class crypto_Admin_Settings
      */
     public function callback_textarea($args)
     {
-        $value       = esc_textarea($this->get_option($args['id'], $args['section'], ''));
-        $size        = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
+        $value = esc_textarea($this->get_option($args['id'], $args['section'], ''));
+        $size = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
         $placeholder = empty($args['placeholder']) ? '' : ' placeholder="' . $args['placeholder'] . '"';
 
         $html = sprintf('<textarea rows="5" cols="55" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]"%4$s>%5$s</textarea>', $size, $args['section'], $args['id'], $placeholder, $value);
         $html .= $this->get_field_description($args);
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     /**
@@ -474,11 +533,11 @@ class crypto_Admin_Settings
     public function callback_wysiwyg($args)
     {
         $value = $this->get_option($args['id'], $args['section'], '');
-        $size  = isset($args['size']) && !is_null($args['size']) ? $args['size'] : '500px';
+        $size = isset($args['size']) && !is_null($args['size']) ? $args['size'] : '500px';
 
         echo '<div style="max-width: ' . $size . ';">';
         $editor_settings = array(
-            'teeny'         => true,
+            'teeny' => true,
             'textarea_name' => $args['section'] . '[' . $args['id'] . ']',
             'textarea_rows' => 10,
         );
@@ -499,15 +558,15 @@ class crypto_Admin_Settings
     public function callback_file($args)
     {
         $value = esc_attr($this->get_option($args['id'], $args['section'], ''));
-        $size  = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
-        $id    = $args['section'] . '[' . $args['id'] . ']';
+        $size = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
+        $id = $args['section'] . '[' . $args['id'] . ']';
         $label = isset($args['options']['button_label']) ? $args['options']['button_label'] : __('Choose File', 'crypto');
 
         $html = sprintf('<input type="text" class="%1$s-text crypto-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value);
         $html .= '<input type="button" class="button crypto-browse" value="' . $label . '" />';
         $html .= $this->get_field_description($args);
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     /**
@@ -519,12 +578,12 @@ class crypto_Admin_Settings
     public function callback_password($args)
     {
         $value = esc_attr($this->get_option($args['id'], $args['section'], ''));
-        $size  = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
+        $size = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
 
         $html = sprintf('<input type="password" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value);
         $html .= $this->get_field_description($args);
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     /**
@@ -536,12 +595,12 @@ class crypto_Admin_Settings
     public function callback_color($args)
     {
         $value = esc_attr($this->get_option($args['id'], $args['section'], '#ffffff'));
-        $size  = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
+        $size = isset($args['size']) && !is_null($args['size']) ? $args['size'] : 'regular';
 
         $html = sprintf('<input type="text" class="%1$s-text crypto-color-picker" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s" data-default-color="%5$s" />', $size, $args['section'], $args['id'], $value, '#ffffff');
         $html .= $this->get_field_description($args);
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     /**
@@ -553,18 +612,18 @@ class crypto_Admin_Settings
     public function callback_pages($args)
     {
         $dropdown_args = array(
-            'show_option_none'  => '-- ' . __('Select a page', 'crypto') . ' --',
+            'show_option_none' => '-- ' . __('Select a page', 'crypto') . ' --',
             'option_none_value' => '',
-            'selected'          => esc_attr($this->get_option($args['id'], $args['section'], '')),
-            'name'              => $args['section'] . '[' . $args['id'] . ']',
-            'id'                => $args['section'] . '[' . $args['id'] . ']',
-            'echo'              => 0,
+            'selected' => esc_attr($this->get_option($args['id'], $args['section'], '')),
+            'name' => $args['section'] . '[' . $args['id'] . ']',
+            'id' => $args['section'] . '[' . $args['id'] . ']',
+            'echo' => 0,
         );
 
         $html = wp_dropdown_pages($dropdown_args);
         $html .= $this->get_field_description($args);
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     /**
@@ -576,24 +635,24 @@ class crypto_Admin_Settings
     public function callback_category($args)
     {
         $dropdown_args = array(
-            'show_option_none'  => '-- ' . __('Select category', 'crypto') . ' --',
+            'show_option_none' => '-- ' . __('Select category', 'crypto') . ' --',
             'option_none_value' => '',
-            'selected'          => esc_attr($this->get_option($args['id'], $args['section'], '')),
-            'name'              => $args['section'] . '[' . $args['id'] . ']',
-            'id'                => $args['section'] . '[' . $args['id'] . ']',
-            'echo'              => 0,
-            'show_count'        => 1,
-            'hierarchical'      => 1,
-            'taxonomy'          => 'crypto_category',
-            'value_field'       => 'slug',
-            'hide_empty'        => 0,
+            'selected' => esc_attr($this->get_option($args['id'], $args['section'], '')),
+            'name' => $args['section'] . '[' . $args['id'] . ']',
+            'id' => $args['section'] . '[' . $args['id'] . ']',
+            'echo' => 0,
+            'show_count' => 1,
+            'hierarchical' => 1,
+            'taxonomy' => 'crypto_category',
+            'value_field' => 'slug',
+            'hide_empty' => 0,
 
         );
 
         $html = wp_dropdown_categories($dropdown_args);
         $html .= $this->get_field_description($args);
 
-        echo $html;
+        echo $this->allowed_html($html);
     }
 
     /**
