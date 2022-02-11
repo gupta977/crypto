@@ -59,7 +59,7 @@ jQuery(document).ready(function () {
     let result = '';
     //const provider = 'walletconnect';
     const provider = '';
-    console.log(web3);
+   // console.log(web3);
     if (web3 == undefined) {
 
         // alert("not defiend");
@@ -81,8 +81,8 @@ async function login(provider) {
         });
 
     } catch (error) {
-        console.log('authenticate failed', error);
-        console.log(error.message);
+       // console.log('authenticate failed', error);
+      // console.log(error.message);
         jQuery("[id=wallet_msg]").empty();
         jQuery("#flexi_notification_box").fadeIn("slow");
         jQuery("[id=wallet_msg]").append(error.message).fadeIn("normal");
@@ -104,14 +104,14 @@ function renderApp() {
     user = Moralis.User.current();
 
     if (user) {
-        console.log("HELLO USER! YOU HAVE SUCCESSFULLY LOGGED IN", user);
+       // console.log("HELLO USER! YOU HAVE SUCCESSFULLY LOGGED IN", user);
         var curr_user = user.get("ethAddress");
         console.log("HELLO " + curr_user);
 
         //Javascript version to check is_user_logged_in()
         if (jQuery('body').hasClass('logged-in')) {
-            console.log("check after login");
-            create_link_crypto_connect_login('<?php echo $nonce; ?>', '', 'check', curr_user, '', '');
+           // console.log("check after login");
+            create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'check', curr_user, '', '');
             //jQuery("#crypto_connect_ajax_process").click();
             setTimeout(function () {
                 jQuery('#crypto_connect_ajax_process').trigger('click');
@@ -119,8 +119,8 @@ function renderApp() {
             onConnected();
 
         } else {
-            console.log("register new");
-            create_link_crypto_connect_login('<?php echo $nonce; ?>', '', 'register', curr_user, '', '');
+           // console.log("register new");
+            create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'register', curr_user, '', '');
             //jQuery("#crypto_connect_ajax_process").click();
             setTimeout(function () {
                 jQuery('#crypto_connect_ajax_process').trigger('click');

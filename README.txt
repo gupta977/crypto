@@ -1,24 +1,30 @@
-=== Plugin Name ===
+=== Crypto ===
 Contributors: odude
 Donate link: https://odude.com/
-Tags: comments, spam
+Tags: crypto, login, metamask, walletconnect, blockchain
 Requires at least: 3.0.1
+Requires PHP: 5.5
 Tested up to: 5.9
 Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Crypto Gears and widgets. 
+Crypto Login with MetaMask & WalletConnect
 
 == Description ==
 
-Crypto plugin is full set of blockchain everyday use widgets.
-Let your user to login via metamask & wallet connect.
+Let your user to login via metamask & WalletConnect.
 Automatic registration.
+No more require to remember passwords for website. 
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+*   **Use Shortcode** - [crypto-connect] to any of your pages.
+*   **Flexi Gallery Support** - Crypto Login buttons can be enabled from settings
 
+[Live Demo](https://signid.net/user-dashboard/)
+
+> If any suggestion, contact at navneet@odude.com
+
+[GitHub](https://github.com/gupta977/crypto/)
 
 == Installation ==
 
@@ -28,7 +34,7 @@ e.g.
 
 1. Upload `crypto.php` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Place `<?php do_action('plugin_name_hook'); ?>` in your templates
+1. Use shortcode [crypto-connect]
 
 == Frequently Asked Questions ==
 
@@ -38,17 +44,13 @@ Moralis is SDK for rapid blockchain development.
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. Simple Login Interface
 
 == Changelog ==
 
-= 1.0 =
-* A change since the previous version.
-* Another change.
+= 1.4 =
+* Added wordpress assets images
+* Localize online javascripts
 
 
 == Upgrade Notice ==
