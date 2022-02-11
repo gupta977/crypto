@@ -3,7 +3,6 @@ class Cryoto_Facebook
 {
     private $help = ' <a style="text-decoration: none;" href="#" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>';
 
-
     public function __construct()
     {
 
@@ -12,7 +11,6 @@ class Cryoto_Facebook
         add_filter('crypto_settings_fields', array($this, 'add_fields'));
     }
 
-
     //Add Section title & description
     public function add_section($new)
     {
@@ -20,10 +18,10 @@ class Cryoto_Facebook
         if ("1" == $enable_addon) {
             $sections = array(
                 array(
-                    'id'          => 'crypto_facebook',
-                    'title'       => __('Facebook Login', 'flexi'),
-                    'description' => __('Let users to login via Facebook', 'flexi') . ' ' . $this->help,
-                    'tab'         => 'login',
+                    'id' => 'crypto_facebook',
+                    'title' => __('Facebook Login', 'crypto'),
+                    'description' => __('Let users to login via Facebook', 'crypto') . ' ' . $this->help,
+                    'tab' => 'login',
                 ),
             );
             $new = array_merge($new, $sections);
@@ -45,10 +43,10 @@ class Cryoto_Facebook
         $fields = array(
             'crypto_general_login' => array(
                 array(
-                    'name'              => 'enable_facebook',
-                    'label'             => __('Enable Facebook Login', 'flexi'),
-                    'description'       => __('Let users to connect via Facebook.', 'flexi') . ' ' . $this->help . ' ' . $description,
-                    'type'              => 'checkbox',
+                    'name' => 'enable_facebook',
+                    'label' => __('Enable Facebook Login', 'crypto'),
+                    'description' => __('Let users to connect via Facebook.', 'crypto') . ' ' . $this->help . ' ' . $description,
+                    'type' => 'checkbox',
                     'sanitize_callback' => 'intval',
 
                 ),

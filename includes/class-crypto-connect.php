@@ -54,8 +54,8 @@ class Crypto_Connect
             $sections = array(
                 array(
                     'id' => 'crypto_login_settings',
-                    'title' => __('Crypto Login', 'flexi'),
-                    'description' => __('Let users to connect via Metamask or WalletConnect.', 'flexi') . "<br>" . "Get API from <a target='_blank' href='" . esc_url('https://moralis.io/') . "'>https://moralis.io/</a>",
+                    'title' => __('Crypto Login', 'crypto'),
+                    'description' => __('Let users to connect via Metamask or WalletConnect.', 'crypto') . "<br>" . "Get API from <a target='_blank' href='" . esc_url('https://moralis.io/') . "'>https://moralis.io/</a>",
                     'tab' => 'login',
                 ),
             );
@@ -74,78 +74,78 @@ class Crypto_Connect
 
                     array(
                         'name' => 'moralis_url',
-                        'label' => __('Moralis URL', 'flexi'),
-                        'description' => __('Enter Moralis API Server URL', 'flexi'),
+                        'label' => __('Moralis URL', 'crypto'),
+                        'description' => __('Enter Moralis API Server URL', 'crypto'),
                         'type' => 'text',
                     ),
                     array(
                         'name' => 'moralis_appid',
-                        'label' => __('Moralis appId', 'flexi'),
-                        'description' => __('Enter Moralis application Id', 'flexi'),
+                        'label' => __('Moralis appId', 'crypto'),
+                        'description' => __('Enter Moralis application Id', 'crypto'),
                         'type' => 'text',
                     ),
                     array(
                         'name' => 'moralis_chainid',
-                        'label' => __('Default Network Chain ID', 'flexi'),
-                        'description' => __('If specified, network wallet changes after connection. Eg. 0x89 for Matic & 0x38 for BSC', 'flexi') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
+                        'label' => __('Default Network Chain ID', 'crypto'),
+                        'description' => __('If specified, network wallet changes after connection. Eg. 0x89 for Matic & 0x38 for BSC', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
                         'type' => 'text',
                     ),
                     array(
                         'name' => 'enable_metamask',
-                        'label' => __('Metamask Button', 'flexi'),
-                        'description' => __('Display Metamask Button', 'flexi'),
+                        'label' => __('Metamask Button', 'crypto'),
+                        'description' => __('Display Metamask Button', 'crypto'),
                         'type' => 'checkbox',
                         'sanitize_callback' => 'intval',
 
                     ),
                     array(
                         'name' => 'enable_walletconnect',
-                        'label' => __('WalletConnect Button', 'flexi'),
-                        'description' => __('Display WalletConnect Button', 'flexi'),
+                        'label' => __('WalletConnect Button', 'crypto'),
+                        'description' => __('Display WalletConnect Button', 'crypto'),
                         'type' => 'checkbox',
                         'sanitize_callback' => 'intval',
 
                     ),
                     array(
                         'name' => 'enable_flexi',
-                        'label' => __('Enable at Flexi', 'flexi'),
-                        'description' => __('Display connect button at Flexi login form.', 'flexi') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/flexi/') . "'>https://wordpress.org/plugins/flexi/</a>",
+                        'label' => __('Enable at Flexi', 'crypto'),
+                        'description' => __('Display connect button at Flexi login form.', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/flexi/') . "'>https://wordpress.org/plugins/flexi/</a>",
                         'type' => 'checkbox',
                         'sanitize_callback' => 'intval',
 
                     ),
                     array(
                         'name' => 'metamask_label',
-                        'label' => __('Metamask button label', 'flexi'),
-                        'description' => __('Label to display at metamask connect button', 'flexi'),
+                        'label' => __('Metamask button label', 'crypto'),
+                        'description' => __('Label to display at metamask connect button', 'crypto'),
                         'size' => 20,
                         'type' => 'text',
                     ),
                     array(
                         'name' => 'walletconnect_label',
-                        'label' => __('WalletConnect button label', 'flexi'),
-                        'description' => __('Label to display at WalletConnect button', 'flexi'),
+                        'label' => __('WalletConnect button label', 'crypto'),
+                        'description' => __('Label to display at WalletConnect button', 'crypto'),
                         'size' => 20,
                         'type' => 'text',
                     ),
                     array(
                         'name' => 'disconnect_label',
-                        'label' => __('Disconnect button label', 'flexi'),
-                        'description' => __('Label to display at Disconnect Wallet button', 'flexi'),
+                        'label' => __('Disconnect button label', 'crypto'),
+                        'description' => __('Label to display at Disconnect Wallet button', 'crypto'),
                         'size' => 20,
                         'type' => 'text',
                     ),
 
                     array(
                         'name' => 'connect_class',
-                        'label' => __('Connect button class rule', 'flexi'),
-                        'description' => __('fl-button fl-is-info fl-is-rounded', 'flexi'),
+                        'label' => __('Connect button class rule', 'crypto'),
+                        'description' => __('fl-button fl-is-info fl-is-rounded', 'crypto'),
                         'type' => 'text',
                     ),
                     array(
                         'name' => 'disconnect_class',
-                        'label' => __('Disconnect button class rule', 'flexi'),
-                        'description' => __('fl-button fl-is-danger fl-is-rounded', 'flexi'),
+                        'label' => __('Disconnect button class rule', 'crypto'),
+                        'description' => __('fl-button fl-is-danger fl-is-rounded', 'crypto'),
                         'type' => 'text',
                     ),
 
@@ -171,8 +171,8 @@ class Crypto_Connect
         $fields = array('crypto_general_login' => array(
             array(
                 'name' => 'enable_crypto_login',
-                'label' => __('Enable Crypto Login', 'flexi'),
-                'description' => __('Let users to connect/register with Metamask & WalletConnect', 'flexi') . ' ' . $this->help . ' ' . $description,
+                'label' => __('Enable Crypto Login', 'crypto'),
+                'description' => __('Let users to connect/register with Metamask & WalletConnect', 'crypto') . ' ' . $this->help . ' ' . $description,
                 'type' => 'checkbox',
                 'sanitize_callback' => 'intval',
 

@@ -107,7 +107,7 @@ class Crypto_Public
         $appId = crypto_get_option('moralis_appid', 'crypto_login_settings', '');
         $chainId = crypto_get_option('moralis_chainid', 'crypto_login_settings', '');
         $translation_array = array(
-            'delete_string' => __('Are you sure you want to delete?', 'flexi'),
+            'delete_string' => __('Are you sure you want to delete?', 'crypto'),
             'ajaxurl' => admin_url('admin-ajax.php'),
             'serverUrl' => $serverUrl,
             'appId' => $appId,
