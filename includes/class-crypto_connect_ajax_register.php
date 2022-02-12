@@ -133,7 +133,7 @@ class crypto_connect_ajax_process
                 $user = get_user_by('id', $user->ID);
                 update_user_caches($user);
 
-                do_action('wp_login', $user->user_login);
+                do_action('wp_login', $user->user_login, $user);
 
                 if (is_user_logged_in()) {
 

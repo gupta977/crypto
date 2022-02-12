@@ -10,7 +10,7 @@ class Crypto_Admin_Dashboard_Intro
     public function add_tabs($tabs)
     {
 
-        $extra_tabs = array("intro" => 'crypto ' . __('Guide', 'crypto'));
+        $extra_tabs = array("intro" => 'Introduction');
 
         // combine the two arrays
         $new = array_merge($tabs, $extra_tabs);
@@ -35,9 +35,9 @@ class Crypto_Admin_Dashboard_Intro
         ?>
 <div class="changelog section-getting-started">
     <div class="feature-section">
-        <h2>Creating Your First Gallery</h2>
+        <h2>Blockchain</h2>
         <div class="wrap">
-            <h1>My Page Settings</h1>
+            We are coming up with many Crypto Gears. Stay tuned.
 
         </div>
     </div>

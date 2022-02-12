@@ -220,10 +220,10 @@ class crypto_Admin_Settings
             'crypto_general_settings' => array(
                 array(
                     'name' => 'flexi_style_text_color',
-                    'label' => __('Text color', 'crypto'),
-                    'description' => __('fl-has-text-black fl-has-text-danger fl-has-text-success', 'crypto'),
-                    'type' => 'text',
-                    'sanitize_callback' => 'sanitize_key',
+                    'label' => __('Information', 'crypto'),
+                    'description' => __('Select appropriate tabs above & do check sub-tabs below them.', 'crypto'),
+                    'type' => 'html',
+
                 ),
 
             ),

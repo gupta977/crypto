@@ -1,7 +1,7 @@
 <?php
 class Crypto_Connect
 {
-    private $help = ' <a style="text-decoration: none;" href="https://odude.com/docs/flexi-gallery/tutorial/ultimate-member-user-gallery/" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>';
+    private $help = ' <a style="text-decoration: none;" href="#" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>';
     private $walletconnect;
     private $metamask;
     private $disconnect;
@@ -21,7 +21,8 @@ class Crypto_Connect
         $this->enable_walletconnect = crypto_get_option('enable_walletconnect', 'crypto_login_settings', 1);
 
         add_shortcode('crypto-connect', array($this, 'crypto_connect'));
-        add_action('flexi_login_form', array($this, 'crypto_connect_small'));
+        add_action('flexi_login_form', array($this, 'crypto_connect_small_flexi'));
+        add_action('woocommerce_login_form', array($this, 'crypto_connect_small_woocommerce'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         // add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
         add_filter('crypto_settings_sections', array($this, 'add_section'));
@@ -115,6 +116,14 @@ class Crypto_Connect
 
                     ),
                     array(
+                        'name' => 'enable_woocommerce',
+                        'label' => __('Enable at WooCommerce', 'crypto'),
+                        'description' => __('Display connect button at WooCommmerce Login form', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/woocommerce/') . "'>WooCommerce</a>",
+                        'type' => 'checkbox',
+                        'sanitize_callback' => 'intval',
+
+                    ),
+                    array(
                         'name' => 'metamask_label',
                         'label' => __('Metamask button label', 'crypto'),
                         'description' => __('Label to display at metamask connect button', 'crypto'),
@@ -172,7 +181,7 @@ class Crypto_Connect
             array(
                 'name' => 'enable_crypto_login',
                 'label' => __('Enable Crypto Login', 'crypto'),
-                'description' => __('Let users to connect/register with Metamask & WalletConnect', 'crypto') . ' ' . $this->help . ' ' . $description,
+                'description' => __('Let users to connect/register with Metamask & WalletConnect', 'crypto') . ' ' . $description,
                 'type' => 'checkbox',
                 'sanitize_callback' => 'intval',
 
@@ -233,10 +242,22 @@ $put = ob_get_clean();
         }
     }
 
-    public function crypto_connect_small()
+    public function crypto_connect_small_flexi()
     {
+        //Display at Flexi Form
         $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_settings', 1);
         if ("1" == $enable_addon) {
+            echo wp_kses_post($this->crypto_connect());
+        }
+
+    }
+
+    public function crypto_connect_small_woocommerce()
+    {
+
+        //Display at WooCommerce form
+        $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_login_settings', 1);
+        if ("1" == $enable_addon_woo) {
             echo wp_kses_post($this->crypto_connect());
         }
     }

@@ -5,7 +5,7 @@ Tags: crypto, login, metamask, walletconnect, blockchain
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 5.9
-Stable tag: 1.4
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,8 @@ Automatic registration.
 No more require to remember passwords for website. 
 
 *   **Use Shortcode** - [crypto-connect] to any of your pages.
-*   **Flexi Gallery Support** - Crypto Login buttons can be enabled from settings
+*   **Flexi Gallery Support** - Crypto Login buttons at Flexi Login Form
+*   **WooCommerce Support** - Crypto Login buttons at WooCommerce Login Form
 
 [Live Demo](https://signid.net/user-dashboard/)
 
@@ -47,6 +48,9 @@ Moralis is SDK for rapid blockchain development.
 1. Simple Login Interface
 
 == Changelog ==
+
+= 1.5 =
+* Added WooCommerce support
 
 = 1.4 =
 * Added wordpress assets images

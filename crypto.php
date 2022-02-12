@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://odude.com/
- * @since             1.0.0
+ * @since             1.5
  * @package           Crypto
  *
  * @wordpress-plugin
  * Plugin Name:       Crypto
  * Plugin URI:        http://odude.com
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.0.0
+ * Version:           1.5
  * Author:            ODude
  * Author URI:        https://odude.com/
  * License:           GPL-2.0+
@@ -27,15 +27,10 @@
 
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
-	die;
+    die;
 }
 
-/**
- * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
- */
-define('CRYPTO_VERSION', '1.0.0');
+define('CRYPTO_VERSION', '1.5');
 define('CRYPTO_FOLDER', dirname(plugin_basename(__FILE__)));
 define('CRYPTO_PLUGIN_URL', content_url('/plugins/' . CRYPTO_FOLDER));
 define('CRYPTO_BASE_DIR', WP_CONTENT_DIR . '/plugins/' . CRYPTO_FOLDER . '/');
@@ -43,7 +38,7 @@ define('CRYPTO_ROOT_URL', plugin_dir_url(__FILE__));
 
 // Path to the plugin directory
 if (!defined('CRYPTO_PLUGIN_DIR')) {
-	define('CRYPTO_PLUGIN_DIR', plugin_dir_path(dirname(__FILE__)) . '' . CRYPTO_FOLDER . '/');
+    define('CRYPTO_PLUGIN_DIR', plugin_dir_path(dirname(__FILE__)) . '' . CRYPTO_FOLDER . '/');
 }
 
 /**
@@ -52,8 +47,8 @@ if (!defined('CRYPTO_PLUGIN_DIR')) {
  */
 function activate_crypto()
 {
-	require_once plugin_dir_path(__FILE__) . 'includes/class-crypto-activator.php';
-	Crypto_Activator::activate();
+    require_once plugin_dir_path(__FILE__) . 'includes/class-crypto-activator.php';
+    Crypto_Activator::activate();
 }
 
 /**
@@ -62,8 +57,8 @@ function activate_crypto()
  */
 function deactivate_crypto()
 {
-	require_once plugin_dir_path(__FILE__) . 'includes/class-crypto-deactivator.php';
-	Crypto_Deactivator::deactivate();
+    require_once plugin_dir_path(__FILE__) . 'includes/class-crypto-deactivator.php';
+    Crypto_Deactivator::deactivate();
 }
 
 register_activation_hook(__FILE__, 'activate_crypto');
@@ -87,7 +82,7 @@ require plugin_dir_path(__FILE__) . 'includes/class-crypto.php';
 function run_crypto()
 {
 
-	$plugin = new Crypto();
-	$plugin->run();
+    $plugin = new Crypto();
+    $plugin->run();
 }
 run_crypto();
