@@ -20,7 +20,7 @@ class Crypto_Connect
         $this->enable_metamask = crypto_get_option('enable_metamask', 'crypto_login_settings', 1);
         $this->enable_walletconnect = crypto_get_option('enable_walletconnect', 'crypto_login_settings', 1);
 
-        add_shortcode('crypto-connect', array($this, 'crypto_connect'));
+        add_shortcode('crypto-connect', array($this, 'crypto_connect_moralis'));
         add_action('flexi_login_form', array($this, 'crypto_connect_small_flexi'));
         add_action('woocommerce_login_form', array($this, 'crypto_connect_small_woocommerce'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
@@ -50,8 +50,8 @@ class Crypto_Connect
     //Add Section title
     public function add_section($new)
     {
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 1);
-        if ("1" == $enable_addon) {
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+        if ("moralis" == $enable_addon) {
             $sections = array(
                 array(
                     'id' => 'crypto_login_settings',
@@ -68,8 +68,8 @@ class Crypto_Connect
     //Add section fields
     public function add_fields($new)
     {
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 1);
-        if ("1" == $enable_addon) {
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+        if ("moralis" == $enable_addon) {
             $fields = array(
                 'crypto_login_settings' => array(
 
@@ -169,22 +169,18 @@ class Crypto_Connect
     public function add_extension($new)
     {
 
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 1);
-        if ("1" == $enable_addon) {
-
-            $description = ' <a style="text-decoration: none;" href="' . admin_url('admin.php?page=crypto_settings&tab=login&section=crypto_login_settings') . '"><span class="dashicons dashicons-admin-tools"></span></a>';
-        } else {
-            $description = '';
-        }
-
         $fields = array('crypto_general_login' => array(
             array(
                 'name' => 'enable_crypto_login',
-                'label' => __('Enable Crypto Login via Moralis.io', 'crypto'),
-                'description' => __('Let users to connect/register with Metamask & WalletConnect', 'crypto') . ' ' . $description,
-                'type' => 'checkbox',
-                'sanitize_callback' => 'intval',
-
+                'label' => __('Select login provider', 'flexi'),
+                'description' => '',
+                'type' => 'radio',
+                'options' => array(
+                    'moralis' => __('Connect using moralis.io API - Metamask & WalletConnect', 'flexi'),
+                    'metamask' => __('Connect using Metamask without any provider', 'flexi'),
+                    'web3' => __(' Mouse Scroll', 'flexi'),
+                ),
+                'sanitize_callback' => 'sanitize_key',
             ),
         ));
         $new = array_merge_recursive($new, $fields);
@@ -194,20 +190,23 @@ class Crypto_Connect
 
     public function enqueue_scripts()
     {
-        if ($this->run_script()) {
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+        if ("moralis" == $enable_addon) {
             wp_register_script('crypto_connect_ajax_process', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_ajax_process.js', array('jquery'), CRYPTO_VERSION);
             wp_enqueue_script('crypto_connect_ajax_process');
-            wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_login_script.js', array('jquery'), '', false);
-            wp_enqueue_script('crypto_moralis', plugin_dir_url(__DIR__) . 'public/js/moralis.js', array('jquery'), '', false);
+            wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/moralis/crypto_connect_login_script.js', array('jquery'), '', false);
+            wp_enqueue_script('crypto_moralis', plugin_dir_url(__DIR__) . 'public/js/moralis/moralis.js', array('jquery'), '', false);
             wp_enqueue_script('crypto_web3', plugin_dir_url(__DIR__) . 'public/js/web3.min.js', array('jquery'), '', false);
             wp_enqueue_script('crypto_web3-provider', plugin_dir_url(__DIR__) . 'public/js/web3-provider.min.js', array('jquery'), '', false);
         }
     }
 
-    public function crypto_connect()
+    public function crypto_connect_moralis()
     {
 
-        if ($this->run_script()) {
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+
+        if ("moralis" == $enable_addon) {
             $put = "";
             ob_start();
             $nonce = wp_create_nonce("crypto_connect_ajax_process");
@@ -244,28 +243,33 @@ class Crypto_Connect
 
     public function crypto_connect_small_flexi()
     {
-        //Display at Flexi Form
-        $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_settings', 1);
-        if ("1" == $enable_addon) {
-            echo wp_kses_post($this->crypto_connect());
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+        if ("moralis" == $enable_addon) {
+            //Display at Flexi Form
+            $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_settings', 1);
+            if ("1" == $enable_addon) {
+                echo wp_kses_post($this->crypto_connect());
+            }
         }
     }
 
     public function crypto_connect_small_woocommerce()
     {
-
-        //Display at WooCommerce form
-        $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_login_settings', 1);
-        if ("1" == $enable_addon_woo) {
-            echo wp_kses_post($this->crypto_connect());
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+        if ("moralis" == $enable_addon) {
+            //Display at WooCommerce form
+            $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_login_settings', 1);
+            if ("1" == $enable_addon_woo) {
+                echo wp_kses_post($this->crypto_connect());
+            }
         }
     }
 
     public function run_script()
     {
         global $post;
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 0);
-        if ("1" == $enable_addon) {
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+        if ("moralis" == $enable_addon) {
 
             //add stylesheet for post/page here...
             if (is_single() || is_page()) {

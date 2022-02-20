@@ -17,7 +17,7 @@ class Crypto_Connect_Metamask
         $this->connect_class = crypto_get_option('connect_class', 'crypto_metamask_settings', 'fl-button fl-is-info');
         $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_metamask_settings', 'fl-button fl-is-danger');
 
-        add_shortcode('crypto-connect-metamask', array($this, 'crypto_connect_Metamask'));
+        add_shortcode('crypto-connect', array($this, 'crypto_connect_Metamask'));
         add_action('flexi_login_form', array($this, 'crypto_connect_Metamask_small_flexi'));
         add_action('woocommerce_login_form', array($this, 'crypto_connect_Metamask_small_woocommerce'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
@@ -27,28 +27,13 @@ class Crypto_Connect_Metamask
         add_filter('crypto_settings_fields', array($this, 'add_extension'));
     }
 
-    /*
-    //add_filter flexi_settings_tabs
-    public function add_tabs($new)
-    {
-    $enable_addon = crypto_get_option('enable_metamask_login', 'crypto_general_settings', 0);
-    if ("1" == $enable_addon) {
-
-    $tabs = array(
-    'login'   => __('Login', 'crypto'),
-
-    );
-    $new  = array_merge($new, $tabs);
-    }
-    return $new;
-    }
-     */
 
     //Add Section title
     public function add_section($new)
     {
-        $enable_addon = crypto_get_option('enable_metamask_login', 'crypto_general_login', 1);
-        if ("1" == $enable_addon) {
+
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+        if ("metamask" == $enable_addon) {
             $sections = array(
                 array(
                     'id' => 'crypto_metamask_settings',
@@ -62,11 +47,34 @@ class Crypto_Connect_Metamask
         return $new;
     }
 
+    //Add enable/disable option at extension tab
+    public function add_extension($new)
+    {
+
+        $fields = array('crypto_general_login' => array(
+            array(
+                'name' => 'enable_crypto_login',
+                'label' => __('Select login provider', 'flexi'),
+                'description' => '',
+                'type' => 'radio',
+                'options' => array(
+                    'moralis' => __('Connect using moralis.io API - Metamask & WalletConnect', 'flexi'),
+                    'metamask' => __('Connect using Metamask without any provider', 'flexi'),
+                    'web3' => __(' Mouse Scroll', 'flexi'),
+                ),
+                'sanitize_callback' => 'sanitize_key',
+            ),
+        ));
+        $new = array_merge_recursive($new, $fields);
+
+        return $new;
+    }
+
     //Add section fields
     public function add_fields($new)
     {
-        $enable_addon = crypto_get_option('enable_metamask_login', 'crypto_general_login', 1);
-        if ("1" == $enable_addon) {
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+        if ("metamask" == $enable_addon) {
             $fields = array(
                 'crypto_metamask_settings' => array(
 
@@ -130,51 +138,30 @@ class Crypto_Connect_Metamask
         return $new;
     }
 
-    //Add enable/disable option at extension tab
-    public function add_extension($new)
-    {
-
-        $enable_addon = crypto_get_option('enable_metamask_login', 'crypto_general_login', 1);
-        if ("1" == $enable_addon) {
-
-            $description = ' <a style="text-decoration: none;" href="' . admin_url('admin.php?page=crypto_settings&tab=login&section=crypto_metamask_settings') . '"><span class="dashicons dashicons-admin-tools"></span></a>';
-        } else {
-            $description = '';
-        }
-
-        $fields = array('crypto_general_login' => array(
-            array(
-                'name' => 'enable_metamask_login',
-                'label' => __('Enable Metamask Login without API', 'crypto'),
-                'description' => __('Let users to connect/register with Metamask without any 3rd party', 'crypto') . ' ' . $description,
-                'type' => 'checkbox',
-                'sanitize_callback' => 'intval',
-
-            ),
-        ));
-        $new = array_merge_recursive($new, $fields);
-
-        return $new;
-    }
-
     public function enqueue_scripts()
     {
-        if ($this->run_script()) {
-            wp_register_script('crypto_connect_ajax_process', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_ajax_process.js', array('jquery'), CRYPTO_VERSION);
-            wp_enqueue_script('crypto_connect_ajax_process');
-            wp_enqueue_script('crypto_web3', plugin_dir_url(__DIR__) . 'public/js/web3.min.js', array('jquery'), '', false);
-            wp_enqueue_script('crypto_web3-provider', plugin_dir_url(__DIR__) . 'public/js/web3-provider.min.js', array('jquery'), '', false);
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+        if ("metamask" == $enable_addon) {
+            if ($this->run_script()) {
+                wp_register_script('crypto_connect_ajax_process', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_ajax_process.js', array('jquery'), CRYPTO_VERSION);
+                wp_enqueue_script('crypto_connect_ajax_process');
+                wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/metamask/crypto_connect_login_metamask.js', array('jquery'), '', false);
+
+                wp_enqueue_script('crypto_web3', plugin_dir_url(__DIR__) . 'public/js/web3.min.js', array('jquery'), '', false);
+                wp_enqueue_script('crypto_web3-provider', plugin_dir_url(__DIR__) . 'public/js/web3-provider.min.js', array('jquery'), '', false);
+            }
         }
     }
 
     public function crypto_connect_Metamask()
     {
-        crypto_set_option('enable_crypto_login', 'crypto_general_login', 0);
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+        if ("metamask" == $enable_addon) {
 
-        if ($this->run_script()) {
-            $put = "";
-            ob_start();
-            $nonce = wp_create_nonce("crypto_connect_Metamask_ajax_process");
+            if ($this->run_script()) {
+                $put = "";
+                ob_start();
+                $nonce = wp_create_nonce("crypto_connect_Metamask_ajax_process");
 
 ?>
 <a href="#" id="btn-login"
@@ -184,104 +171,11 @@ class Crypto_Connect_Metamask
     <div id="wallet_msg">&nbsp;</div>
 </div>
 
-<script>
-jQuery(document).ready(function() {
-
-    jQuery("[id=delete_notification]").click(function() {
-        jQuery("[id=flexi_notification_box]").fadeOut("slow");
-    });
-
-    jQuery("[id=btn-login]").click(function() {
-        // alert("Login");
-
-        login();
-    });
-
-});
-if (typeof window.ethereum !== 'undefined') {
-    console.log('MetaMask is installed!');
-
-    jQuery("[id=flexi_notification_box]").hide();
-} else {
-    //console.log("MetaMask is not installed");
-    jQuery("#flexi_notification_box").fadeIn("slow");
-    jQuery("[id=wallet_msg]").append("Metamask not installed").fadeIn("normal");
-}
-
-async function login() {
-    if (typeof window.ethereum !== 'undefined') {
-        // Instance web3 with the provided information
-        web3 = new Web3(window.ethereum);
-        try {
-            // Request account access
-            await window.ethereum.enable();
-            onInit();
-            return true
-        } catch (error) {
-            // User denied access
-            jQuery("[id=wallet_msg]").empty();
-            jQuery("#flexi_notification_box").fadeIn("slow");
-            jQuery("[id=wallet_msg]").append(error.message).fadeIn("normal");
-            return false
-        }
-    }
-}
-async function onInit() {
-    await window.ethereum.enable();
-    const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts'
-    });
-    const account = accounts[0];
-    console.log(account);
-    process_login_register(account);
-    window.ethereum.on('accountsChanged', function(accounts) {
-        // Time to reload your interface with accounts[0]!
-        console.log(accounts[0])
-    });
-}
-
-function create_link_crypto_connect_login(nonce, postid, method, param1, param2, param3) {
-
-    newlink = document.createElement('a');
-    newlink.innerHTML = '';
-    newlink.setAttribute('id', 'crypto_connect_ajax_process');
-    // newlink.setAttribute('class', 'xxx');
-    newlink.setAttribute('data-nonce', nonce);
-    newlink.setAttribute('data-id', postid);
-    newlink.setAttribute('data-method_name', method);
-    newlink.setAttribute('data-param1', param1);
-    newlink.setAttribute('data-param2', param2);
-    newlink.setAttribute('data-param3', param3);
-    document.body.appendChild(newlink);
-}
-
-function process_login_register(curr_user) {
-    //alert("register " + curr_user);
-    //Javascript version to check is_user_logged_in()
-    if (jQuery('body').hasClass('logged-in')) {
-        // console.log("check after login");
-        create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'check', curr_user, '', '');
-        //jQuery("#crypto_connect_ajax_process").click();
-        setTimeout(function() {
-            jQuery('#crypto_connect_ajax_process').trigger('click');
-        }, 1000);
-
-
-    } else {
-        // console.log("register new");
-        create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'register', curr_user, '', '');
-        //jQuery("#crypto_connect_ajax_process").click();
-        setTimeout(function() {
-            jQuery('#crypto_connect_ajax_process').trigger('click');
-        }, 1000);
-
-    }
-}
-</script>
 <?php
-            $put = ob_get_clean();
+                $put = ob_get_clean();
 
-            return $put;
+                return $put;
+            }
         }
     }
 
@@ -307,8 +201,8 @@ function process_login_register(curr_user) {
     public function run_script()
     {
         global $post;
-        $enable_addon = crypto_get_option('enable_metamask_login', 'crypto_general_login', 0);
-        if ("1" == $enable_addon) {
+        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+        if ("metamask" == $enable_addon) {
 
             //add stylesheet for post/page here...
             if (is_single() || is_page()) {

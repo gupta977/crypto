@@ -139,11 +139,16 @@ class Crypto
 		//Load Ajax refresh
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto_connect_ajax_register.php';
 
-		//Connect Page
-		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-moralis.php';
+		$enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+		if ("moralis" == $enable_addon) {
+			//Connect Page
+			require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-moralis.php';
+		} else {
+			//Connect Page
+			require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-metamask.php';
+		}
 
-		//Connect Page
-		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-metamask.php';
+
 
 		//Connect Facebook
 		//require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-facebook.php';
