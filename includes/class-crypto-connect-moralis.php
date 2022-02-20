@@ -55,7 +55,7 @@ class Crypto_Connect
             $sections = array(
                 array(
                     'id' => 'crypto_login_settings',
-                    'title' => __('Crypto Login', 'crypto'),
+                    'title' => __('Moralis Crypto Login', 'crypto'),
                     'description' => __('Let users to connect via Metamask or WalletConnect.', 'crypto') . "<br>" . "Get API from <a target='_blank' href='" . esc_url('https://moralis.io/') . "'>https://moralis.io/</a>",
                     'tab' => 'login',
                 ),
@@ -180,7 +180,7 @@ class Crypto_Connect
         $fields = array('crypto_general_login' => array(
             array(
                 'name' => 'enable_crypto_login',
-                'label' => __('Enable Crypto Login', 'crypto'),
+                'label' => __('Enable Crypto Login via Moralis.io', 'crypto'),
                 'description' => __('Let users to connect/register with Metamask & WalletConnect', 'crypto') . ' ' . $description,
                 'type' => 'checkbox',
                 'sanitize_callback' => 'intval',
@@ -211,22 +211,22 @@ class Crypto_Connect
             $put = "";
             ob_start();
             $nonce = wp_create_nonce("crypto_connect_ajax_process");
-            ?>
+?>
 <span>
     <?php
-if ($this->enable_metamask == "1") {
+                if ($this->enable_metamask == "1") {
                 ?>
     <a href="#" id="btn-login"
         class="<?php echo esc_attr($this->connect_class); ?>"><?php echo esc_attr($this->metamask); ?></a>
     <?php
-}
-            if ($this->enable_walletconnect == "1") {
+                }
+                if ($this->enable_walletconnect == "1") {
                 ?>
     <a href="#" id="btn-login_wc"
         class="<?php echo esc_attr($this->connect_class); ?>"><?php echo esc_attr($this->walletconnect); ?></a>
     <?php
-}
-            ?>
+                }
+                ?>
     <a href="#" id="btn-logout"
         class="<?php echo esc_attr($this->disconnect_class); ?>"><?php echo esc_attr($this->disconnect); ?></a>
     <div class="fl-notification fl-is-primary fl-is-light fl-mt-1" id="flexi_notification_box">
@@ -236,7 +236,7 @@ if ($this->enable_metamask == "1") {
 </span>
 
 <?php
-$put = ob_get_clean();
+            $put = ob_get_clean();
 
             return $put;
         }
@@ -249,7 +249,6 @@ $put = ob_get_clean();
         if ("1" == $enable_addon) {
             echo wp_kses_post($this->crypto_connect());
         }
-
     }
 
     public function crypto_connect_small_woocommerce()

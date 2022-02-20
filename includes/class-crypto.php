@@ -140,7 +140,10 @@ class Crypto
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto_connect_ajax_register.php';
 
 		//Connect Page
-		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-moralis.php';
+
+		//Connect Page
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-metamask.php';
 
 		//Connect Facebook
 		//require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-facebook.php';
