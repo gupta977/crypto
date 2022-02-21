@@ -178,7 +178,6 @@ class Crypto_Connect
                 'options' => array(
                     'moralis' => __('Connect using moralis.io API - Metamask & WalletConnect', 'flexi'),
                     'metamask' => __('Connect using Metamask without any provider', 'flexi'),
-                    'web3' => __(' Mouse Scroll', 'flexi'),
                 ),
                 'sanitize_callback' => 'sanitize_key',
             ),

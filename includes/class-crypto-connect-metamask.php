@@ -60,7 +60,7 @@ class Crypto_Connect_Metamask
                 'options' => array(
                     'moralis' => __('Connect using moralis.io API - Metamask & WalletConnect', 'flexi'),
                     'metamask' => __('Connect using Metamask without any provider', 'flexi'),
-                    'web3' => __(' Mouse Scroll', 'flexi'),
+
                 ),
                 'sanitize_callback' => 'sanitize_key',
             ),
@@ -78,13 +78,6 @@ class Crypto_Connect_Metamask
             $fields = array(
                 'crypto_metamask_settings' => array(
 
-
-                    array(
-                        'name' => 'metamask_chainid',
-                        'label' => __('Default Network Chain ID', 'crypto'),
-                        'description' => __('If specified, network wallet changes after connection. Eg. 0x89 for Matic & 0x38 for BSC', 'crypto') . " <a href='#' target='_blank'> Reference </a>",
-                        'type' => 'text',
-                    ),
 
                     array(
                         'name' => 'enable_flexi',
@@ -110,13 +103,7 @@ class Crypto_Connect_Metamask
                         'type' => 'text',
                     ),
 
-                    array(
-                        'name' => 'disconnect_label',
-                        'label' => __('Disconnect button label', 'crypto'),
-                        'description' => __('Label to display at Disconnect Wallet button', 'crypto'),
-                        'size' => 20,
-                        'type' => 'text',
-                    ),
+
 
                     array(
                         'name' => 'connect_class',
@@ -124,12 +111,7 @@ class Crypto_Connect_Metamask
                         'description' => __('fl-button fl-is-info fl-is-rounded', 'crypto'),
                         'type' => 'text',
                     ),
-                    array(
-                        'name' => 'disconnect_class',
-                        'label' => __('Disconnect button class rule', 'crypto'),
-                        'description' => __('fl-button fl-is-danger fl-is-rounded', 'crypto'),
-                        'type' => 'text',
-                    ),
+
 
                 ),
             );
@@ -184,7 +166,7 @@ class Crypto_Connect_Metamask
         //Display at Flexi Form
         $enable_addon = crypto_get_option('enable_flexi', 'crypto_metamask_settings', 1);
         if ("1" == $enable_addon) {
-            echo $this->crypto_connect_Metamask();
+            echo wp_kses_post($this->crypto_connect_Metamask());
         }
     }
 
@@ -194,7 +176,7 @@ class Crypto_Connect_Metamask
         //Display at WooCommerce form
         $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_metamask_settings', 1);
         if ("1" == $enable_addon_woo) {
-            echo $this->crypto_connect_Metamask();
+            echo wp_kses_post($this->crypto_connect_Metamask());
         }
     }
 

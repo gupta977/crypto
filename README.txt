@@ -5,7 +5,7 @@ Tags: crypto, login, metamask, walletconnect, blockchain
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 5.9
-Stable tag: 1.5
+Stable tag: 1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,9 +17,22 @@ Let your user to login via metamask & WalletConnect.
 Automatic registration.
 No more require to remember passwords for website. 
 
-*   **Use Shortcode** - [crypto-connect] to any of your pages.
-*   **Flexi Gallery Support** - Crypto Login buttons at Flexi Login Form
-*   **WooCommerce Support** - Crypto Login buttons at WooCommerce Login Form
+**[crypto-connect]** -  Use shortcode to any of your pages for login button.
+
+= Metamask Standalone =
+
+* No API or any provider required
+* Let user to login/register
+* Login buttons at Flexi Gallery Login Form
+* Login buttons at WooCommerce Login Form
+
+= Metamask & WalletConnect by Moralis.io =
+
+* Free API required from moralis.io
+* Let user to login/register
+* Flexi Form support
+* WooCommerce login form support
+
 
 [Live Demo](https://signid.net/user-dashboard/)
 
@@ -48,6 +61,9 @@ Moralis is SDK for rapid blockchain development.
 1. Simple Login Interface
 
 == Changelog ==
+
+= 1.6 =
+* Added standalone Metamask login
 
 = 1.5 =
 * Added WooCommerce support
