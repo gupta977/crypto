@@ -247,7 +247,7 @@ class Crypto_Connect
             //Display at Flexi Form
             $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_settings', 1);
             if ("1" == $enable_addon) {
-                echo wp_kses_post($this->crypto_connect());
+                echo wp_kses_post($this->crypto_connect_moralis());
             }
         }
     }
@@ -256,10 +256,10 @@ class Crypto_Connect
     {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
         if ("moralis" == $enable_addon) {
-            //Display at WooCommerce form
+            //Display at WooCommerce form  
             $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_login_settings', 1);
             if ("1" == $enable_addon_woo) {
-                echo wp_kses_post($this->crypto_connect());
+                echo wp_kses_post($this->crypto_connect_moralis());
             }
         }
     }
