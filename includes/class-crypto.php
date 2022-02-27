@@ -143,6 +143,9 @@ class Crypto
 		if ("moralis" == $enable_addon) {
 			//Connect Page
 			require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-moralis.php';
+		} else if ("web3modal" == $enable_addon) {
+			//Connect Page
+			require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-web3modal.php';
 		} else {
 			//Connect Page
 			require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-metamask.php';

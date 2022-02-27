@@ -2,7 +2,7 @@
 class Crypto_Connect
 {
     private $help = ' <a style="text-decoration: none;" href="#" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>';
-    private $walletconnect;
+
     private $metamask;
     private $disconnect;
     private $connect_class;
@@ -12,15 +12,14 @@ class Crypto_Connect
 
     public function __construct()
     {
-        $this->walletconnect = crypto_get_option('walletconnect_label', 'crypto_login_settings', 'WalletConnect');
-        $this->metamask = crypto_get_option('metamask_label', 'crypto_login_settings', 'Metamask');
+
+        $this->metamask = crypto_get_option('metamask_label', 'crypto_login_settings', 'Connect Wallet');
         $this->disconnect = crypto_get_option('disconnect_label', 'crypto_login_settings', 'Disconnect Wallet');
         $this->connect_class = crypto_get_option('connect_class', 'crypto_login_settings', 'fl-button fl-is-info');
         $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_settings', 'fl-button fl-is-danger');
         $this->enable_metamask = crypto_get_option('enable_metamask', 'crypto_login_settings', 1);
-        $this->enable_walletconnect = crypto_get_option('enable_walletconnect', 'crypto_login_settings', 1);
 
-        add_shortcode('crypto-connect', array($this, 'crypto_connect_moralis'));
+        add_shortcode('crypto-connect', array($this, 'crypto_connect_option'));
         add_action('flexi_login_form', array($this, 'crypto_connect_small_flexi'));
         add_action('woocommerce_login_form', array($this, 'crypto_connect_small_woocommerce'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
@@ -51,12 +50,12 @@ class Crypto_Connect
     public function add_section($new)
     {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("moralis" == $enable_addon) {
+        if ("web3modal" == $enable_addon) {
             $sections = array(
                 array(
                     'id' => 'crypto_login_settings',
-                    'title' => __('Moralis Crypto Login', 'crypto'),
-                    'description' => __('Let users to connect via Metamask or WalletConnect.', 'crypto') . "<br>" . "Get API from <a target='_blank' href='" . esc_url('https://moralis.io/') . "'>https://moralis.io/</a>",
+                    'title' => __('Web3Modal Crypto Login', 'crypto'),
+                    'description' => __('Let users to connect via Metamask, WalletConnect & many more wallet', 'crypto') . "<br>" . "Project by <a target='_blank' href='" . esc_url('https://github.com/Web3Modal') . "'>Web3Modal</a>",
                     'tab' => 'login',
                 ),
             );
@@ -69,7 +68,7 @@ class Crypto_Connect
     public function add_fields($new)
     {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("moralis" == $enable_addon) {
+        if ("web3modal" == $enable_addon) {
             $fields = array(
                 'crypto_login_settings' => array(
 
@@ -99,14 +98,7 @@ class Crypto_Connect
                         'sanitize_callback' => 'intval',
 
                     ),
-                    array(
-                        'name' => 'enable_walletconnect',
-                        'label' => __('WalletConnect Button', 'crypto'),
-                        'description' => __('Display WalletConnect Button', 'crypto'),
-                        'type' => 'checkbox',
-                        'sanitize_callback' => 'intval',
 
-                    ),
                     array(
                         'name' => 'enable_flexi',
                         'label' => __('Enable at Flexi', 'crypto'),
@@ -130,13 +122,7 @@ class Crypto_Connect
                         'size' => 20,
                         'type' => 'text',
                     ),
-                    array(
-                        'name' => 'walletconnect_label',
-                        'label' => __('WalletConnect button label', 'crypto'),
-                        'description' => __('Label to display at WalletConnect button', 'crypto'),
-                        'size' => 20,
-                        'type' => 'text',
-                    ),
+
                     array(
                         'name' => 'disconnect_label',
                         'label' => __('Disconnect button label', 'crypto'),
@@ -191,22 +177,24 @@ class Crypto_Connect
     public function enqueue_scripts()
     {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("moralis" == $enable_addon) {
+        if ("web3modal" == $enable_addon) {
             wp_register_script('crypto_connect_ajax_process', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_ajax_process.js', array('jquery'), CRYPTO_VERSION);
             wp_enqueue_script('crypto_connect_ajax_process');
-            wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/moralis/crypto_connect_login_moralis.js', array('jquery'), '', false);
-            wp_enqueue_script('crypto_moralis', plugin_dir_url(__DIR__) . 'public/js/moralis/moralis.js', array('jquery'), '', false);
-            wp_enqueue_script('crypto_web3', plugin_dir_url(__DIR__) . 'public/js/web3.min.js', array('jquery'), '', false);
-            wp_enqueue_script('crypto_web3-provider', plugin_dir_url(__DIR__) . 'public/js/web3-provider.min.js', array('jquery'), '', false);
+            wp_enqueue_script('crypto_fortmatic', plugin_dir_url(__DIR__) . 'public/js/web3modal/fortmatic.js', array('jquery'), '', false);
+            wp_enqueue_script('crypto_web3', plugin_dir_url(__DIR__) . 'public/js/web3modal/web3.min.js', array('jquery'), '', false);
+            wp_enqueue_script('crypto_web3-provider', plugin_dir_url(__DIR__) . 'public/js/web3modal/wallet.min.js', array('jquery'), '', false);
+            wp_enqueue_script('crypto_index', plugin_dir_url(__DIR__) . 'public/js/web3modal/index.js', array('jquery'), '', false);
+            wp_enqueue_script('crypto_index_min', plugin_dir_url(__DIR__) . 'public/js/web3modal/index.min.js', array('jquery'), '', false);
+            wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/web3modal/crypto_connect_login_web3modal.js', array('jquery'), '', false);
         }
     }
 
-    public function crypto_connect_moralis()
+    public function crypto_connect_option()
     {
 
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
 
-        if ("moralis" == $enable_addon) {
+        if ("web3modal" == $enable_addon) {
             $put = "";
             ob_start();
             $nonce = wp_create_nonce("crypto_connect_ajax_process");
@@ -219,12 +207,7 @@ class Crypto_Connect
         class="<?php echo esc_attr($this->connect_class); ?>"><?php echo esc_attr($this->metamask); ?></a>
     <?php
                 }
-                if ($this->enable_walletconnect == "1") {
-                ?>
-    <a href="#" id="btn-login_wc"
-        class="<?php echo esc_attr($this->connect_class); ?>"><?php echo esc_attr($this->walletconnect); ?></a>
-    <?php
-                }
+
                 ?>
     <a href="#" id="btn-logout"
         class="<?php echo esc_attr($this->disconnect_class); ?>"><?php echo esc_attr($this->disconnect); ?></a>
@@ -233,6 +216,7 @@ class Crypto_Connect
         <div id="wallet_msg">&nbsp;</div>
     </div>
 </span>
+
 
 <?php
             $put = ob_get_clean();
@@ -244,11 +228,11 @@ class Crypto_Connect
     public function crypto_connect_small_flexi()
     {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("moralis" == $enable_addon) {
+        if ("web3modal" == $enable_addon) {
             //Display at Flexi Form
             $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_settings', 1);
             if ("1" == $enable_addon) {
-                echo wp_kses_post($this->crypto_connect_moralis());
+                echo wp_kses_post($this->crypto_connect_option());
             }
         }
     }
@@ -256,11 +240,11 @@ class Crypto_Connect
     public function crypto_connect_small_woocommerce()
     {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("moralis" == $enable_addon) {
+        if ("web3modal" == $enable_addon) {
             //Display at WooCommerce form  
             $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_login_settings', 1);
             if ("1" == $enable_addon_woo) {
-                echo wp_kses_post($this->crypto_connect_moralis());
+                echo wp_kses_post($this->crypto_connect_option());
             }
         }
     }
@@ -269,7 +253,7 @@ class Crypto_Connect
     {
         global $post;
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("moralis" == $enable_addon) {
+        if ("web3modal" == $enable_addon) {
 
             //add stylesheet for post/page here...
             if (is_single() || is_page()) {

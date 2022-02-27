@@ -19,17 +19,22 @@ No more require to remember passwords for website.
 
 **[crypto-connect]** -  Use shortcode to any of your pages for login button.
 
-= Metamask Standalone =
+
+= Option 1: Web3Modal =
+* Multi wallet support 
+
+= Option 2: Metamask Standalone =
 
 * No API or any provider required
 * Let user to login/register
 * Login buttons at Flexi Gallery Login Form
 * Login buttons at WooCommerce Login Form
 
-= Metamask & WalletConnect by Moralis.io =
+= Option 3: Metamask & WalletConnect by Moralis.io =
 
 * Free API required from moralis.io
 * Let user to login/register
+* Auto switch to selected network chain
 * Flexi Form support
 * WooCommerce login form support
 

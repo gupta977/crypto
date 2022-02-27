@@ -58,6 +58,7 @@ class Crypto_Connect_Metamask
                 'description' => '',
                 'type' => 'radio',
                 'options' => array(
+                    'web3modal' => __('Connect using Web3Modal', 'flexi'),
                     'moralis' => __('Connect using moralis.io API - Metamask & WalletConnect', 'flexi'),
                     'metamask' => __('Connect using Metamask without any provider', 'flexi'),
 
