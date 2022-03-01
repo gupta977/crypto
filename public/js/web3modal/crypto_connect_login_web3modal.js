@@ -45,10 +45,6 @@ async function fetchAccountData() {
     jQuery("[id=wallet_msg]").append(msg).fadeIn("normal");
     onDisconnect();
   }
-  else
-  {
-    console.log("NETWORK OK");
-  }
 
   // Load chain information over an HTTP API
   const chainData = evmChains.getChain(chainId);
@@ -100,7 +96,10 @@ async function onConnect() {
   try {
     provider = await web3Modal.connect();
   } catch(e) {
-    console.log("Could not get a wallet connection", e);
+    //console.log("Could not get a wallet connection", e);
+    jQuery("[id=wallet_msg]").empty();
+    jQuery("#flexi_notification_box").fadeIn("slow");
+    jQuery("[id=wallet_msg]").append("Could not get a wallet connection").fadeIn("normal");
     return;
   }
 

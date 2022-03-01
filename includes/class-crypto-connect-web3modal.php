@@ -99,7 +99,7 @@ class Crypto_Connect
                     array(
                         'name' => 'moralis_chainid',
                         'label' => __('Default Network Chain ID', 'crypto'),
-                        'description' => __('If specified, network wallet changes after connection. Eg. 1 for Ethereum Mainnet & 137 for Matic', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
+                        'description' => __('If specified, network wallet changes notice displayed. Eg. 1 for Ethereum Mainnet & 137 for Matic', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
                         'type' => 'text',
                     ),
 
@@ -140,15 +140,38 @@ class Crypto_Connect
                         'type' => 'textarea',
                         'size' => 'large',
                         'placeholder' => 'Leave blank for default values',
-                        'label' => __('providerOptions Javascript Array', 'flexi'),
-                        'description' => __('Manual javascript array based on', 'flexi') . ' <a href="https://github.com/Web3Modal/web3modal/tree/master/docs/providers" target="_blank">https://github.com/Web3Modal/web3modal/tree/master/docs/providers</a>',
+                        'label' => __('providerOptions Javascript Array', 'crypto'),
+                        'description' => __('Manual javascript array based on', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/tree/master/docs/providers" target="_blank">https://github.com/Web3Modal/web3modal/tree/master/docs/providers</a>',
                     ),
 
                     array(
                         'name' => 'provider_desp',
                         'type' => 'html',
-                        'label' => __('providerOptions Default Value', 'flexi'),
+                        'label' => __('providerOptions Default Value', 'crypto'),
                         'description' => "<pre>" . $this->provider_default . "</pre>",
+                    ),
+
+                    array(
+                        'name' => 'provider_list',
+                        'label' => 'Includes related javascript of selected provider',
+                        'description' => 'Only select visible provider to prevent unnecessary files.',
+                        'type' => 'multicheck',
+                        'options' => array(
+                            'walletconnect' => __('WalletConnect', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/walletconnect.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                            'fortmatic' => __('Fortmatic', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/fortmatic.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                            'torus' => __('Torus', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/torus.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                            'portis' => __('Portis', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/portis.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                            'authereum' => __('Authereum', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/authereum.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                            'frame' => __('Frame', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/frame.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                            'bitski' => __('Bitski', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/bitski.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                            'venly' => __('Venly', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/venly.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                            'dcent' => __('DCent', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/dcent.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                            'burnerconnect' => __('BurnerConnect', 'crypto') .  ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/burnerconnect.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                            'mewconnect' => __('MEWConnect', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/mewconnect.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                            'bnb' => __('Binance Chain Wallet', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/binancechainwallet.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                            'walletlink' => __('WalletLink', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/walletlink.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+
+                        ),
                     ),
 
                 ),
@@ -165,13 +188,13 @@ class Crypto_Connect
         $fields = array('crypto_general_login' => array(
             array(
                 'name' => 'enable_crypto_login',
-                'label' => __('Select login provider', 'flexi'),
+                'label' => __('Select login provider', 'crypto'),
                 'description' => '',
                 'type' => 'radio',
                 'options' => array(
-                    'web3modal' => __('Connect using Web3Modal. Supports more then 10 wallet provider', 'flexi'),
-                    'moralis' => __('Connect using moralis.io API - Metamask & WalletConnect', 'flexi'),
-                    'metamask' => __('Connect using Metamask without any provider', 'flexi'),
+                    'web3modal' => __('Connect using Web3Modal. Supports more then 10 wallet provider', 'crypto'),
+                    'moralis' => __('Connect using moralis.io API - Metamask & WalletConnect', 'crypto'),
+                    'metamask' => __('Connect using Metamask without any provider', 'crypto'),
                 ),
                 'sanitize_callback' => 'sanitize_key',
             ),
@@ -187,9 +210,17 @@ class Crypto_Connect
         if ("web3modal" == $enable_addon) {
             wp_register_script('crypto_connect_ajax_process', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_ajax_process.js', array('jquery'), CRYPTO_VERSION);
             wp_enqueue_script('crypto_connect_ajax_process');
-            wp_enqueue_script('crypto_fortmatic', plugin_dir_url(__DIR__) . 'public/js/web3modal/fortmatic.js', array('jquery'), '', false);
+
+
+            $display = crypto_get_option('provider_list', 'crypto_login_settings', '');
+            if (is_array($display)) {
+                foreach ($display as $x => $x_value) {
+                    // flexi_log("Key=" . $x . ", Value=" . $x_value);
+                    wp_enqueue_script('crypto_wallet_' . $x, plugin_dir_url(__DIR__) . 'public/js/web3modal/' . $x . '.js', array('jquery'), '', false);
+                }
+            }
             wp_enqueue_script('crypto_web3', plugin_dir_url(__DIR__) . 'public/js/web3modal/web3.min.js', array('jquery'), '', false);
-            wp_enqueue_script('crypto_web3-provider', plugin_dir_url(__DIR__) . 'public/js/web3modal/wallet.min.js', array('jquery'), '', false);
+            // wp_enqueue_script('crypto_web3-provider', plugin_dir_url(__DIR__) . 'public/js/web3modal/walletconnect.js', array('jquery'), '', false);
             wp_enqueue_script('crypto_index', plugin_dir_url(__DIR__) . 'public/js/web3modal/index.js', array('jquery'), '', false);
             wp_enqueue_script('crypto_index_min', plugin_dir_url(__DIR__) . 'public/js/web3modal/index.min.js', array('jquery'), '', false);
             wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/web3modal/crypto_connect_login_web3modal.js', array('jquery'), '', false);

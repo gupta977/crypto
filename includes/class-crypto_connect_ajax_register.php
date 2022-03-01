@@ -59,7 +59,7 @@ class crypto_connect_ajax_process
                 delete_user_meta($the_user_id, 'crypto_wallet');
                 //Assign this wallet to current user
                 update_user_meta(get_current_user_id(), 'crypto_wallet', trim($param1));
-                //flexi_log("old found and repalced " . $param1);
+                //flexi_log("old found and replaced " . $param1);
             } else {
                 //Assign this wallet to current user
                 update_user_meta(get_current_user_id(), 'crypto_wallet', trim($param1));
