@@ -9,15 +9,37 @@ class Crypto_Connect
     private $disconnect_class;
     private $enable_metamask;
     private $enable_walletconnect;
+    private $provider;
+    private $provider_default;
 
     public function __construct()
     {
+        $this->provider_default = "const providerOptions = {
+            walletconnect: {
+                package: WalletConnectProvider,
+                options: {
+                    // Get your infura API KEY from https://infura.io/
+                    infuraId: \"8043bb2cf99347b1bfadfb233c5325c0\",
+                }
+            },
+    
+            fortmatic: {
+                package: Fortmatic,
+                options: {
+                    // Get your api key fortmatic.com
+                    key: \"pk_test_391E26A3B43A3350\"
+                }
+            }
+        };";
 
         $this->metamask = crypto_get_option('metamask_label', 'crypto_login_settings', 'Connect Wallet');
         $this->disconnect = crypto_get_option('disconnect_label', 'crypto_login_settings', 'Disconnect Wallet');
         $this->connect_class = crypto_get_option('connect_class', 'crypto_login_settings', 'fl-button fl-is-info');
         $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_settings', 'fl-button fl-is-danger');
         $this->enable_metamask = crypto_get_option('enable_metamask', 'crypto_login_settings', 1);
+        $this->provider = crypto_get_option('provider', 'crypto_login_settings', $this->provider_default);
+
+
 
         add_shortcode('crypto-connect', array($this, 'crypto_connect_option'));
         add_action('flexi_login_form', array($this, 'crypto_connect_small_flexi'));
@@ -27,6 +49,7 @@ class Crypto_Connect
         add_filter('crypto_settings_sections', array($this, 'add_section'));
         add_filter('crypto_settings_fields', array($this, 'add_fields'));
         add_filter('crypto_settings_fields', array($this, 'add_extension'));
+        add_action('wp_head', array($this, 'crypto_head_script'));
     }
 
     /*
@@ -72,31 +95,12 @@ class Crypto_Connect
             $fields = array(
                 'crypto_login_settings' => array(
 
-                    array(
-                        'name' => 'moralis_url',
-                        'label' => __('Moralis URL', 'crypto'),
-                        'description' => __('Enter Moralis API Server URL', 'crypto'),
-                        'type' => 'text',
-                    ),
-                    array(
-                        'name' => 'moralis_appid',
-                        'label' => __('Moralis appId', 'crypto'),
-                        'description' => __('Enter Moralis application Id', 'crypto'),
-                        'type' => 'text',
-                    ),
+
                     array(
                         'name' => 'moralis_chainid',
                         'label' => __('Default Network Chain ID', 'crypto'),
-                        'description' => __('If specified, network wallet changes after connection. Eg. 0x89 for Matic & 0x38 for BSC', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
+                        'description' => __('If specified, network wallet changes after connection. Eg. 1 for Ethereum Mainnet & 137 for Matic', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
                         'type' => 'text',
-                    ),
-                    array(
-                        'name' => 'enable_metamask',
-                        'label' => __('Metamask Button', 'crypto'),
-                        'description' => __('Display Metamask Button', 'crypto'),
-                        'type' => 'checkbox',
-                        'sanitize_callback' => 'intval',
-
                     ),
 
                     array(
@@ -117,19 +121,12 @@ class Crypto_Connect
                     ),
                     array(
                         'name' => 'metamask_label',
-                        'label' => __('Metamask button label', 'crypto'),
-                        'description' => __('Label to display at metamask connect button', 'crypto'),
+                        'label' => __('Crypto Login button label', 'crypto'),
+                        'description' => __('Label to display at crypto connect button', 'crypto'),
                         'size' => 20,
                         'type' => 'text',
                     ),
 
-                    array(
-                        'name' => 'disconnect_label',
-                        'label' => __('Disconnect button label', 'crypto'),
-                        'description' => __('Label to display at Disconnect Wallet button', 'crypto'),
-                        'size' => 20,
-                        'type' => 'text',
-                    ),
 
                     array(
                         'name' => 'connect_class',
@@ -137,11 +134,21 @@ class Crypto_Connect
                         'description' => __('fl-button fl-is-info fl-is-rounded', 'crypto'),
                         'type' => 'text',
                     ),
+
                     array(
-                        'name' => 'disconnect_class',
-                        'label' => __('Disconnect button class rule', 'crypto'),
-                        'description' => __('fl-button fl-is-danger fl-is-rounded', 'crypto'),
-                        'type' => 'text',
+                        'name' => 'provider',
+                        'type' => 'textarea',
+                        'size' => 'large',
+                        'placeholder' => 'Leave blank for default values',
+                        'label' => __('providerOptions Javascript Array', 'flexi'),
+                        'description' => __('Manual javascript array based on', 'flexi') . ' <a href="https://github.com/Web3Modal/web3modal/tree/master/docs/providers" target="_blank">https://github.com/Web3Modal/web3modal/tree/master/docs/providers</a>',
+                    ),
+
+                    array(
+                        'name' => 'provider_desp',
+                        'type' => 'html',
+                        'label' => __('providerOptions Default Value', 'flexi'),
+                        'description' => "<pre>" . $this->provider_default . "</pre>",
                     ),
 
                 ),
@@ -162,7 +169,7 @@ class Crypto_Connect
                 'description' => '',
                 'type' => 'radio',
                 'options' => array(
-                    'web3modal' => __('Connect using Web3Modal', 'flexi'),
+                    'web3modal' => __('Connect using Web3Modal. Supports more then 10 wallet provider', 'flexi'),
                     'moralis' => __('Connect using moralis.io API - Metamask & WalletConnect', 'flexi'),
                     'metamask' => __('Connect using Metamask without any provider', 'flexi'),
                 ),
@@ -209,14 +216,12 @@ class Crypto_Connect
                 }
 
                 ?>
-    <a href="#" id="btn-logout"
-        class="<?php echo esc_attr($this->disconnect_class); ?>"><?php echo esc_attr($this->disconnect); ?></a>
+
     <div class="fl-notification fl-is-primary fl-is-light fl-mt-1" id="flexi_notification_box">
         <button class="fl-delete" id="delete_notification"></button>
         <div id="wallet_msg">&nbsp;</div>
     </div>
 </span>
-
 
 <?php
             $put = ob_get_clean();
@@ -224,6 +229,45 @@ class Crypto_Connect
             return $put;
         }
     }
+
+    public function crypto_head_script()
+    {
+        $put = "";
+        ob_start();
+        ?>
+
+<script>
+/**
+ * Setup the orchestra
+ */
+function init() {
+
+    //console.log("Initializing example");
+    //console.log("WalletConnectProvider is", WalletConnectProvider);
+    // console.log("Fortmatic is", Fortmatic);
+    // console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
+
+    // Tell Web3modal what providers we have available.
+    // Built-in web browser provider (only one can exist as a time)
+    // like MetaMask, Brave or Opera is added automatically by Web3modal
+    <?php echo wp_kses_post($this->provider); ?>
+
+    web3Modal = new Web3Modal({
+        cacheProvider: false, // optional
+        providerOptions, // required
+        disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
+    });
+
+    console.log("Web3Modal instance is", web3Modal);
+}
+</script>
+<?php
+
+        $put = ob_get_clean();
+
+        echo $put;
+    }
+
 
     public function crypto_connect_small_flexi()
     {

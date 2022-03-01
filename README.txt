@@ -21,11 +21,26 @@ No more require to remember passwords for website.
 
 
 = Option 1: Web3Modal =
-* Multi wallet support 
+These are all the providers available with Web3Modal:
+
+* WalletConnect
+* Fortmatic
+* Torus
+* Portis
+* Authereum
+* Frame
+* Bitski
+* Venly
+* DCent
+* BurnerConnect
+* MEWConnect
+* Binance Chain Wallet
+* WalletLink
+* MetaMask
 
 = Option 2: Metamask Standalone =
 
-* No API or any provider required
+* No API required
 * Let user to login/register
 * Login buttons at Flexi Gallery Login Form
 * Login buttons at WooCommerce Login Form

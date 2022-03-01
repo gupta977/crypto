@@ -22,57 +22,6 @@ let selectedAccount;
 
 
 /**
- * Setup the orchestra
- */
-function init() {
-
-  console.log("Initializing example");
-  console.log("WalletConnectProvider is", WalletConnectProvider);
-  console.log("Fortmatic is", Fortmatic);
-  console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
-
-  // Check that the web page is run in a secure context,
-  // as otherwise MetaMask won't be available
-  if(location.protocol !== 'https:') {
-    // https://ethereum.stackexchange.com/a/62217/620
-    const alert = document.querySelector("#alert-error-https");
-    alert.style.display = "block";
-    document.querySelector("#btn-connect").setAttribute("disabled", "disabled")
-    return;
-  }
-
-  // Tell Web3modal what providers we have available.
-  // Built-in web browser provider (only one can exist as a time)
-  // like MetaMask, Brave or Opera is added automatically by Web3modal
-  const providerOptions = {
-    walletconnect: {
-      package: WalletConnectProvider,
-      options: {
-        // Mikko's test key - don't copy as your mileage may vary
-        infuraId: "8043bb2cf99347b1bfadfb233c5325c0",
-      }
-    },
-
-    fortmatic: {
-      package: Fortmatic,
-      options: {
-        // Mikko's TESTNET api key
-        key: "pk_test_391E26A3B43A3350"
-      }
-    }
-  };
-
-  web3Modal = new Web3Modal({
-    cacheProvider: false, // optional
-    providerOptions, // required
-    disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
-  });
-
-  console.log("Web3Modal instance is", web3Modal);
-}
-
-
-/**
  * Kick in the UI action after Web3modal dialog has chosen a provider
  */
 async function fetchAccountData() {
@@ -80,22 +29,40 @@ async function fetchAccountData() {
   // Get a Web3 instance for the wallet
   const web3 = new Web3(provider);
 
-  console.log("Web3 instance is", web3);
+  //console.log("Web3 instance is", web3);
 
   // Get connected chain id from Ethereum node
   const chainId = await web3.eth.getChainId();
+  //console.log("Connected chainId: "+chainId);
+  const chainId_new = crypto_connectChainAjax.chainId;
+  //console.log("chainid new: "+chainId_new);
+
+  if ((chainId != chainId_new) && chainId_new != '') {
+    //const chainData = evmChains.getChain(chainId_new);
+    var msg="Change your network to: "+chainId_new+". Your connected network is "+chainId;
+    jQuery("[id=wallet_msg]").empty();
+    jQuery("#flexi_notification_box").fadeIn("slow");
+    jQuery("[id=wallet_msg]").append(msg).fadeIn("normal");
+    onDisconnect();
+  }
+  else
+  {
+    console.log("NETWORK OK");
+  }
+
   // Load chain information over an HTTP API
   const chainData = evmChains.getChain(chainId);
-  console.log("#network-name "+ chainData.name);
+  //console.log("Connected network "+ chainData.name);
 
   // Get list of accounts of the connected wallet
   const accounts = await web3.eth.getAccounts();
 
   // MetaMask does not give you all accounts, only the selected account
-  console.log("Got accounts", accounts);
+  //console.log("Got accounts", accounts);
   selectedAccount = accounts[0];
 
   console.log("#selected-account "+selectedAccount);
+  process_login_register(selectedAccount);
 }
 
 
@@ -186,7 +153,9 @@ async function onDisconnect() {
  */
  window.addEventListener('load', async () => {
     init();
-
+  
+    
+    
   });
 
   jQuery(document).ready(function() {
@@ -211,4 +180,40 @@ async function onDisconnect() {
 
 });
 
-  
+function create_link_crypto_connect_login(nonce, postid, method, param1, param2, param3) {
+
+  let newlink = document.createElement('a');
+  newlink.innerHTML = '';
+  newlink.setAttribute('id', 'crypto_connect_ajax_process');
+  // newlink.setAttribute('class', 'xxx');
+  newlink.setAttribute('data-nonce', nonce);
+  newlink.setAttribute('data-id', postid);
+  newlink.setAttribute('data-method_name', method);
+  newlink.setAttribute('data-param1', param1);
+  newlink.setAttribute('data-param2', param2);
+  newlink.setAttribute('data-param3', param3);
+  document.body.appendChild(newlink);
+}
+
+function process_login_register(curr_user) {
+  //alert("register " + curr_user);
+  //Javascript version to check is_user_logged_in()
+  if (jQuery('body').hasClass('logged-in')) {
+      // console.log("check after login");
+      create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'check', curr_user, '', '');
+      //jQuery("#crypto_connect_ajax_process").click();
+      setTimeout(function() {
+          jQuery('#crypto_connect_ajax_process').trigger('click');
+      }, 1000);
+
+
+  } else {
+      // console.log("register new");
+      create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'register', curr_user, '', '');
+      //jQuery("#crypto_connect_ajax_process").click();
+      setTimeout(function() {
+          jQuery('#crypto_connect_ajax_process').trigger('click');
+      }, 1000);
+
+  }
+}  
