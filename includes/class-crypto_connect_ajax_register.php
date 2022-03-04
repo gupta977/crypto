@@ -33,14 +33,21 @@ class crypto_connect_ajax_process
 
     public function get_userid_by_meta($key, $value)
     {
-        global $wpdb;
-        $users = $wpdb->get_results("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = '$key' AND meta_value = '$value'");
-        if ($users) {
-            foreach ($users as $user) {
-                return $user->user_id;
-            }
+
+        //First check if same username = wallet address
+        if ($user = get_user_by('login', $value)) {
+            return $user->ID;
         } else {
-            return 0;
+            //look into linked database if username not matched with wallet address
+            global $wpdb;
+            $users = $wpdb->get_results("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = '$key' AND meta_value = '$value'");
+            if ($users) {
+                foreach ($users as $user) {
+                    return $user->user_id;
+                }
+            } else {
+                return 0;
+            }
         }
     }
 

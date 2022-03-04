@@ -82,6 +82,9 @@ Moralis is SDK for rapid blockchain development.
 
 == Changelog ==
 
+= 1.9 =
+* If username matches with wallet address, access login (It ignores linked wallet to any other username)
+
 = 1.8 =
 * Added Web3Modal login option
 

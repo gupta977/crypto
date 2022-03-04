@@ -54,7 +54,7 @@ async function fetchAccountData() {
   const accounts = await web3.eth.getAccounts();
 
   // MetaMask does not give you all accounts, only the selected account
-  //console.log("Got accounts", accounts);
+  console.log("Got accounts", accounts);
   selectedAccount = accounts[0];
 
   console.log("#selected-account "+selectedAccount);
