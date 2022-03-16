@@ -151,7 +151,9 @@ class Crypto
 			require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-metamask.php';
 		}
 
-
+		//Widgets
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/widgets/login.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/widgets/donation/donation.php';
 
 		//Connect Facebook
 		//require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-facebook.php';

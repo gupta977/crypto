@@ -18,6 +18,9 @@ Automatic registration.
 No more require to remember passwords for website. 
 
 **[crypto-connect]** -  Use shortcode to any of your pages for login button.
+**Secure** - Any transaction on your site has no connection with our server. It's totally dependent your server. If you are using any server's API, it only help wallet to connect but no controls over transactions. 
+
+== Login/Register with Crypto Wallet ==
 
 
 = Option 1: Web3Modal =
@@ -54,6 +57,12 @@ These are all the providers available with Web3Modal:
 * WooCommerce login form support
 
 
+== Donation Widget ==
+
+* Get crypto donation into your desired wallet. 
+* Option to set fixed crypto amount in token
+
+
 [Live Demo](https://signid.net/user-dashboard/)
 
 > If any suggestion, contact at navneet@odude.com
@@ -81,6 +90,9 @@ Moralis is SDK for rapid blockchain development.
 1. Simple Login Interface
 
 == Changelog ==
+
+= 1.10 =
+* Added donation widget
 
 = 1.9 =
 * If username matches with wallet address, access login (It ignores linked wallet to any other username)
