@@ -1,15 +1,15 @@
 === Crypto ===
 Contributors: odude
 Donate link: https://odude.com/
-Tags: crypto, login, metamask, walletconnect, blockchain
+Tags: crypto, login, metamask, walletconnect, blockchain, donation
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 5.9
-Stable tag: 1.9
+Stable tag: 1.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Crypto Login with MetaMask & WalletConnect
+Crypto wallet login & many more ...
 
 == Description ==
 
@@ -87,7 +87,8 @@ Moralis is SDK for rapid blockchain development.
 
 == Screenshots ==
 
-1. Simple Login Interface
+1. Simple Login Interface with multiple wallet
+2. Donation Widget
 
 == Changelog ==
 
