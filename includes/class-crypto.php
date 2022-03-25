@@ -133,6 +133,7 @@ class Crypto
 		 */
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-settings.php';
 
+
 		//Include common functions
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/functions.php';
 
@@ -150,6 +151,10 @@ class Crypto
 			//Connect Page
 			require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-metamask.php';
 		}
+
+		//Crypto Price
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-price.php';
+
 
 		//Widgets
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/widgets/login.php';
