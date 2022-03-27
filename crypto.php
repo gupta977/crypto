@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://odude.com/
- * @since             1.10
+ * @since             1.11
  * @package           Crypto
  *
  * @wordpress-plugin
  * Plugin Name:       Crypto
  * Plugin URI:        http://odude.com
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.10
+ * Version:           1.11
  * Author:            ODude
  * Author URI:        https://odude.com/
  * License:           GPL-2.0+
@@ -30,7 +30,7 @@ if (!defined('WPINC')) {
     die;
 }
 
-define('CRYPTO_VERSION', '1.10');
+define('CRYPTO_VERSION', '1.11');
 define('CRYPTO_FOLDER', dirname(plugin_basename(__FILE__)));
 define('CRYPTO_PLUGIN_URL', content_url('/plugins/' . CRYPTO_FOLDER));
 define('CRYPTO_BASE_DIR', WP_CONTENT_DIR . '/plugins/' . CRYPTO_FOLDER . '/');

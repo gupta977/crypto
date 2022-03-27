@@ -5,11 +5,11 @@ Tags: crypto, login, metamask, walletconnect, blockchain, donation
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 5.9
-Stable tag: 1.10
+Stable tag: 1.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Crypto wallet login & many more ...
+Crypto wallet login, donation, price & more..
 
 == Description ==
 
@@ -60,7 +60,16 @@ These are all the providers available with Web3Modal:
 == Donation Widget ==
 
 * Get crypto donation into your desired wallet. 
-* Option to set fixed crypto amount in token
+* Option to set fixed crypto amount in specified token
+
+== Crypto or Token Price ==
+
+* Show latest price of token in selected currency
+* Based on shortcode.
+* Multiple token price at once.
+* Cache system to restrict from frequent API call.
+* Based no CoinMarketCap free API
+* [crypto-price symbol="MATIC,BTC,ETH" style="style1" currency="USD"]
 
 
 [Live Demo](https://signid.net/user-dashboard/)
@@ -91,6 +100,9 @@ Moralis is SDK for rapid blockchain development.
 2. Donation Widget
 
 == Changelog ==
+
+= 1.11 =
+* Added Crypto Price, based on shortcode
 
 = 1.10 =
 * Added donation widget

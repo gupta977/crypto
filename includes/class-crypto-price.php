@@ -5,11 +5,15 @@ class Crypto_Price
 
 	private $curr;
 	private $cache;
+	private $theme;
+	private $theme_color;
 
 	public function __construct()
 	{
-		$this->curr = crypto_get_option('base_curr', 'crypto_price_settings', 'USD');
+		$this->curr = strtoupper(crypto_get_option('base_curr', 'crypto_price_settings', 'USD'));
 		$this->cache = crypto_get_option('price_cache', 'crypto_price_settings', '600');
+		$this->theme = crypto_get_option('theme', 'crypto_price_settings', 'style1');
+		$this->theme_color = crypto_get_option('theme_color', 'crypto_price_settings', 'fl-is-primary');
 
 		add_shortcode('crypto-price', array($this, 'crypto_price_shortcode'));
 
@@ -41,7 +45,7 @@ class Crypto_Price
 			array(
 				'id' => 'crypto_price_settings',
 				'title' => __('Crypto Price Box', 'crypto'),
-				'description' => __('Show latest price of your desired cryptocurrency.', 'crypto') . "<br>" . "<b>Shortcode examples</b><br><code> [crypto-price symbol=\"BTC\"] </code><br><code>[crypto-price symbol=\"MATIC,BTC,XRP\" style=\"style1\"]</code>",
+				'description' => __('Show latest price of your desired cryptocurrency.', 'crypto') . "<br>" . "<b>Shortcode examples</b><br><code> [crypto-price symbol=\"BTC\"] </code><br><code>[crypto-price symbol=\"MATIC,BTC,XRP\" style=\"style1\"]</code><br><code>[crypto-price symbol=\"BTC\" style=\"style1\" currency=\"INR\" color=\"fl-is-warning\"]</code>",
 				'tab' => 'price',
 			),
 		);
@@ -162,12 +166,43 @@ class Crypto_Price
 					'label' => __('CoinMarketCap API', 'crypto'),
 					'description' => __('Get free API key from CoinMarketCap', 'crypto') . " <a href='https://pro.coinmarketcap.com/signup/' target='_blank'>Click Here </a>",
 					'type' => 'text',
+					'sanitize_callback' => 'sanitize_key',
 				),
 				array(
 					'name' => 'price_cache',
 					'label' => __('Crypto Data Caching', 'crypto'),
 					'description' => __('Enter cache time for crypto data in seconds. It saves API limit and speed up results.', 'crypto'),
-					'type' => 'text',
+					'type' => 'number',
+					'size' => 'small',
+					'sanitize_callback' => 'intval',
+				),
+				array(
+					'name'              => 'theme',
+					'label'             => __('Theme Style', 'flexi'),
+					'description'       => '',
+					'type'              => 'radio',
+					'options'           => array(
+						'none'   => __('None', 'flexi'),
+						'style1' => __('Style 1', 'flexi'),
+					),
+					'sanitize_callback' => 'sanitize_key',
+				),
+				array(
+					'name'              => 'theme_color',
+					'label'             => __('Theme Color', 'flexi'),
+					'description'       => '',
+					'type'              => 'radio',
+					'options'           => array(
+						''   => __('Default', 'flexi'),
+						'fl-is-primary' => __('Primary', 'flexi'),
+						'fl-is-link'     => __('Link', 'flexi'),
+						'fl-is-info'     => __('Information', 'flexi'),
+						'fl-is-success'     => __('Success', 'flexi'),
+						'fl-is-warning'     => __('Warning', 'flexi'),
+						'fl-is-danger'     => __('Danger', 'flexi'),
+
+					),
+					'sanitize_callback' => 'sanitize_key',
 				),
 
 			),
@@ -180,8 +215,8 @@ class Crypto_Price
 
 	public function crypto_price_info($coin_symbol = 'BTC', $curr = "USD")
 	{
-		$data_option_name = $coin_symbol . '_market_data';
-		$timestamp_option_name = $coin_symbol . '_market_timestamp';
+		$data_option_name = $coin_symbol . '_market_data_' . $curr;
+		$timestamp_option_name = $coin_symbol . '_market_timestamp_' . $curr;
 		$current_timestamp = date('Y-m-d\TH:i:s' . substr((string)microtime(), 1, 4) . '\Z');
 		$cache_time = $this->cache;
 		if ($cache_time == false) {
@@ -213,19 +248,11 @@ class Crypto_Price
 	}
 
 
-	public function style($style = "none", $data = '0.0', $curr = "USD", $id = "BTC", $img = '')
+	public function style($style = "none", $data = '0.0', $curr = "USD", $id = "BTC", $img = '', $color = 'fl-is-primary')
 	{
 		$theme = '<div class="fl-column fl-is-narrow">';
 		if ($style == 'style1') {
-			$theme .= '<style> .xcrypto_bg_' . $id . ' {
-				background-image: url("' . $img . '");
-				background-position: center;
-				background-repeat: no-repeat;
-				background-size: cover;
-				position: relative;
-			  } 
-		</style>';
-			$theme .= '<div class="fl-notification fl-is-primary fl-is-light fl-pb-0 crypto_bg_' . $id . '" style="width: 200px;">';
+			$theme .= '<div class="fl-notification ' . $color . ' fl-is-light fl-pb-0">';
 			$theme .= '<p class="fl-is-size-4 fl-has-text-centered fl-mb-1"><strong>' . $data . '</strong> </p>';
 			$theme .= '<p class="fl-is-size-6 fl-has-text-centered"> <img src="' . $img . '" width="16"> ' . $id . '/' . $curr . '</p>';
 			$theme .= "</div>";
@@ -245,12 +272,23 @@ class Crypto_Price
 
 		extract(shortcode_atts(array(
 			'symbol' => 'xxx',
-			'style' => 'none'
+			'style' => 'none',
+			'currency' => 'none',
+			'color' => 'none',
 		), $atts));
 		if ($symbol == 'xxx') {
 			return 'Please add a coin symbol to fetch its data. For example, [crypto-price symbol="BTC"].';
 		} else {
-			$curr = $this->curr;
+			if ($currency == 'none') {
+				$curr = $this->curr;
+			} else {
+				$curr = $currency;
+			}
+
+			if ($color == 'none') {
+				$color = $this->theme_color;
+			}
+
 			$output = "<div class=\"fl-columns\">";
 			$token_ids = explode(",", strval($symbol));
 
@@ -262,7 +300,7 @@ class Crypto_Price
 					$data_result = 'ERROR';
 				}
 				$img = 'https://s2.coinmarketcap.com/static/img/coins/64x64/' . $data->data->$tid->id . '.png';
-				$output .= $this->style($style, $data_result, $curr, $tid, $img);
+				$output .= $this->style($style, $data_result, $curr, $tid, $img, $color);
 			}
 			$output .= "</div>";
 			return $output;
