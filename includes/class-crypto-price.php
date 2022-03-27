@@ -41,7 +41,7 @@ class Crypto_Price
 			array(
 				'id' => 'crypto_price_settings',
 				'title' => __('Crypto Price Box', 'crypto'),
-				'description' => __('Let users to connect via Metamask, WalletConnect & many more wallet', 'crypto') . "<br>" . "Project by <a target='_blank' href='" . esc_url('https://github.com/Web3Modal') . "'>Web3Modal</a>",
+				'description' => __('Show latest price of your desired cryptocurrency.', 'crypto') . "<br>" . "<b>Shortcode examples</b><br><code> [crypto-price symbol=\"BTC\"] </code><br><code>[crypto-price symbol=\"MATIC,BTC,XRP\" style=\"style1\"]</code>",
 				'tab' => 'price',
 			),
 		);
@@ -55,23 +55,118 @@ class Crypto_Price
 	{
 		$fields = array(
 			'crypto_price_settings' => array(
-
 				array(
 					'name' => 'base_curr',
-					'label' => __('Token Name Symbol', 'crypto'),
-					'description' => __('If specified, network wallet changes notice displayed. Eg. 1 for Ethereum Mainnet & 137 for Matic', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
-					'type' => 'text',
+					'label' => __('Currency', 'crypto'),
+					'description' => __('Select your primary currency', 'crypto'),
+					'type' => 'select',
+					'options' => array(
+						'USD' => __('United States Dollar ($) USD', 'crypto'),
+						'ALL' => __('Albanian Lek (L)', 'crypto'),
+						'DZD' => __('Algerian Dinar (د.ج)	DZD', 'crypto'),
+						'ARS' => __('Argentine Peso ($)	ARS', 'crypto'),
+						'AMD' => __('Armenian Dram (֏)	AMD', 'crypto'),
+						'AUD' => __('Autralian Dollar ($)	AUD', 'crypto'),
+						'AZN' => __('Azerbaijani Manat (₼)	AZN', 'crypto'),
+						'BHD' => __('Bahraini Dinar (.د.ب)	BHD', 'crypto'),
+						'BDT' => __('Bangladeshi Taka (৳)	BDT', 'crypto'),
+						'BYN' => __('Belarusian Ruble (Br)	BYN', 'crypto'),
+						'BMD' => __('Bermudan Dollar ($)	BMD', 'crypto'),
+						'BOB' => __('Bolivian Boliviano (Bs.)	BOB', 'crypto'),
+						'BAM' => __('Bosnia-Herzegovina Convertible Mark (KM)	BAM', 'crypto'),
+						'BRL' => __('Brazilian Real (R$)	BRL', 'crypto'),
+						'BGN' => __('Bulgarian Lev (лв)	BGN', 'crypto'),
+						'KHR' => __('Cambodian Riel (៛)	KHR', 'crypto'),
+						'CAD' => __('Canadian Dollar ($)	CAD', 'crypto'),
+						'CLP' => __('Chilean Peso ($)	CLP', 'crypto'),
+						'CNY' => __('Chinese Yuan (¥)	CNY', 'crypto'),
+						'COP' => __('Colombian Peso ($)	COP', 'crypto'),
+						'CRC' => __('Costa Rican Colón (₡)	CRC', 'crypto'),
+						'HRK' => __('Croatian Kuna (kn)	HRK', 'crypto'),
+						'CUP' => __('Cuban Peso ($)	CUP', 'crypto'),
+						'CZK' => __('Czech Koruna (Kč)	CZK', 'crypto'),
+						'DKK' => __('Danish Krone (kr)	DKK', 'crypto'),
+						'DOP' => __('Dominican Peso ($)	DOP', 'crypto'),
+						'EGP' => __('Egyptian Pound (£)	EGP', 'crypto'),
+						'EUR' => __('Euro (€)	EUR', 'crypto'),
+						'EUR' => __('Georgian Lari (₾)	GEL', 'crypto'),
+						'GHS' => __('Ghanaian Cedi (₵)	GHS', 'crypto'),
+						'GTQ' => __('Guatemalan Quetzal (Q)	GTQ', 'crypto'),
+						'HNL' => __('Honduran Lempira (L)	HNL', 'crypto'),
+						'HKD' => __('Hong Kong Dollar ($)	HKD', 'crypto'),
+						'HUF' => __('Hungarian Forint (Ft)	HUF', 'crypto'),
+						'ISK' => __('Icelandic Króna (kr)	ISK', 'crypto'),
+						'INR' => __('Indian Rupee (₹)	INR', 'crypto'),
+						'IDR' => __('Indonesian Rupiah (Rp)	IDR', 'crypto'),
+						'IRR' => __('Iranian Rial (﷼)	IRR', 'crypto'),
+						'IQD' => __('Iraqi Dinar (ع.د)	IQD', 'crypto'),
+						'ILS' => __('Israeli New Shekel (₪)	ILS', 'crypto'),
+						'JMD' => __('Jamaican Dollar ($)	JMD', 'crypto'),
+						'JPY' => __('Japanese Yen (¥)	JPY', 'crypto'),
+						'JOD' => __('Jordanian Dinar (د.ا)	JOD', 'crypto'),
+						'KZT' => __('Kazakhstani Tenge (₸)	KZT', 'crypto'),
+						'KES' => __('Kenyan Shilling (Sh)	KES', 'crypto'),
+						'KWD' => __('Kuwaiti Dinar (د.ك)	KWD', 'crypto'),
+						'KGS' => __('Kyrgystani Som (с)	KGS', 'crypto'),
+						'LBP' => __('Lebanese Pound (ل.ل)	LBP', 'crypto'),
+						'MKD' => __('Macedonian Denar (ден)	MKD', 'crypto'),
+						'MYR' => __('Malaysian Ringgit (RM)	MYR', 'crypto'),
+						'MUR' => __('Mauritian Rupee (₨)	MUR', 'crypto'),
+						'MXN' => __('Mexican Peso ($)	MXN', 'crypto'),
+						'MDL' => __('Moldovan Leu (L)	MDL', 'crypto'),
+						'MNT' => __('Mongolian Tugrik (₮)	MNT', 'crypto'),
+						'MAD' => __('Moroccan Dirham (د.م.)	MAD', 'crypto'),
+						'MMK' => __('Myanma Kyat (Ks)	MMK', 'crypto'),
+						'NAD' => __('Namibian Dollar ($)	NAD', 'crypto'),
+						'NPR' => __('Nepalese Rupee (₨)	NPR', 'crypto'),
+						'TWD' => __('New Taiwan Dollar (NT$)	TWD', 'crypto'),
+						'NZD' => __('New Zealand Dollar ($)	NZD', 'crypto'),
+						'NIO' => __('Nicaraguan Córdoba (C$)	NIO', 'crypto'),
+						'NGN' => __('Nigerian Naira (₦)	NGN', 'crypto'),
+						'NOK' => __('Norwegian Krone (kr)	NOK', 'crypto'),
+						'OMR' => __('Omani Rial (ر.ع.)	OMR', 'crypto'),
+						'PKR' => __('Pakistani Rupee (₨)	PKR', 'crypto'),
+						'PAB' => __('Panamanian Balboa (B/.)	PAB', 'crypto'),
+						'PEN' => __('Peruvian Sol (S/.)	PEN', 'crypto'),
+						'PHP' => __('Philippine Peso (₱)	PHP', 'crypto'),
+						'PLN' => __('Polish Złoty (zł)	PLN', 'crypto'),
+						'GBP' => __('Pound Sterling (£)	GBP', 'crypto'),
+						'QAR' => __('Qatari Rial (ر.ق)	QAR', 'crypto'),
+						'RON' => __('Romanian Leu (lei)	RON', 'crypto'),
+						'RUB' => __('Russian Ruble (₽)	RUB', 'crypto'),
+						'SAR' => __('Saudi Riyal (ر.س)	SAR', 'crypto'),
+						'RSD' => __('Serbian Dinar (дин.)	RSD', 'crypto'),
+						'SGD' => __('Singapore Dollar (S$)	SGD', 'crypto'),
+						'ZAR' => __('South African Rand (R)	ZAR', 'crypto'),
+						'KRW' => __('South Korean Won (₩)	KRW', 'crypto'),
+						'SSP' => __('South Sudanese Pound (£)	SSP', 'crypto'),
+						'VES' => __('Sovereign Bolivar (Bs.)	VES', 'crypto'),
+						'LKR' => __('Sri Lankan Rupee (Rs)	LKR', 'crypto'),
+						'SEK' => __('Swedish Krona ( kr)	SEK', 'crypto'),
+						'CHF' => __('Swiss Franc (Fr)	CHF', 'crypto'),
+						'THB' => __('Thai Baht (฿)	THB', 'crypto'),
+						'TTD' => __('Trinidad and Tobago Dollar ($)	TTD', 'crypto'),
+						'TND' => __('Tunisian Dinar (د.ت)	TND', 'crypto'),
+						'TRY' => __('Turkish Lira (₺)	TRY', 'crypto'),
+						'UGX' => __('Ugandan Shilling (Sh)	UGX', 'crypto'),
+						'UAH' => __('Ukrainian Hryvnia (₴)	UAH', 'crypto'),
+						'AED' => __('United Arab Emirates Dirham (د.إ)	AED', 'crypto'),
+						'UYV' => __('Uruguayan Peso ($)	UYU', 'crypto'),
+						'UZS' => __('Uzbekistan Som	UZS', 'crypto'),
+						'VND' => __('Vietnamese Dong (₫)	VND', 'crypto'),
+					),
 				),
+
 				array(
 					'name' => 'price_api',
 					'label' => __('CoinMarketCap API', 'crypto'),
-					'description' => __('If specified, network wallet changes notice displayed. Eg. 1 for Ethereum Mainnet & 137 for Matic', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
+					'description' => __('Get free API key from CoinMarketCap', 'crypto') . " <a href='https://pro.coinmarketcap.com/signup/' target='_blank'>Click Here </a>",
 					'type' => 'text',
 				),
 				array(
 					'name' => 'price_cache',
 					'label' => __('Crypto Data Caching', 'crypto'),
-					'description' => __('If specified, network wallet changes notice displayed. Eg. 1 for Ethereum Mainnet & 137 for Matic', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
+					'description' => __('Enter cache time for crypto data in seconds. It saves API limit and speed up results.', 'crypto'),
 					'type' => 'text',
 				),
 
@@ -83,7 +178,7 @@ class Crypto_Price
 	}
 
 
-	public function crypto_price_info($coin_symbol = 'BTC')
+	public function crypto_price_info($coin_symbol = 'BTC', $curr = "USD")
 	{
 		$data_option_name = $coin_symbol . '_market_data';
 		$timestamp_option_name = $coin_symbol . '_market_timestamp';
@@ -98,6 +193,7 @@ class Crypto_Price
 			$url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest';
 			$parameters = [
 				'symbol' => $coin_symbol,
+				'convert' => $curr,
 			];
 
 			$qs = http_build_query($parameters); // query string encode the parameters
@@ -108,6 +204,7 @@ class Crypto_Price
 					'X-CMC_PRO_API_KEY' => crypto_get_option('price_api', 'crypto_price_settings', ''),
 				)
 			);
+
 			$response = wp_remote_retrieve_body(wp_remote_get($request, $args));
 			update_option($data_option_name, $response);
 			update_option($timestamp_option_name, $current_timestamp);
@@ -115,6 +212,29 @@ class Crypto_Price
 		}
 	}
 
+
+	public function style($style = "none", $data = '0.0', $curr = "USD", $id = "BTC", $img = '')
+	{
+		$theme = '<div class="fl-column fl-is-narrow">';
+		if ($style == 'style1') {
+			$theme .= '<style> .xcrypto_bg_' . $id . ' {
+				background-image: url("' . $img . '");
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+				position: relative;
+			  } 
+		</style>';
+			$theme .= '<div class="fl-notification fl-is-primary fl-is-light fl-pb-0 crypto_bg_' . $id . '" style="width: 200px;">';
+			$theme .= '<p class="fl-is-size-4 fl-has-text-centered fl-mb-1"><strong>' . $data . '</strong> </p>';
+			$theme .= '<p class="fl-is-size-6 fl-has-text-centered"> <img src="' . $img . '" width="16"> ' . $id . '/' . $curr . '</p>';
+			$theme .= "</div>";
+		} else {
+			$theme .= $id . ' <strong>' . $data . '</strong> ' . $curr;
+		}
+		$theme .= '</div>';
+		return $theme;
+	}
 
 	public function crypto_price_shortcode($atts)
 	{
@@ -125,13 +245,27 @@ class Crypto_Price
 
 		extract(shortcode_atts(array(
 			'symbol' => 'xxx',
+			'style' => 'none'
 		), $atts));
 		if ($symbol == 'xxx') {
 			return 'Please add a coin symbol to fetch its data. For example, [crypto-price symbol="BTC"].';
 		} else {
 			$curr = $this->curr;
-			$data = json_decode($this->crypto_price_info($symbol));
-			return round($data->data->$symbol->quote->$curr->price, 2) . ' USD';
+			$output = "<div class=\"fl-columns\">";
+			$token_ids = explode(",", strval($symbol));
+
+			foreach ($token_ids as $tid) {
+				$data = json_decode($this->crypto_price_info($tid, $curr));
+				if (isset($data->data->$tid->quote->$curr->price)) {
+					$data_result = round($data->data->$tid->quote->$curr->price, 2);
+				} else {
+					$data_result = 'ERROR';
+				}
+				$img = 'https://s2.coinmarketcap.com/static/img/coins/64x64/' . $data->data->$tid->id . '.png';
+				$output .= $this->style($style, $data_result, $curr, $tid, $img);
+			}
+			$output .= "</div>";
+			return $output;
 		}
 
 ?>
