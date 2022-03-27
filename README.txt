@@ -98,6 +98,7 @@ Moralis is SDK for rapid blockchain development.
 
 1. Simple Login Interface with multiple wallet
 2. Donation Widget
+3. Crypto Price
 
 == Changelog ==
 
