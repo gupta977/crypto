@@ -5,7 +5,7 @@ Tags: crypto, login, metamask, walletconnect, blockchain, donation
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 5.9
-Stable tag: 1.11
+Stable tag: 1.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,7 +69,7 @@ These are all the providers available with Web3Modal:
 * Multiple token price at once.
 * Cache system to restrict from frequent API call.
 * Based no CoinMarketCap free API
-* [crypto-price symbol="MATIC,BTC,ETH" style="style1" currency="USD"]
+* `[crypto-price symbol="MATIC,BTC,ETH" style="style1" currency="USD"]`
 
 
 [Live Demo](https://signid.net/user-dashboard/)
@@ -101,6 +101,9 @@ Moralis is SDK for rapid blockchain development.
 3. Crypto Price
 
 == Changelog ==
+
+= 1.12 =
+* Change cache time of price to 1 second if error. 
 
 = 1.11 =
 * Added Crypto Price, based on shortcode

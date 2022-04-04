@@ -298,6 +298,7 @@ class Crypto_Price
 					$data_result = round($data->data->$tid->quote->$curr->price, 2);
 				} else {
 					$data_result = 'ERROR';
+					crypto_set_option('price_cache', 'crypto_price_settings', '1');
 				}
 				$img = 'https://s2.coinmarketcap.com/static/img/coins/64x64/' . $data->data->$tid->id . '.png';
 				$output .= $this->style($style, $data_result, $curr, $tid, $img, $color);
@@ -305,13 +306,6 @@ class Crypto_Price
 			$output .= "</div>";
 			return $output;
 		}
-
-?>
-<span>
-    xxxxxxxxxxxxxxxxxxxxx
-</span>
-
-<?php
 		$put = ob_get_clean();
 
 		return $put;

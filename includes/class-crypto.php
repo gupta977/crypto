@@ -163,6 +163,9 @@ class Crypto
 		//Connect Facebook
 		//require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-facebook.php';
 
+		//Crypto Domains
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-domain.php';
+
 		$this->loader = new Crypto_Loader();
 	}
 
