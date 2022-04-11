@@ -227,10 +227,24 @@ class Crypto_Connect
         }
     }
 
-    public function crypto_connect_option()
+    public function crypto_connect_option($params)
     {
 
+        extract(shortcode_atts(array(
+            'label' => '',
+            'class' => '',
+        ), $params));
+
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
+
+        if ($label == '') {
+            $label = $this->metamask;
+        }
+
+        if ($class == '') {
+            $class = $this->connect_class;
+        }
+
 
         if ("web3modal" == $enable_addon) {
             $put = "";
@@ -241,8 +255,7 @@ class Crypto_Connect
     <?php
                 if ($this->enable_metamask == "1") {
                 ?>
-    <a href="#" id="btn-login"
-        class="<?php echo esc_attr($this->connect_class); ?>"><?php echo esc_attr($this->metamask); ?></a>
+    <a href="#" id="btn-login" class="<?php echo esc_attr($class); ?>"><?php echo esc_attr($label); ?></a>
     <?php
                 }
 

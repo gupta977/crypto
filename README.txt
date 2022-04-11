@@ -22,6 +22,7 @@ No more require to remember passwords for website.
 
 == Login/Register with Crypto Wallet ==
 
+example: `[crypto-connect label="Connect Wallet" class="fl-button fl-is-info fl-is-light"]`
 
 = Option 1: Web3Modal =
 These are all the providers available with Web3Modal:
@@ -101,6 +102,10 @@ Moralis is SDK for rapid blockchain development.
 3. Crypto Price
 
 == Changelog ==
+
+= 1.13 =
+* Added parameters for [crypto-connect] shortcode
+
 
 = 1.12 =
 * Change cache time of price to 1 second if error. 
