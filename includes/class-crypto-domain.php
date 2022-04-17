@@ -1,39 +1,39 @@
 <?php
 class Crypto_Domain
 {
-	function __construct()
-	{
-		add_filter('init', array($this, 'rw_init'));
-		add_filter('query_vars', array($this,  'rw_query_vars'));
-		add_filter('init', array($this, 'start'));
-		add_shortcode('crypto-domain', array($this, 'start'));
-	}
+    function __construct()
+    {
+        add_filter('init', array($this, 'rw_init'));
+        add_filter('query_vars', array($this,  'rw_query_vars'));
+        add_filter('init', array($this, 'start'));
+        add_shortcode('crypto-domain', array($this, 'start'));
+    }
 
-	public function rw_query_vars($aVars)
-	{
-		$aVars[] = "web3domain"; // represents the name of the variable as shown in the URL
-		return $aVars;
-	}
+    public function rw_query_vars($aVars)
+    {
+        $aVars[] = "web3domain"; // represents the name of the variable as shown in the URL
+        return $aVars;
+    }
 
-	public function rw_init()
-	{
-		add_rewrite_rule(
-			'^web3/([^/]*)$',
-			'index.php?web3domain=$matches[1]&page_id=777',
-			'top'
-		);
-	}
+    public function rw_init()
+    {
+        add_rewrite_rule(
+            '^web3/([^/]*)$',
+            'index.php?web3domain=$matches[1]&page_id=777',
+            'top'
+        );
+    }
 
-	public function start()
-	{
-		global $wp_query;
-		if (isset($wp_query->query_vars['web3domain'])) {
-			$subdomain = $wp_query->query_vars['web3domain'];
-			$contract = "0xFd737b5ce9424BbD619a71e6B393418b7E5e7F9C";
+    public function start()
+    {
+        global $wp_query;
+        if (isset($wp_query->query_vars['web3domain'])) {
+            $subdomain = $wp_query->query_vars['web3domain'];
+            $contract = "0xA36b16342A5706Cd41Fe56b9AC7D2d1e88F89b8e";
 ?>
 <script>
 const serverUrl = 'https://speedy-nodes-nyc.moralis.io/2c75242a1300b82823e16514/polygon/mumbai';
-const contractAddress = '0xFd737b5ce9424BbD619a71e6B393418b7E5e7F9C';
+const contractAddress = '0xA36b16342A5706Cd41Fe56b9AC7D2d1e88F89b8e';
 var domain = "<?php echo $subdomain; ?>";
 let web3 = new Web3(Web3.givenProvider || serverUrl);
 var x;
@@ -145,7 +145,7 @@ resolve(domain, 'uri');
 ID <input id="web3domain_id" value=".."><br>
 URI <input id="web3domain_uri" value="..">
 <?php
-		}
-	}
+        }
+    }
 }
 new Crypto_Domain();

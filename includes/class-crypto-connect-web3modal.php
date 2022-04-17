@@ -320,7 +320,7 @@ function init() {
             //Display at Flexi Form
             $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_settings', 1);
             if ("1" == $enable_addon) {
-                echo wp_kses_post($this->crypto_connect_option());
+                echo wp_kses_post($this->crypto_connect_option(''));
             }
         }
     }
@@ -332,7 +332,7 @@ function init() {
             //Display at WooCommerce form  
             $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_login_settings', 1);
             if ("1" == $enable_addon_woo) {
-                echo wp_kses_post($this->crypto_connect_option());
+                echo wp_kses_post($this->crypto_connect_option(''));
             }
         }
     }
