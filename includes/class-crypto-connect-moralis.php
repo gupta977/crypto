@@ -56,7 +56,7 @@ class Crypto_Connect
                 array(
                     'id' => 'crypto_login_settings',
                     'title' => __('Moralis Crypto Login', 'crypto'),
-                    'description' => __('Let users to connect via Metamask or WalletConnect.', 'crypto') . "<br>" . "Get API from <a target='_blank' href='" . esc_url('https://moralis.io/') . "'>https://moralis.io/</a>",
+                    'description' => __('Let users to connect via Metamask or WalletConnect.', 'crypto') . "<br>" . "Get API from <a target='_blank' href='" . esc_url('https://moralis.io/') . "'>https://moralis.io/</a><br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code>",
                     'tab' => 'login',
                 ),
             );

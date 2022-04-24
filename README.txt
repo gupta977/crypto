@@ -5,7 +5,7 @@ Tags: crypto, login, metamask, walletconnect, blockchain, donation
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 5.9
-Stable tag: 1.13
+Stable tag: 1.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,10 @@ These are all the providers available with Web3Modal:
 * Binance Chain Wallet
 * WalletLink
 * MetaMask
+
+- Force to connect specified Chain ID
+- Enable login button at Flexi & WooCommerce
+- Execute specified javascript function as soon as wallet connected.
 
 = Option 2: Metamask Standalone =
 
@@ -102,6 +106,9 @@ Moralis is SDK for rapid blockchain development.
 3. Crypto Price
 
 == Changelog ==
+
+= 1.14 =
+* Execute javascript function as soon as wallet connected in Web3Modal
 
 = 1.13 =
 * Added parameters for [crypto-connect] shortcode

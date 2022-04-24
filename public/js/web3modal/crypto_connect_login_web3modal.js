@@ -4,7 +4,7 @@
  * Example JavaScript code that interacts with the page and Web3 wallets
  */
 
- // Unpkg imports
+// Unpkg imports
 const Web3Modal = window.Web3Modal.default;
 const WalletConnectProvider = window.WalletConnectProvider.default;
 const Fortmatic = window.Fortmatic;
@@ -37,9 +37,12 @@ async function fetchAccountData() {
   const chainId_new = crypto_connectChainAjax.chainId;
   //console.log("chainid new: "+chainId_new);
 
+  const execute_JS = crypto_connectChainAjax.executeJS;
+
+
   if ((chainId != chainId_new) && chainId_new != '') {
     //const chainData = evmChains.getChain(chainId_new);
-    var msg="Change your network to: "+chainId_new+". Your connected network is "+chainId;
+    var msg = "Change your network to: " + chainId_new + ". Your connected network is " + chainId;
     jQuery("[id=wallet_msg]").empty();
     jQuery("#flexi_notification_box").fadeIn("slow");
     jQuery("[id=wallet_msg]").append(msg).fadeIn("normal");
@@ -57,8 +60,13 @@ async function fetchAccountData() {
   console.log("Got accounts", accounts);
   selectedAccount = accounts[0];
 
-  console.log("#selected-account "+selectedAccount);
+  console.log("#selected-account " + selectedAccount);
   process_login_register(selectedAccount);
+
+  if (execute_JS != '') {
+       let some_code = execute_JS;
+    (new Function(some_code))()
+  }
 }
 
 
@@ -75,7 +83,7 @@ async function refreshAccountData() {
   // the user is switching acounts in the wallet
   // immediate hide this data
   //document.querySelector("#connected").style.display = "none";
- //document.querySelector("#prepare").style.display = "block";
+  //document.querySelector("#prepare").style.display = "block";
 
   // Disable button while UI is loading.
   // fetchAccountData() will take a while as it communicates
@@ -83,7 +91,7 @@ async function refreshAccountData() {
   // over an API call.
   //document.querySelector("#btn-connect").setAttribute("disabled", "disabled")
   await fetchAccountData(provider);
- // document.querySelector("#btn-connect").removeAttribute("disabled")
+  // document.querySelector("#btn-connect").removeAttribute("disabled")
 }
 
 
@@ -95,7 +103,7 @@ async function onConnect() {
   console.log("Opening a dialog", web3Modal);
   try {
     provider = await web3Modal.connect();
-  } catch(e) {
+  } catch (e) {
     //console.log("Could not get a wallet connection", e);
     jQuery("[id=wallet_msg]").empty();
     jQuery("#flexi_notification_box").fadeIn("slow");
@@ -129,7 +137,7 @@ async function onDisconnect() {
   console.log("Killing the wallet connection", provider);
 
   // TODO: Which providers have close method?
-  if(provider.close) {
+  if (provider.close) {
     await provider.close();
 
     // If the cached provider is not cleared,
@@ -143,38 +151,38 @@ async function onDisconnect() {
   selectedAccount = null;
 
   // Set the UI back to the initial state
- // document.querySelector("#prepare").style.display = "block";
- // document.querySelector("#connected").style.display = "none";
+  // document.querySelector("#prepare").style.display = "block";
+  // document.querySelector("#connected").style.display = "none";
 }
 
 /**
  * Main entry point.
  */
- window.addEventListener('load', async () => {
-    init();
-  
-    
-    
+window.addEventListener('load', async () => {
+  init();
+
+
+
+});
+
+jQuery(document).ready(function () {
+  jQuery("[id=flexi_notification_box]").hide();
+  jQuery("[id=delete_notification]").click(function () {
+    jQuery("[id=flexi_notification_box]").fadeOut("slow");
   });
 
-  jQuery(document).ready(function() {
-    jQuery("[id=flexi_notification_box]").hide();
-    jQuery("[id=delete_notification]").click(function() {
-        jQuery("[id=flexi_notification_box]").fadeOut("slow");
-    });
+  jQuery("[id=btn-login]").click(function () {
+    //alert("Login");
+    onConnect();
+    //login();
+  });
 
-    jQuery("[id=btn-login]").click(function() {
-        //alert("Login");
-        onConnect();
-        //login();
-    });
 
-    
-    jQuery("[id=btn-logout]").click(function () {
-        //alert("Logout");
-        onDisconnect();
-        location.reload();
-    });
+  jQuery("[id=btn-logout]").click(function () {
+    //alert("Logout");
+    onDisconnect();
+    location.reload();
+  });
 
 
 });
@@ -198,21 +206,21 @@ function process_login_register(curr_user) {
   //alert("register " + curr_user);
   //Javascript version to check is_user_logged_in()
   if (jQuery('body').hasClass('logged-in')) {
-      // console.log("check after login");
-      create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'check', curr_user, '', '');
-      //jQuery("#crypto_connect_ajax_process").click();
-      setTimeout(function() {
-          jQuery('#crypto_connect_ajax_process').trigger('click');
-      }, 1000);
+    // console.log("check after login");
+    create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'check', curr_user, '', '');
+    //jQuery("#crypto_connect_ajax_process").click();
+    setTimeout(function () {
+      jQuery('#crypto_connect_ajax_process').trigger('click');
+    }, 1000);
 
 
   } else {
-      // console.log("register new");
-      create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'register', curr_user, '', '');
-      //jQuery("#crypto_connect_ajax_process").click();
-      setTimeout(function() {
-          jQuery('#crypto_connect_ajax_process').trigger('click');
-      }, 1000);
+    // console.log("register new");
+    create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'register', curr_user, '', '');
+    //jQuery("#crypto_connect_ajax_process").click();
+    setTimeout(function () {
+      jQuery('#crypto_connect_ajax_process').trigger('click');
+    }, 1000);
 
   }
 }  

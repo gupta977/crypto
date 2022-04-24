@@ -38,7 +38,7 @@ class Crypto_Connect_Metamask
                 array(
                     'id' => 'crypto_metamask_settings',
                     'title' => __('Metamask Login', 'crypto'),
-                    'description' => __('Login with Metamask without any 3rd party provider', 'crypto') . "<br>" . "No API required",
+                    'description' => __('Login with Metamask without any 3rd party provider', 'crypto') . "<br>" . "No API required<br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code>",
                     'tab' => 'login',
                 ),
             );

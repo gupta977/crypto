@@ -106,12 +106,15 @@ class Crypto_Public
         $serverUrl = crypto_get_option('moralis_url', 'crypto_login_settings', '');
         $appId = crypto_get_option('moralis_appid', 'crypto_login_settings', '');
         $chainId = crypto_get_option('moralis_chainid', 'crypto_login_settings', '');
+        $execute_js = crypto_get_option('execute_js', 'crypto_login_settings', '');
+
         $translation_array = array(
             'delete_string' => __('Are you sure you want to delete?', 'crypto'),
             'ajaxurl' => admin_url('admin-ajax.php'),
             'serverUrl' => $serverUrl,
             'appId' => $appId,
             'chainId' => $chainId,
+            'executeJS' => $execute_js,
         );
 
         wp_localize_script('crypto_connect_ajax_process', 'crypto_connectChainAjax', $translation_array);

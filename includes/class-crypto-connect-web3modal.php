@@ -78,7 +78,7 @@ class Crypto_Connect
                 array(
                     'id' => 'crypto_login_settings',
                     'title' => __('Web3Modal Crypto Login', 'crypto'),
-                    'description' => __('Let users to connect via Metamask, WalletConnect & many more wallet', 'crypto') . "<br>" . "Project by <a target='_blank' href='" . esc_url('https://github.com/Web3Modal') . "'>Web3Modal</a>",
+                    'description' => __('Let users to connect via Metamask, WalletConnect & many more wallet', 'crypto') . "<br>" . "Project by <a target='_blank' href='" . esc_url('https://github.com/Web3Modal') . "'>Web3Modal</a><br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code>",
                     'tab' => 'login',
                 ),
             );
@@ -172,6 +172,14 @@ class Crypto_Connect
                             'walletlink' => __('WalletLink', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/walletlink.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
 
                         ),
+                    ),
+
+                    array(
+                        'name' => 'execute_js',
+                        'label' => __('Javascript function', 'crypto'),
+                        'description' => __('Execute javascript function as soon as wallet connected. Eg. alert("Hello"); ', 'crypto'),
+                        'size' => 20,
+                        'type' => 'text',
                     ),
 
                 ),
