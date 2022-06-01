@@ -1,5 +1,5 @@
 <?php
-class Crypto_Connect
+class Crypto_Connect_Web3
 {
     private $help = ' <a style="text-decoration: none;" href="#" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>';
 
@@ -32,12 +32,12 @@ class Crypto_Connect
             }
         };";
 
-        $this->metamask = crypto_get_option('metamask_label', 'crypto_login_settings', 'Connect Wallet');
-        $this->disconnect = crypto_get_option('disconnect_label', 'crypto_login_settings', 'Disconnect Wallet');
-        $this->connect_class = crypto_get_option('connect_class', 'crypto_login_settings', 'fl-button fl-is-info');
-        $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_settings', 'fl-button fl-is-danger');
-        $this->enable_metamask = crypto_get_option('enable_metamask', 'crypto_login_settings', 1);
-        $this->provider = crypto_get_option('provider', 'crypto_login_settings', $this->provider_default);
+        $this->metamask = crypto_get_option('metamask_label', 'crypto_login_web3', 'Connect Wallet');
+        $this->disconnect = crypto_get_option('disconnect_label', 'crypto_login_web3', 'Disconnect Wallet');
+        $this->connect_class = crypto_get_option('connect_class', 'crypto_login_web3', 'fl-button fl-is-info');
+        $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_web3', 'fl-button fl-is-danger');
+        $this->enable_metamask = crypto_get_option('enable_metamask', 'crypto_login_web3', 1);
+        $this->provider = crypto_get_option('provider', 'crypto_login_web3', $this->provider_default);
 
 
 
@@ -73,17 +73,17 @@ class Crypto_Connect
     public function add_section($new)
     {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("web3modal" == $enable_addon) {
-            $sections = array(
-                array(
-                    'id' => 'crypto_login_settings',
-                    'title' => __('Web3Modal Crypto Login', 'crypto'),
-                    'description' => __('Let users to connect via Metamask, WalletConnect & many more wallet', 'crypto') . "<br>" . "Project by <a target='_blank' href='" . esc_url('https://github.com/Web3Modal') . "'>Web3Modal</a><br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code>",
-                    'tab' => 'login',
-                ),
-            );
-            $new = array_merge($new, $sections);
-        }
+        // if ("web3modal" == $enable_addon) {
+        $sections = array(
+            array(
+                'id' => 'crypto_login_web3',
+                'title' => __('Web3Modal Crypto Login', 'crypto'),
+                'description' => __('Let users to connect via Metamask, WalletConnect & many more wallet', 'crypto') . "<br>" . "Project by <a target='_blank' href='" . esc_url('https://github.com/Web3Modal') . "'>Web3Modal</a><br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code>",
+                'tab' => 'login',
+            ),
+        );
+        $new = array_merge($new, $sections);
+        //   }
         return $new;
     }
 
@@ -91,101 +91,101 @@ class Crypto_Connect
     public function add_fields($new)
     {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("web3modal" == $enable_addon) {
-            $fields = array(
-                'crypto_login_settings' => array(
+        // if ("web3modal" == $enable_addon) {
+        $fields = array(
+            'crypto_login_web3' => array(
 
 
-                    array(
-                        'name' => 'moralis_chainid',
-                        'label' => __('Default Network Chain ID', 'crypto'),
-                        'description' => __('If specified, network wallet changes notice displayed. Eg. 1 for Ethereum Mainnet & 137 for Matic', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
-                        'type' => 'text',
-                    ),
+                array(
+                    'name' => 'chainid',
+                    'label' => __('Default Network Chain ID', 'crypto'),
+                    'description' => __('If specified, network wallet changes notice displayed. Eg. 1 for Ethereum Mainnet & 137 for Matic', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
+                    'type' => 'text',
+                ),
 
-                    array(
-                        'name' => 'enable_flexi',
-                        'label' => __('Enable at Flexi', 'crypto'),
-                        'description' => __('Display connect button at Flexi login form.', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/flexi/') . "'>https://wordpress.org/plugins/flexi/</a>",
-                        'type' => 'checkbox',
-                        'sanitize_callback' => 'intval',
-
-                    ),
-                    array(
-                        'name' => 'enable_woocommerce',
-                        'label' => __('Enable at WooCommerce', 'crypto'),
-                        'description' => __('Display connect button at WooCommmerce Login form', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/woocommerce/') . "'>WooCommerce</a>",
-                        'type' => 'checkbox',
-                        'sanitize_callback' => 'intval',
-
-                    ),
-                    array(
-                        'name' => 'metamask_label',
-                        'label' => __('Crypto Login button label', 'crypto'),
-                        'description' => __('Label to display at crypto connect button', 'crypto'),
-                        'size' => 20,
-                        'type' => 'text',
-                    ),
-
-
-                    array(
-                        'name' => 'connect_class',
-                        'label' => __('Connect button class rule', 'crypto'),
-                        'description' => __('fl-button fl-is-info fl-is-rounded', 'crypto'),
-                        'type' => 'text',
-                    ),
-
-                    array(
-                        'name' => 'provider',
-                        'type' => 'textarea',
-                        'size' => 'large',
-                        'placeholder' => 'Leave blank for default values',
-                        'label' => __('providerOptions Javascript Array', 'crypto'),
-                        'description' => __('Manual javascript array based on', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/tree/master/docs/providers" target="_blank">https://github.com/Web3Modal/web3modal/tree/master/docs/providers</a>',
-                    ),
-
-                    array(
-                        'name' => 'provider_desp',
-                        'type' => 'html',
-                        'label' => __('providerOptions Default Value', 'crypto'),
-                        'description' => "<pre>" . $this->provider_default . "</pre>",
-                    ),
-
-                    array(
-                        'name' => 'provider_list',
-                        'label' => 'Includes related javascript of selected provider',
-                        'description' => 'Only select visible provider to prevent unnecessary files.',
-                        'type' => 'multicheck',
-                        'options' => array(
-                            'walletconnect' => __('WalletConnect', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/walletconnect.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-                            'fortmatic' => __('Fortmatic', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/fortmatic.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-                            'torus' => __('Torus', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/torus.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-                            'portis' => __('Portis', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/portis.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-                            'authereum' => __('Authereum', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/authereum.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-                            'frame' => __('Frame', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/frame.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-                            'bitski' => __('Bitski', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/bitski.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-                            'venly' => __('Venly', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/venly.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-                            'dcent' => __('DCent', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/dcent.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-                            'burnerconnect' => __('BurnerConnect', 'crypto') .  ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/burnerconnect.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-                            'mewconnect' => __('MEWConnect', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/mewconnect.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-                            'bnb' => __('Binance Chain Wallet', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/binancechainwallet.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-                            'walletlink' => __('WalletLink', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/walletlink.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
-
-                        ),
-                    ),
-
-                    array(
-                        'name' => 'execute_js',
-                        'label' => __('Javascript function', 'crypto'),
-                        'description' => __('Execute javascript function as soon as wallet connected. Eg. alert("Hello"); ', 'crypto'),
-                        'size' => 20,
-                        'type' => 'text',
-                    ),
+                array(
+                    'name' => 'enable_flexi',
+                    'label' => __('Enable at Flexi', 'crypto'),
+                    'description' => __('Display connect button at Flexi login form.', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/flexi/') . "'>https://wordpress.org/plugins/flexi/</a>",
+                    'type' => 'checkbox',
+                    'sanitize_callback' => 'intval',
 
                 ),
-            );
-            $new = array_merge($new, $fields);
-        }
+                array(
+                    'name' => 'enable_woocommerce',
+                    'label' => __('Enable at WooCommerce', 'crypto'),
+                    'description' => __('Display connect button at WooCommmerce Login form', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/woocommerce/') . "'>WooCommerce</a>",
+                    'type' => 'checkbox',
+                    'sanitize_callback' => 'intval',
+
+                ),
+                array(
+                    'name' => 'metamask_label',
+                    'label' => __('Crypto Login button label', 'crypto'),
+                    'description' => __('Label to display at crypto connect button', 'crypto'),
+                    'size' => 20,
+                    'type' => 'text',
+                ),
+
+
+                array(
+                    'name' => 'connect_class',
+                    'label' => __('Connect button class rule', 'crypto'),
+                    'description' => __('fl-button fl-is-info fl-is-rounded', 'crypto'),
+                    'type' => 'text',
+                ),
+
+                array(
+                    'name' => 'provider',
+                    'type' => 'textarea',
+                    'size' => 'large',
+                    'placeholder' => 'Leave blank for default values',
+                    'label' => __('providerOptions Javascript Array', 'crypto'),
+                    'description' => __('Manual javascript array based on', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/tree/master/docs/providers" target="_blank">https://github.com/Web3Modal/web3modal/tree/master/docs/providers</a>',
+                ),
+
+                array(
+                    'name' => 'provider_desp',
+                    'type' => 'html',
+                    'label' => __('providerOptions Default Value', 'crypto'),
+                    'description' => "<pre>" . $this->provider_default . "</pre>",
+                ),
+
+                array(
+                    'name' => 'provider_list',
+                    'label' => 'Includes related javascript of selected provider',
+                    'description' => 'Only select visible provider to prevent unnecessary files.',
+                    'type' => 'multicheck',
+                    'options' => array(
+                        'walletconnect' => __('WalletConnect', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/walletconnect.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                        'fortmatic' => __('Fortmatic', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/fortmatic.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                        'torus' => __('Torus', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/torus.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                        'portis' => __('Portis', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/portis.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                        'authereum' => __('Authereum', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/authereum.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                        'frame' => __('Frame', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/frame.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                        'bitski' => __('Bitski', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/bitski.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                        'venly' => __('Venly', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/venly.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                        'dcent' => __('DCent', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/dcent.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                        'burnerconnect' => __('BurnerConnect', 'crypto') .  ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/burnerconnect.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                        'mewconnect' => __('MEWConnect', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/mewconnect.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                        'bnb' => __('Binance Chain Wallet', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/binancechainwallet.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+                        'walletlink' => __('WalletLink', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/blob/master/docs/providers/walletlink.md" target="_blank">' . __('Docs', 'crypto') . '</a>',
+
+                    ),
+                ),
+
+                array(
+                    'name' => 'execute_js',
+                    'label' => __('Javascript function', 'crypto'),
+                    'description' => __('Execute javascript function as soon as wallet connected. Eg. alert("Hello"); ', 'crypto'),
+                    'size' => 20,
+                    'type' => 'text',
+                ),
+
+            ),
+        );
+        $new = array_merge($new, $fields);
+        //   }
         return $new;
     }
 
@@ -220,7 +220,7 @@ class Crypto_Connect
             wp_enqueue_script('crypto_connect_ajax_process');
 
 
-            $display = crypto_get_option('provider_list', 'crypto_login_settings', '');
+            $display = crypto_get_option('provider_list', 'crypto_login_web3', '');
             if (is_array($display)) {
                 foreach ($display as $x => $x_value) {
                     // flexi_log("Key=" . $x . ", Value=" . $x_value);
@@ -323,10 +323,12 @@ function init() {
 
     public function crypto_connect_small_flexi()
     {
+
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
         if ("web3modal" == $enable_addon) {
             //Display at Flexi Form
-            $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_settings', 1);
+
+            $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_web3', 1);
             if ("1" == $enable_addon) {
                 echo wp_kses_post($this->crypto_connect_option(''));
             }
@@ -338,7 +340,7 @@ function init() {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
         if ("web3modal" == $enable_addon) {
             //Display at WooCommerce form  
-            $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_login_settings', 1);
+            $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_login_web3', 1);
             if ("1" == $enable_addon_woo) {
                 echo wp_kses_post($this->crypto_connect_option(''));
             }
@@ -359,4 +361,4 @@ function init() {
         return false;
     }
 }
-$connect_page = new Crypto_Connect();
+$connect_page = new Crypto_Connect_Web3();

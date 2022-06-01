@@ -141,16 +141,16 @@ class Crypto
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto_connect_ajax_register.php';
 
 		$enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-		if ("moralis" == $enable_addon) {
-			//Connect Page
-			require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-moralis.php';
-		} else if ("web3modal" == $enable_addon) {
-			//Connect Page
-			require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-web3modal.php';
-		} else {
-			//Connect Page
-			require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-metamask.php';
-		}
+		//if ("moralis" == $enable_addon) {
+		//Connect Page
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-moralis.php';
+		//	} else if ("web3modal" == $enable_addon) {
+		//Connect Page
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-web3modal.php';
+		//} else {
+		//Connect Page
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-metamask.php';
+		//	}
 
 		//Crypto Price
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-price.php';

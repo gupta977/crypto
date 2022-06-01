@@ -12,10 +12,10 @@ class Crypto_Connect_Metamask
 
     public function __construct()
     {
-        $this->metamask = crypto_get_option('metamask_label', 'crypto_metamask_settings', 'Metamask');
-        $this->disconnect = crypto_get_option('disconnect_label', 'crypto_metamask_settings', 'Disconnect Wallet');
-        $this->connect_class = crypto_get_option('connect_class', 'crypto_metamask_settings', 'fl-button fl-is-info');
-        $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_metamask_settings', 'fl-button fl-is-danger');
+        $this->metamask = crypto_get_option('metamask_label', 'crypto_login_metamask', 'Metamask');
+        $this->disconnect = crypto_get_option('disconnect_label', 'crypto_login_metamask', 'Disconnect Wallet');
+        $this->connect_class = crypto_get_option('connect_class', 'crypto_login_metamask', 'fl-button fl-is-info');
+        $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_metamask', 'fl-button fl-is-danger');
 
         add_shortcode('crypto-connect', array($this, 'crypto_connect_Metamask'));
         add_action('flexi_login_form', array($this, 'crypto_connect_Metamask_small_flexi'));
@@ -33,17 +33,17 @@ class Crypto_Connect_Metamask
     {
 
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("metamask" == $enable_addon) {
-            $sections = array(
-                array(
-                    'id' => 'crypto_metamask_settings',
-                    'title' => __('Metamask Login', 'crypto'),
-                    'description' => __('Login with Metamask without any 3rd party provider', 'crypto') . "<br>" . "No API required<br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code>",
-                    'tab' => 'login',
-                ),
-            );
-            $new = array_merge($new, $sections);
-        }
+        //  if ("metamask" == $enable_addon) {
+        $sections = array(
+            array(
+                'id' => 'crypto_login_metamask',
+                'title' => __('Metamask Login', 'crypto'),
+                'description' => __('Login with Metamask without any 3rd party provider', 'crypto') . "<br>" . "No API required<br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code>",
+                'tab' => 'login',
+            ),
+        );
+        $new = array_merge($new, $sections);
+        //  }
         return $new;
     }
 
@@ -75,49 +75,49 @@ class Crypto_Connect_Metamask
     public function add_fields($new)
     {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("metamask" == $enable_addon) {
-            $fields = array(
-                'crypto_metamask_settings' => array(
+        //  if ("metamask" == $enable_addon) {
+        $fields = array(
+            'crypto_login_metamask' => array(
 
 
-                    array(
-                        'name' => 'enable_flexi',
-                        'label' => __('Enable at Flexi', 'crypto'),
-                        'description' => __('Display connect button at Flexi login form.', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/flexi/') . "'>https://wordpress.org/plugins/flexi/</a>",
-                        'type' => 'checkbox',
-                        'sanitize_callback' => 'intval',
-
-                    ),
-                    array(
-                        'name' => 'enable_woocommerce',
-                        'label' => __('Enable at WooCommerce', 'crypto'),
-                        'description' => __('Display connect button at WooCommmerce Login form', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/woocommerce/') . "'>WooCommerce</a>",
-                        'type' => 'checkbox',
-                        'sanitize_callback' => 'intval',
-
-                    ),
-                    array(
-                        'name' => 'metamask_label',
-                        'label' => __('Metamask button label', 'crypto'),
-                        'description' => __('Label to display at metamask connect button', 'crypto'),
-                        'size' => 20,
-                        'type' => 'text',
-                    ),
-
-
-
-                    array(
-                        'name' => 'connect_class',
-                        'label' => __('Connect button class rule', 'crypto'),
-                        'description' => __('fl-button fl-is-info fl-is-rounded', 'crypto'),
-                        'type' => 'text',
-                    ),
-
+                array(
+                    'name' => 'enable_flexi',
+                    'label' => __('Enable at Flexi', 'crypto'),
+                    'description' => __('Display connect button at Flexi login form.', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/flexi/') . "'>https://wordpress.org/plugins/flexi/</a>",
+                    'type' => 'checkbox',
+                    'sanitize_callback' => 'intval',
 
                 ),
-            );
-            $new = array_merge($new, $fields);
-        }
+                array(
+                    'name' => 'enable_woocommerce',
+                    'label' => __('Enable at WooCommerce', 'crypto'),
+                    'description' => __('Display connect button at WooCommmerce Login form', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/woocommerce/') . "'>WooCommerce</a>",
+                    'type' => 'checkbox',
+                    'sanitize_callback' => 'intval',
+
+                ),
+                array(
+                    'name' => 'metamask_label',
+                    'label' => __('Metamask button label', 'crypto'),
+                    'description' => __('Label to display at metamask connect button', 'crypto'),
+                    'size' => 20,
+                    'type' => 'text',
+                ),
+
+
+
+                array(
+                    'name' => 'connect_class',
+                    'label' => __('Connect button class rule', 'crypto'),
+                    'description' => __('fl-button fl-is-info fl-is-rounded', 'crypto'),
+                    'type' => 'text',
+                ),
+
+
+            ),
+        );
+        $new = array_merge($new, $fields);
+        // }
         return $new;
     }
 
@@ -165,7 +165,7 @@ class Crypto_Connect_Metamask
     public function crypto_connect_Metamask_small_flexi()
     {
         //Display at Flexi Form
-        $enable_addon = crypto_get_option('enable_flexi', 'crypto_metamask_settings', 1);
+        $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_metamask', 1);
         if ("1" == $enable_addon) {
             echo wp_kses_post($this->crypto_connect_Metamask());
         }
@@ -175,7 +175,7 @@ class Crypto_Connect_Metamask
     {
 
         //Display at WooCommerce form
-        $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_metamask_settings', 1);
+        $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_login_metamask', 1);
         if ("1" == $enable_addon_woo) {
             echo wp_kses_post($this->crypto_connect_Metamask());
         }

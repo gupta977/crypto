@@ -1,5 +1,5 @@
 <?php
-class Crypto_Connect
+class Crypto_Connect_Moralis
 {
     private $help = ' <a style="text-decoration: none;" href="#" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>';
     private $walletconnect;
@@ -12,13 +12,13 @@ class Crypto_Connect
 
     public function __construct()
     {
-        $this->walletconnect = crypto_get_option('walletconnect_label', 'crypto_login_settings', 'WalletConnect');
-        $this->metamask = crypto_get_option('metamask_label', 'crypto_login_settings', 'Metamask');
-        $this->disconnect = crypto_get_option('disconnect_label', 'crypto_login_settings', 'Disconnect Wallet');
-        $this->connect_class = crypto_get_option('connect_class', 'crypto_login_settings', 'fl-button fl-is-info');
-        $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_settings', 'fl-button fl-is-danger');
-        $this->enable_metamask = crypto_get_option('enable_metamask', 'crypto_login_settings', 1);
-        $this->enable_walletconnect = crypto_get_option('enable_walletconnect', 'crypto_login_settings', 1);
+        $this->walletconnect = crypto_get_option('walletconnect_label', 'crypto_login_moralis', 'WalletConnect');
+        $this->metamask = crypto_get_option('connect_label', 'crypto_login_moralis', 'Moralis Connect');
+        $this->disconnect = crypto_get_option('disconnect_label', 'crypto_login_moralis', 'Disconnect Wallet');
+        $this->connect_class = crypto_get_option('connect_class', 'crypto_login_moralis', 'fl-button fl-is-info');
+        $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_moralis', 'fl-button fl-is-danger');
+        $this->enable_metamask = crypto_get_option('enable_metamask', 'crypto_login_moralis', 1);
+        $this->enable_walletconnect = crypto_get_option('enable_walletconnect', 'crypto_login_moralis', 1);
 
         add_shortcode('crypto-connect', array($this, 'crypto_connect_moralis'));
         add_action('flexi_login_form', array($this, 'crypto_connect_small_flexi'));
@@ -51,17 +51,17 @@ class Crypto_Connect
     public function add_section($new)
     {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("moralis" == $enable_addon) {
-            $sections = array(
-                array(
-                    'id' => 'crypto_login_settings',
-                    'title' => __('Moralis Crypto Login', 'crypto'),
-                    'description' => __('Let users to connect via Metamask or WalletConnect.', 'crypto') . "<br>" . "Get API from <a target='_blank' href='" . esc_url('https://moralis.io/') . "'>https://moralis.io/</a><br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code>",
-                    'tab' => 'login',
-                ),
-            );
-            $new = array_merge($new, $sections);
-        }
+        //  if ("moralis" == $enable_addon) {
+        $sections = array(
+            array(
+                'id' => 'crypto_login_moralis',
+                'title' => __('Moralis Crypto Login', 'crypto'),
+                'description' => __('Let users to connect via Metamask or WalletConnect.', 'crypto') . "<br>" . "Get API from <a target='_blank' href='" . esc_url('https://moralis.io/') . "'>https://moralis.io/</a><br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code>",
+                'tab' => 'login',
+            ),
+        );
+        $new = array_merge($new, $sections);
+        //  }
         return $new;
     }
 
@@ -69,99 +69,93 @@ class Crypto_Connect
     public function add_fields($new)
     {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("moralis" == $enable_addon) {
-            $fields = array(
-                'crypto_login_settings' => array(
+        //  if ("moralis" == $enable_addon) {
+        $fields = array(
+            'crypto_login_moralis' => array(
 
-                    array(
-                        'name' => 'moralis_url',
-                        'label' => __('Moralis URL', 'crypto'),
-                        'description' => __('Enter Moralis API Server URL', 'crypto'),
-                        'type' => 'text',
-                    ),
-                    array(
-                        'name' => 'moralis_appid',
-                        'label' => __('Moralis appId', 'crypto'),
-                        'description' => __('Enter Moralis application Id', 'crypto'),
-                        'type' => 'text',
-                    ),
-                    array(
-                        'name' => 'moralis_chainid',
-                        'label' => __('Default Network Chain ID', 'crypto'),
-                        'description' => __('If specified, network wallet changes after connection. Eg. 0x89 for Matic & 0x38 for BSC', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
-                        'type' => 'text',
-                    ),
-                    array(
-                        'name' => 'enable_metamask',
-                        'label' => __('Metamask Button', 'crypto'),
-                        'description' => __('Display Metamask Button', 'crypto'),
-                        'type' => 'checkbox',
-                        'sanitize_callback' => 'intval',
-
-                    ),
-                    array(
-                        'name' => 'enable_walletconnect',
-                        'label' => __('WalletConnect Button', 'crypto'),
-                        'description' => __('Display WalletConnect Button', 'crypto'),
-                        'type' => 'checkbox',
-                        'sanitize_callback' => 'intval',
-
-                    ),
-                    array(
-                        'name' => 'enable_flexi',
-                        'label' => __('Enable at Flexi', 'crypto'),
-                        'description' => __('Display connect button at Flexi login form.', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/flexi/') . "'>https://wordpress.org/plugins/flexi/</a>",
-                        'type' => 'checkbox',
-                        'sanitize_callback' => 'intval',
-
-                    ),
-                    array(
-                        'name' => 'enable_woocommerce',
-                        'label' => __('Enable at WooCommerce', 'crypto'),
-                        'description' => __('Display connect button at WooCommmerce Login form', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/woocommerce/') . "'>WooCommerce</a>",
-                        'type' => 'checkbox',
-                        'sanitize_callback' => 'intval',
-
-                    ),
-                    array(
-                        'name' => 'metamask_label',
-                        'label' => __('Metamask button label', 'crypto'),
-                        'description' => __('Label to display at metamask connect button', 'crypto'),
-                        'size' => 20,
-                        'type' => 'text',
-                    ),
-                    array(
-                        'name' => 'walletconnect_label',
-                        'label' => __('WalletConnect button label', 'crypto'),
-                        'description' => __('Label to display at WalletConnect button', 'crypto'),
-                        'size' => 20,
-                        'type' => 'text',
-                    ),
-                    array(
-                        'name' => 'disconnect_label',
-                        'label' => __('Disconnect button label', 'crypto'),
-                        'description' => __('Label to display at Disconnect Wallet button', 'crypto'),
-                        'size' => 20,
-                        'type' => 'text',
-                    ),
-
-                    array(
-                        'name' => 'connect_class',
-                        'label' => __('Connect button class rule', 'crypto'),
-                        'description' => __('fl-button fl-is-info fl-is-rounded', 'crypto'),
-                        'type' => 'text',
-                    ),
-                    array(
-                        'name' => 'disconnect_class',
-                        'label' => __('Disconnect button class rule', 'crypto'),
-                        'description' => __('fl-button fl-is-danger fl-is-rounded', 'crypto'),
-                        'type' => 'text',
-                    ),
+                array(
+                    'name' => 'moralis_url',
+                    'label' => __('Moralis URL', 'crypto'),
+                    'description' => __('Enter Moralis API Server URL', 'crypto'),
+                    'type' => 'text',
+                ),
+                array(
+                    'name' => 'moralis_appid',
+                    'label' => __('Moralis appId', 'crypto'),
+                    'description' => __('Enter Moralis application Id', 'crypto'),
+                    'type' => 'text',
+                ),
+                array(
+                    'name' => 'moralis_chainid',
+                    'label' => __('Default Network Chain ID', 'crypto'),
+                    'description' => __('If specified, network wallet changes after connection. Eg. 0x89 for Matic & 0x38 for BSC', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
+                    'type' => 'text',
+                ),
+                array(
+                    'name' => 'enable_metamask',
+                    'label' => __('Metamask Button', 'crypto'),
+                    'description' => __('Display Metamask Button', 'crypto'),
+                    'type' => 'checkbox',
+                    'sanitize_callback' => 'intval',
 
                 ),
-            );
-            $new = array_merge($new, $fields);
-        }
+                array(
+                    'name' => 'enable_walletconnect',
+                    'label' => __('WalletConnect Button', 'crypto'),
+                    'description' => __('Display WalletConnect Button', 'crypto'),
+                    'type' => 'checkbox',
+                    'sanitize_callback' => 'intval',
+
+                ),
+                array(
+                    'name' => 'enable_flexi',
+                    'label' => __('Enable at Flexi', 'crypto'),
+                    'description' => __('Display connect button at Flexi login form.', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/flexi/') . "'>https://wordpress.org/plugins/flexi/</a>",
+                    'type' => 'checkbox',
+                    'sanitize_callback' => 'intval',
+
+                ),
+                array(
+                    'name' => 'enable_woocommerce',
+                    'label' => __('Enable at WooCommerce', 'crypto'),
+                    'description' => __('Display connect button at WooCommmerce Login form', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/woocommerce/') . "'>WooCommerce</a>",
+                    'type' => 'checkbox',
+                    'sanitize_callback' => 'intval',
+
+                ),
+                array(
+                    'name' => 'connect_label',
+                    'label' => __('Metamask button label', 'crypto'),
+                    'description' => __('Label to display at metamask connect button', 'crypto'),
+                    'size' => 20,
+                    'type' => 'text',
+                ),
+
+                array(
+                    'name' => 'disconnect_label',
+                    'label' => __('Disconnect button label', 'crypto'),
+                    'description' => __('Label to display at Disconnect Wallet button', 'crypto'),
+                    'size' => 20,
+                    'type' => 'text',
+                ),
+
+                array(
+                    'name' => 'connect_class',
+                    'label' => __('Connect button class rule', 'crypto'),
+                    'description' => __('fl-button fl-is-info fl-is-rounded', 'crypto'),
+                    'type' => 'text',
+                ),
+                array(
+                    'name' => 'disconnect_class',
+                    'label' => __('Disconnect button class rule', 'crypto'),
+                    'description' => __('fl-button fl-is-danger fl-is-rounded', 'crypto'),
+                    'type' => 'text',
+                ),
+
+            ),
+        );
+        $new = array_merge($new, $fields);
+        //  }
         return $new;
     }
 
@@ -219,12 +213,7 @@ class Crypto_Connect
         class="<?php echo esc_attr($this->connect_class); ?>"><?php echo esc_attr($this->metamask); ?></a>
     <?php
                 }
-                if ($this->enable_walletconnect == "1") {
-                ?>
-    <a href="#" id="btn-login_wc"
-        class="<?php echo esc_attr($this->connect_class); ?>"><?php echo esc_attr($this->walletconnect); ?></a>
-    <?php
-                }
+
                 ?>
     <a href="#" id="btn-logout"
         class="<?php echo esc_attr($this->disconnect_class); ?>"><?php echo esc_attr($this->disconnect); ?></a>
@@ -246,7 +235,7 @@ class Crypto_Connect
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
         if ("moralis" == $enable_addon) {
             //Display at Flexi Form
-            $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_settings', 1);
+            $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_moralis', 1);
             if ("1" == $enable_addon) {
                 echo wp_kses_post($this->crypto_connect_moralis());
             }
@@ -258,7 +247,7 @@ class Crypto_Connect
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
         if ("moralis" == $enable_addon) {
             //Display at WooCommerce form  
-            $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_login_settings', 1);
+            $enable_addon_woo = crypto_get_option('enable_woocommerce', 'crypto_login_moralis', 1);
             if ("1" == $enable_addon_woo) {
                 echo wp_kses_post($this->crypto_connect_moralis());
             }
@@ -279,4 +268,4 @@ class Crypto_Connect
         return false;
     }
 }
-$connect_page = new Crypto_Connect();
+$connect_page = new Crypto_Connect_Moralis();

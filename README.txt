@@ -5,7 +5,7 @@ Tags: crypto, login, metamask, walletconnect, blockchain, donation
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 5.9
-Stable tag: 1.14
+Stable tag: 1.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,6 +106,10 @@ Moralis is SDK for rapid blockchain development.
 3. Crypto Price
 
 == Changelog ==
+
+= 1.15 =
+* All 3 login system in tab menu.
+* Everyone requested to update settings again.
 
 = 1.14 =
 * Execute javascript function as soon as wallet connected in Web3Modal
