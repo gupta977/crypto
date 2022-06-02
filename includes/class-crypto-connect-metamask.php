@@ -17,7 +17,7 @@ class Crypto_Connect_Metamask
         $this->connect_class = crypto_get_option('connect_class', 'crypto_login_metamask', 'fl-button fl-is-info');
         $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_metamask', 'fl-button fl-is-danger');
 
-        add_shortcode('crypto-connect', array($this, 'crypto_connect_Metamask'));
+        add_shortcode('crypto-connect-metamask', array($this, 'crypto_connect_Metamask'));
         add_action('flexi_login_form', array($this, 'crypto_connect_Metamask_small_flexi'));
         add_action('woocommerce_login_form', array($this, 'crypto_connect_Metamask_small_woocommerce'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
@@ -38,7 +38,7 @@ class Crypto_Connect_Metamask
             array(
                 'id' => 'crypto_login_metamask',
                 'title' => __('Metamask Login', 'crypto'),
-                'description' => __('Login with Metamask without any 3rd party provider', 'crypto') . "<br>" . "No API required<br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code>",
+                'description' => __('Login with Metamask without any 3rd party provider', 'crypto') . "<br>" . "No API required<br>Shortcode eg. <code>[crypto-connect-metamask label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code><br>You must select provider at <a href='" . admin_url('admin.php?page=crypto_settings&tab=login&section=crypto_general_login') . "'>Login Settings</a>. Only one provider works at a time.",
                 'tab' => 'login',
             ),
         );
@@ -145,7 +145,6 @@ class Crypto_Connect_Metamask
                 $put = "";
                 ob_start();
                 $nonce = wp_create_nonce("crypto_connect_Metamask_ajax_process");
-
 ?>
 <a href="#" id="btn-login"
     class="<?php echo esc_attr($this->connect_class); ?>"><?php echo esc_attr($this->metamask); ?></a>

@@ -78,7 +78,7 @@ class Crypto_Connect_Web3
             array(
                 'id' => 'crypto_login_web3',
                 'title' => __('Web3Modal Crypto Login', 'crypto'),
-                'description' => __('Let users to connect via Metamask, WalletConnect & many more wallet', 'crypto') . "<br>" . "Project by <a target='_blank' href='" . esc_url('https://github.com/Web3Modal') . "'>Web3Modal</a><br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code>",
+                'description' => __('Let users to connect via Metamask, WalletConnect & many more wallet', 'crypto') . "<br>" . "Project by <a target='_blank' href='" . esc_url('https://github.com/Web3Modal') . "'>Web3Modal</a><br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code><br>You must select provider at <a href='" . admin_url('admin.php?page=crypto_settings&tab=login&section=crypto_general_login') . "'>Login Settings</a>. Only one provider works at a time.",
                 'tab' => 'login',
             ),
         );
@@ -238,6 +238,7 @@ class Crypto_Connect_Web3
     public function crypto_connect_option($params)
     {
 
+
         extract(shortcode_atts(array(
             'label' => '',
             'class' => '',
@@ -258,6 +259,7 @@ class Crypto_Connect_Web3
             $put = "";
             ob_start();
             $nonce = wp_create_nonce("crypto_connect_ajax_process");
+
 ?>
 <span>
     <?php

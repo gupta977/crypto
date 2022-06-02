@@ -5,7 +5,7 @@ Tags: crypto, login, metamask, walletconnect, blockchain, donation
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 5.9
-Stable tag: 1.15
+Stable tag: 1.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,7 @@ These are all the providers available with Web3Modal:
 - Force to connect specified Chain ID
 - Enable login button at Flexi & WooCommerce
 - Execute specified javascript function as soon as wallet connected.
+- [crypto-connect] Shortcode
 
 = Option 2: Metamask Standalone =
 
@@ -52,6 +53,7 @@ These are all the providers available with Web3Modal:
 * Let user to login/register
 * Login buttons at Flexi Gallery Login Form
 * Login buttons at WooCommerce Login Form
+* [crypto-connect-metamask] Shortcode
 
 = Option 3: Metamask & WalletConnect by Moralis.io =
 
@@ -60,6 +62,7 @@ These are all the providers available with Web3Modal:
 * Auto switch to selected network chain
 * Flexi Form support
 * WooCommerce login form support
+* [crypto-connect-moralis] Shortcode
 
 
 == Donation Widget ==
@@ -77,7 +80,7 @@ These are all the providers available with Web3Modal:
 * `[crypto-price symbol="MATIC,BTC,ETH" style="style1" currency="USD"]`
 
 
-[Live Demo](https://signid.net/user-dashboard/)
+[Live Demo](https://web3domain.org/user-dashboard/)
 
 > If any suggestion, contact at navneet@odude.com
 
@@ -106,6 +109,9 @@ Moralis is SDK for rapid blockchain development.
 3. Crypto Price
 
 == Changelog ==
+
+= 1.16 =
+* Fixed [crypto-connect] shortcode
 
 = 1.15 =
 * All 3 login system in tab menu.

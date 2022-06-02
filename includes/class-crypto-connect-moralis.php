@@ -20,7 +20,7 @@ class Crypto_Connect_Moralis
         $this->enable_metamask = crypto_get_option('enable_metamask', 'crypto_login_moralis', 1);
         $this->enable_walletconnect = crypto_get_option('enable_walletconnect', 'crypto_login_moralis', 1);
 
-        add_shortcode('crypto-connect', array($this, 'crypto_connect_moralis'));
+        add_shortcode('crypto-connect-moralis', array($this, 'crypto_connect_moralis'));
         add_action('flexi_login_form', array($this, 'crypto_connect_small_flexi'));
         add_action('woocommerce_login_form', array($this, 'crypto_connect_small_woocommerce'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
@@ -56,7 +56,7 @@ class Crypto_Connect_Moralis
             array(
                 'id' => 'crypto_login_moralis',
                 'title' => __('Moralis Crypto Login', 'crypto'),
-                'description' => __('Let users to connect via Metamask or WalletConnect.', 'crypto') . "<br>" . "Get API from <a target='_blank' href='" . esc_url('https://moralis.io/') . "'>https://moralis.io/</a><br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code>",
+                'description' => __('Let users to connect via Metamask or WalletConnect.', 'crypto') . "<br>" . "Get API from <a target='_blank' href='" . esc_url('https://moralis.io/') . "'>https://moralis.io/</a><br>Shortcode eg. <code>[crypto-connect-moralis label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code><br>You must select provider at <a href='" . admin_url('admin.php?page=crypto_settings&tab=login&section=crypto_general_login') . "'>Login Settings</a>. Only one provider works at a time.",
                 'tab' => 'login',
             ),
         );
