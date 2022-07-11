@@ -88,7 +88,7 @@ class Crypto_Connect_Moralis
                 array(
                     'name' => 'moralis_chainid',
                     'label' => __('Default Network Chain ID', 'crypto'),
-                    'description' => __('If specified, network wallet changes after connection. Eg. 0x89 for Matic & 0x38 for BSC', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
+                    'description' => __('If specified, network wallet changes after connection. Eg. 0x89 for Matic & 0x38 for BSC', 'crypto') . " <a href='https://docs.moralis.io/moralis-dapp/web3-api/supported-chains' target='_blank'> Reference </a>",
                     'type' => 'text',
                 ),
                 array(

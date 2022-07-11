@@ -99,7 +99,7 @@ class Crypto_Connect_Web3
                 array(
                     'name' => 'chainid',
                     'label' => __('Default Network Chain ID', 'crypto'),
-                    'description' => __('If specified, network wallet changes notice displayed. Eg. 1 for Ethereum Mainnet & 137 for Matic', 'crypto') . " <a href='https://docs.moralis.io/moralis-server/web3-sdk/intro' target='_blank'> Reference </a>",
+                    'description' => __('If specified, network wallet changes notice displayed. Eg. 1 for Ethereum Mainnet & 137 for Matic', 'crypto'),
                     'type' => 'text',
                 ),
 

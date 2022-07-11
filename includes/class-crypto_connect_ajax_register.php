@@ -153,5 +153,48 @@ class crypto_connect_ajax_process
             return "wrong";
         }
     }
+
+    public function savenft($id, $param1, $param2, $param3)
+    {
+
+        if (is_user_logged_in()) {
+            // flexi_log($param2);
+
+            $str_arr = preg_split("/\,/", $param2);
+
+            update_user_meta(
+                get_current_user_id(),
+                'domain_names',
+                $str_arr
+            );
+
+            update_user_meta(
+                get_current_user_id(),
+                'domain_count',
+                $param3
+            );
+
+            $saved_array = get_user_meta(get_current_user_id(),  'domain_names');
+            $this->checknft(get_current_user_id(),  $saved_array);
+        }
+    }
+
+    public function checknft($user_id, $saved_array)
+    {
+        // flexi_log($saved_array[0]);
+        $check = "gupta";
+        // flexi_log("Counting...");
+        // flexi_log(get_user_meta(get_current_user_id(),  'domain_count'));
+        $matches  = preg_grep('/.' . $check . '$/', $saved_array[0]);
+        // flexi_log($matches);
+        if (count($matches) > 0) {
+            //   flexi_log("login...");
+            update_user_meta(
+                get_current_user_id(),
+                'domain_block',
+                'false'
+            );
+        }
+    }
 }
 $process = new crypto_connect_ajax_process();
