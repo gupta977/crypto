@@ -275,6 +275,13 @@ class Crypto_Connect_Web3
         <button class="fl-delete" id="delete_notification"></button>
         <div id="wallet_msg">&nbsp;</div>
     </div>
+
+    <div id="wallet_addr_box">
+        <div class="fl-tags fl-has-addons">
+            <span id="wallet_addr" class="fl-tag fl-is-danger">Loading...</span>
+            <a class="fl-tag fl-is-delete" id="wallet_logout"></a>
+        </div>
+    </div>
 </span>
 
 <?php
@@ -296,6 +303,8 @@ class Crypto_Connect_Web3
  */
 function init() {
 
+    jQuery("[id=wallet_addr_box]").hide();
+    jQuery("[id=crypto_donation_box]").hide();
     //console.log("Initializing example");
     //console.log("WalletConnectProvider is", WalletConnectProvider);
     // console.log("Fortmatic is", Fortmatic);
@@ -307,12 +316,41 @@ function init() {
     <?php echo wp_kses_post($this->provider); ?>
 
     web3Modal = new Web3Modal({
-        cacheProvider: false, // optional
+        cacheProvider: true, // optional
         providerOptions, // required
         disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
     });
 
     console.log("Web3Modal instance is", web3Modal);
+    starting();
+    async function starting() {
+        console.log(localStorage.getItem("WEB3_CONNECT_CACHED_PROVIDER"));
+        if (web3Modal.cachedProvider) {
+            // connected now you can get accounts
+            const provider = await web3Modal.connect();
+            const web3 = new Web3(provider);
+            const accounts = await web3.eth.getAccounts();
+            console.log(accounts);
+            jQuery("[id=wallet_addr]").empty();
+            jQuery("#wallet_addr_box").fadeIn("slow");
+            jQuery("[id=wallet_addr]").append(accounts[0]).fadeIn("normal");
+            jQuery("[id=btn-login]").hide();
+        } else {
+            console.log("no provider");
+            jQuery("[id=wallet_addr_box]").hide();
+        }
+
+        jQuery("[id=wallet_logout]").click(function() {
+            // alert("logout");
+            web3Modal.clearCachedProvider();
+            jQuery("[id=btn-login]").show();
+            jQuery("[id=wallet_addr]").empty();
+            jQuery("[id=wallet_addr_box]").hide();
+        });
+    }
+
+
+
 }
 </script>
 <?php

@@ -28,7 +28,7 @@ async function fetchAccountData() {
 
   // Get a Web3 instance for the wallet
   const web3 = new Web3(provider);
-
+//console.log("Provider is "+provider);
   //console.log("Web3 instance is", web3);
 
   // Get connected chain id from Ethereum node
@@ -62,6 +62,12 @@ async function fetchAccountData() {
 
   console.log("#selected-account " + selectedAccount);
   process_login_register(selectedAccount);
+
+  jQuery("[id=wallet_addr]").empty();
+  jQuery("#wallet_addr_box").fadeIn("slow");
+  jQuery("[id=wallet_addr]").append(accounts[0]).fadeIn("normal");
+  jQuery("[id=btn-login]").hide();
+
 
   if (execute_JS != '') {
        let some_code = execute_JS;
