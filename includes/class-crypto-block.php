@@ -144,7 +144,8 @@ class Crypto_Block
 
 	public function add_meta_box_callback()
 	{
-		echo '<div class="rwp-description">' . $this->config['description'] . '</div>';
+		if (isset($this->config['description']))
+			echo '<div class="rwp-description">' . $this->config['description'] . '</div>';
 		$this->fields_div();
 	}
 

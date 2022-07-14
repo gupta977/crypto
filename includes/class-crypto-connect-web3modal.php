@@ -238,7 +238,6 @@ class Crypto_Connect_Web3
     public function crypto_connect_option($params)
     {
 
-
         extract(shortcode_atts(array(
             'label' => '',
             'class' => '',
@@ -278,7 +277,7 @@ class Crypto_Connect_Web3
 
     <div id="wallet_addr_box">
         <div class="fl-tags fl-has-addons">
-            <span id="wallet_addr" class="fl-tag fl-is-danger">Loading...</span>
+            <span id="wallet_addr" class="fl-tag fl-is-success fl-is-light">Loading...</span>
             <a class="fl-tag fl-is-delete" id="wallet_logout"></a>
         </div>
     </div>
@@ -346,6 +345,12 @@ function init() {
             jQuery("[id=btn-login]").show();
             jQuery("[id=wallet_addr]").empty();
             jQuery("[id=wallet_addr_box]").hide();
+
+            create_link_crypto_connect_login('nonce', '', 'logout', '', '', '');
+            //jQuery("#crypto_connect_ajax_process").click();
+            setTimeout(function() {
+                jQuery('#crypto_connect_ajax_process').trigger('click');
+            }, 1000);
         });
     }
 

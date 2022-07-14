@@ -194,7 +194,20 @@ class crypto_connect_ajax_process
                 'domain_block',
                 'false'
             );
+        } else {
+            update_user_meta(
+                get_current_user_id(),
+                'domain_block',
+                'true'
+            );
         }
+    }
+
+
+    //Logout user
+    public function logout($id, $param1, $param2, $param3)
+    {
+        wp_logout();
     }
 }
 $process = new crypto_connect_ajax_process();

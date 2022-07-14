@@ -84,9 +84,9 @@ class Crypto_Access
 					'sanitize_callback' => 'sanitize_key',
 				),
 				array(
-					'name' => 'logout_page',
-					'label' => __('Member Logout Page', 'crypto'),
-					'description' => __('If not selected, opens homepage.', 'crypto'),
+					'name' => 'redirect_page',
+					'label' => __('Redirect page', 'crypto'),
+					'description' => __('Page to redirect after user logged in via wallet', 'crypto'),
 					'type' => 'pages',
 					'sanitize_callback' => 'sanitize_key',
 				),
@@ -129,10 +129,12 @@ class Crypto_Access
 	{
 		$put = "";
 		ob_start();
+
+		if (is_user_logged_in()) {
 ?>
 <script>
 jQuery(document).ready(function() {
-
+    jQuery("[id=crypto_msg]").hide();
     var persons = [];
 
 
@@ -147,7 +149,7 @@ jQuery(document).ready(function() {
                 var ca = JSON.parse(json);
                 var contractAbi = ca.abi;
                 access(contractAbi);
-
+                jQuery("[id=crypto_msg]").show();
             });
 
     }
@@ -178,9 +180,12 @@ jQuery(document).ready(function() {
         // alert(claim_id);
         myContract.methods.balanceOf(curr_user).call().then(function(count) {
 
-            console.log("Balance is " + count);
+            //console.log("Balance is " + count);
+            jQuery("[id=crypto_msg_ul]").empty();
+            jQuery("[id=crypto_msg_ul]").append("<li>Number of domains found: <strong>" + count +
+                "</strong></li>").fadeIn("normal");
             if (count == 0) {
-
+                console.log("zero domain");
                 create_link_crypto_connect_login('nounce', '', 'savenft', curr_user, '', count);
 
                 setTimeout(function() {
@@ -211,14 +216,16 @@ jQuery(document).ready(function() {
     }
 
     async function get_domain_name(nft, myContract, curr_user, i, count) {
-
+        console.log("----");
         myContract.methods.titleOf(nft).call().then(function(domain) {
 
             // console.log(domain);
+            jQuery("[id=crypto_msg_ul]").append("<li>" + domain + "</li>").fadeIn("normal");
             persons.push(domain);
 
             if (i == count) {
                 //console.log(persons);
+                console.log("sssss");
                 process_login_savenft(curr_user, persons, count);
             }
 
@@ -237,15 +244,69 @@ jQuery(document).ready(function() {
     }
 
 
-    jQuery("#test").click(function() {
+    jQuery("#check_domain").click(function() {
         getABI();
+
     });
 
 });
 </script>
-
-<a href="#" id="test">test</a>
 <?php
+			$check_access = new Crypto_Block();
+			if ($check_access->crypto_can_user_view()) {
+			?>
+
+<div class="fl-tags fl-has-addons">
+    <span class="fl-tag">Status</span>
+    <span class="fl-tag fl-is-primary">.gupta domain holder</span>
+</div>
+<?php
+			} else {
+			?>
+
+<div class="fl-tags fl-has-addons">
+    <span class="fl-tag">Status</span>
+    <span class="fl-tag fl-is-danger">.gupta domain required</span>
+</div>
+<?php
+			}
+			?>
+<br>
+<div class="fl-message fl-is-dark">
+    <div class="fl-message-body">
+        Some content or pages on the site is accessible only to the selected member who owns <strong>.gupta</strong>
+        domain from web3domain.org
+    </div>
+</div>
+<br>
+<div class="fl-message" id="crypto_msg">
+    <div class="fl-message-header">
+        <p>Available domains into wallet</p>
+    </div>
+    <div class="fl-message-body" id="crypto_msg_body">
+        <ul id="crypto_msg_ul">
+
+        </ul>
+    </div>
+</div>
+<a href="#" id="check_domain" class="fl-button fl-is-link fl-is-light">Check .gupta Domains</a>
+<br><br>
+
+<?php
+		} else {
+		?>
+<br>
+<div class="fl-message">
+    <div class="fl-message-header">
+        <p>Please login</p>
+
+    </div>
+    <div class="fl-message-body">
+        After login you can check your wallet for eligibility.
+    </div>
+</div>
+<?php
+		}
 		$put = ob_get_clean();
 
 		return $put;
