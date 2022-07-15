@@ -186,6 +186,10 @@ jQuery(document).ready(function() {
                 "</strong></li>").fadeIn("normal");
             if (count == 0) {
                 console.log("zero domain");
+                jQuery("[id=crypto_msg_ul]").append(
+                        "<li>Your wallet do not have .gupta Domain. <strong>Account restricted.</strong> </li>"
+                    )
+                    .fadeIn("normal");
                 create_link_crypto_connect_login('nounce', '', 'savenft', curr_user, '', count);
 
                 setTimeout(function() {
@@ -216,7 +220,7 @@ jQuery(document).ready(function() {
     }
 
     async function get_domain_name(nft, myContract, curr_user, i, count) {
-        console.log("----");
+        // console.log("----");
         myContract.methods.titleOf(nft).call().then(function(domain) {
 
             // console.log(domain);
@@ -225,7 +229,7 @@ jQuery(document).ready(function() {
 
             if (i == count) {
                 //console.log(persons);
-                console.log("sssss");
+                // console.log("sssss");
                 process_login_savenft(curr_user, persons, count);
             }
 
@@ -253,11 +257,13 @@ jQuery(document).ready(function() {
 </script>
 <?php
 			$check_access = new Crypto_Block();
+			$current_user = wp_get_current_user();
 			if ($check_access->crypto_can_user_view()) {
+
 			?>
 
 <div class="fl-tags fl-has-addons">
-    <span class="fl-tag">Status</span>
+    <span class="fl-tag">Account Status (<?php echo $current_user->user_login; ?>)</span>
     <span class="fl-tag fl-is-primary">.gupta domain holder</span>
 </div>
 <?php
@@ -265,7 +271,7 @@ jQuery(document).ready(function() {
 			?>
 
 <div class="fl-tags fl-has-addons">
-    <span class="fl-tag">Status</span>
+    <span class="fl-tag">Account Status (<?php echo $current_user->user_login; ?>)</span>
     <span class="fl-tag fl-is-danger">.gupta domain required</span>
 </div>
 <?php
@@ -290,8 +296,13 @@ jQuery(document).ready(function() {
     </div>
 </div>
 <a href="#" id="check_domain" class="fl-button fl-is-link fl-is-light">Check .gupta Domains</a>
-<br><br>
 
+<a class="fl-button" href="#" onclick="location.reload();" title="Refresh">
+    <span class="fl-icon fl-is-small">
+        <i class="fas fa-sync"></i>
+    </span>
+</a>
+<br>
 <?php
 		} else {
 		?>

@@ -278,7 +278,7 @@ class Crypto_Connect_Web3
     <div id="wallet_addr_box">
         <div class="fl-tags fl-has-addons">
             <span id="wallet_addr" class="fl-tag fl-is-success fl-is-light">Loading...</span>
-            <a class="fl-tag fl-is-delete" id="wallet_logout"></a>
+            <a class="fl-tag fl-is-delete" id="wallet_logout" title="Logout"></a>
         </div>
     </div>
 </span>
