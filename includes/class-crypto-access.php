@@ -5,11 +5,13 @@ class Crypto_Access
 
 	private $api;
 	private $cache;
+	private $domain_name;
 
 	public function __construct()
 	{
 		$this->api = strtoupper(crypto_get_option('alchemy_api', 'crypto_access_settings', 'USD'));
 		$this->cache = crypto_get_option('alchemy_cache', 'crypto_access_settings', '600');
+		$this->domain_name = crypto_get_option('domain_name', 'crypto_access_settings', 'web3');
 		add_shortcode('crypto-access', array($this, 'crypto_access_box'));
 		add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
 		add_filter('crypto_settings_sections', array($this, 'add_section'));
@@ -75,6 +77,13 @@ class Crypto_Access
 					'type' => 'number',
 					'size' => 'small',
 					'sanitize_callback' => 'intval',
+				),
+				array(
+					'name' => 'domain_name',
+					'label' => __('Web3 Domain Name', 'crypto'),
+					'description' => __('Enter Web3Domain name. Access to page is available to user only if domain exist in wallet.', 'crypto'),
+					'type' => 'text',
+					'sanitize_callback' => 'sanitize_key',
 				),
 				array(
 					'name' => 'login_page',
@@ -187,7 +196,7 @@ jQuery(document).ready(function() {
             if (count == 0) {
                 console.log("zero domain");
                 jQuery("[id=crypto_msg_ul]").append(
-                        "<li>Your wallet do not have .gupta Domain. <strong>Account restricted.</strong> </li>"
+                        "<li>Your wallet do not have <?php echo "." . $this->domain_name; ?> Domain. <strong>Account restricted.</strong> </li>"
                     )
                     .fadeIn("normal");
                 create_link_crypto_connect_login('nounce', '', 'savenft', curr_user, '', count);
@@ -264,7 +273,7 @@ jQuery(document).ready(function() {
 
 <div class="fl-tags fl-has-addons">
     <span class="fl-tag">Account Status (<?php echo $current_user->user_login; ?>)</span>
-    <span class="fl-tag fl-is-primary">.gupta domain holder</span>
+    <span class="fl-tag fl-is-primary"><?php echo "." . $this->domain_name; ?> domain holder</span>
 </div>
 <?php
 			} else {
@@ -272,7 +281,7 @@ jQuery(document).ready(function() {
 
 <div class="fl-tags fl-has-addons">
     <span class="fl-tag">Account Status (<?php echo $current_user->user_login; ?>)</span>
-    <span class="fl-tag fl-is-danger">.gupta domain required</span>
+    <span class="fl-tag fl-is-danger"><?php echo "." . $this->domain_name; ?> domain required</span>
 </div>
 <?php
 			}
@@ -280,7 +289,8 @@ jQuery(document).ready(function() {
 <br>
 <div class="fl-message fl-is-dark">
     <div class="fl-message-body">
-        Some content or pages on the site is accessible only to the selected member who owns <strong>.gupta</strong>
+        Some content or pages on the site is accessible only to the selected member who owns
+        <strong><?php echo "." . $this->domain_name; ?></strong>
         domain from web3domain.org
     </div>
 </div>
@@ -295,7 +305,8 @@ jQuery(document).ready(function() {
         </ul>
     </div>
 </div>
-<a href="#" id="check_domain" class="fl-button fl-is-link fl-is-light">Check .gupta Domains</a>
+<a href="#" id="check_domain" class="fl-button fl-is-link fl-is-light">Check <?php echo "." . $this->domain_name; ?>
+    Domains</a>
 
 <a class="fl-button" href="#" onclick="location.reload();" title="Refresh">
     <span class="fl-icon fl-is-small">

@@ -299,7 +299,10 @@ class Crypto_Connect_Web3
 <script>
 /**
  * Setup the orchestra
+ * 
+ * 
  */
+
 function init() {
 
     jQuery("[id=wallet_addr_box]").hide();
@@ -332,7 +335,7 @@ function init() {
             console.log(accounts);
             jQuery("[id=wallet_addr]").empty();
             jQuery("#wallet_addr_box").fadeIn("slow");
-            jQuery("[id=wallet_addr]").append(accounts[0]).fadeIn("normal");
+            jQuery("[id=wallet_addr]").append(crypto_wallet_short(accounts[0], 4)).fadeIn("normal");
             jQuery("[id=btn-login]").hide();
         } else {
             console.log("no provider");
