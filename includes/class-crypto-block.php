@@ -3,9 +3,13 @@ class Crypto_Block
 {
 	private $help = ' <a style="text-decoration: none;" href="#" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>';
 	private $config = '{"title":"Domain Access Control","prefix":"crypto_","domain":"crypto","class_name":"crypto_class","post-type":["post","page"],"context":"side","priority":"default","cpt":"flexi, product","fields":[{"type":"checkbox","label":"Restrict","description":"This content is only accessible by logged in user with domain name holder. ","id":"crypto_restrict"}]}';
+	private $domain_name;
+	private $restrict_page;
+
 	public function __construct()
 	{
-
+		$this->domain_name = crypto_get_option('domain_name', 'crypto_access_settings', 'web3');
+		$this->restrict_page = crypto_get_option('restrict_page', 'crypto_access_settings', 0);
 		add_shortcode('crypto-block', array($this, 'crypto_block'));
 		add_action('template_redirect', array($this, 'crypto_full_page'));
 		$this->config = json_decode($this->config, true);
@@ -25,12 +29,12 @@ class Crypto_Block
 				return $content;
 			} else {
 				$message = '<div class="message">';
-				$message .= __('You don not have NFT', 'crypto');
+				$message .= __('You must have Web3Domain in your wallet', 'crypto') . " : <strong><a href='" . esc_url(get_page_link($this->restrict_page)) . "'>." . $this->domain_name . "</a></strong>";
 				$message .= '</div>';
 			}
 		} else {
 			$message = '<div class="message">';
-			$message .= __('You need to register to view the rest of the content.', 'crypto');
+			$message .= __('You must login to view content.', 'crypto');
 			$message .= '</div>';
 		}
 
@@ -49,9 +53,9 @@ class Crypto_Block
 			if ($this->crypto_can_user_view()) {
 				//flexi_log("can iew");
 			} else {
-				$restrict_page = crypto_get_option('restrict_page', 'crypto_access_settings', 0);
-				if (0 != $restrict_page) {
-					wp_redirect(esc_url(get_page_link($restrict_page)));
+				//$restrict_page = crypto_get_option('restrict_page', 'crypto_access_settings', 0);
+				if (0 != $this->restrict_page) {
+					wp_redirect(esc_url(get_page_link($this->restrict_page)));
 
 					exit();
 				} else {

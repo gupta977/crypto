@@ -100,7 +100,9 @@ class Crypto_Connect_Web3
                     'name' => 'chainid',
                     'label' => __('Default Network Chain ID', 'crypto'),
                     'description' => __('If specified, network wallet changes notice displayed. Eg. 1 for Ethereum Mainnet & 137 for Matic', 'crypto'),
-                    'type' => 'text',
+                    'type' => 'number',
+                    'size' => 'small',
+                    'sanitize_callback' => 'intval',
                 ),
 
                 array(
