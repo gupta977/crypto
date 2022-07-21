@@ -7,6 +7,7 @@ jQuery(document).ready(function () {
     e.preventDefault();
     id = jQuery(this).attr("data-id");
     method_name = jQuery(this).attr("data-method_name");
+    nonce = jQuery(this).attr("data-nonce");
     param1 = jQuery(this).attr("data-param1");
     param2 = jQuery(this).attr("data-param2");
     param3 = jQuery(this).attr("data-param3");
@@ -20,6 +21,7 @@ jQuery(document).ready(function () {
         action: "crypto_connect_ajax_process",
         id: id,
         method_name: method_name,
+        nonce: nonce,
         param1: param1,
         param2: param2,
         param3: param3,

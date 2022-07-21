@@ -259,14 +259,14 @@ class Crypto_Connect_Web3
         if ("web3modal" == $enable_addon) {
             $put = "";
             ob_start();
-            $nonce = wp_create_nonce("crypto_connect_ajax_process");
 
 ?>
 <span>
     <?php
                 if ($this->enable_metamask == "1") {
                 ?>
-    <a href="#" id="btn-login" class="<?php echo esc_attr($class); ?>"><?php echo esc_attr($label); ?></a>
+    <a href="#" id="btn-login" data-nonce="<?php echo wp_create_nonce('crypto_ajax'); ?>"
+        class="<?php echo esc_attr($class); ?>"><?php echo esc_attr($label); ?></a>
     <?php
                 }
 
@@ -294,6 +294,7 @@ class Crypto_Connect_Web3
 
     public function crypto_head_script()
     {
+        $nonce = wp_create_nonce('crypto_ajax');
         $put = "";
         ob_start();
         ?>
@@ -351,7 +352,8 @@ function init() {
             jQuery("[id=wallet_addr]").empty();
             jQuery("[id=wallet_addr_box]").hide();
 
-            create_link_crypto_connect_login('nonce', '', 'logout', '', '', '');
+            create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'logout', '', '',
+                '');
             //jQuery("#crypto_connect_ajax_process").click();
             setTimeout(function() {
                 jQuery('#crypto_connect_ajax_process').trigger('click');

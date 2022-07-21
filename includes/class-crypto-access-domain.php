@@ -88,11 +88,19 @@ class Crypto_Access
 
     public function crypto_access_box()
     {
+
+
+
         $put = "";
         ob_start();
+        $nonce = wp_create_nonce('crypto_ajax');
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
         if ("web3modal" == $enable_addon) {
             if (is_user_logged_in()) {
+                $saved_array = get_user_meta(get_current_user_id(),  'domain_names');
+                // flexi_log($saved_array);
+                $check = new crypto_connect_ajax_process();
+                $check->checknft(get_current_user_id(),  $saved_array);
 ?>
 <script>
 jQuery(document).ready(function() {
@@ -158,7 +166,8 @@ jQuery(document).ready(function() {
                         "<li>Your wallet do not have <?php echo "." . $this->domain_name; ?> Domain. <strong>Account restricted.</strong> </li>"
                     )
                     .fadeIn("normal");
-                create_link_crypto_connect_login('nounce', '', 'savenft', curr_user, '', count);
+                create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'savenft',
+                    curr_user, '', count);
 
                 setTimeout(function() {
                     jQuery('#crypto_connect_ajax_process').trigger('click');
@@ -194,7 +203,7 @@ jQuery(document).ready(function() {
             // console.log(domain);
             jQuery("[id=crypto_msg_ul]").append("<li>" + domain + "</li>").fadeIn("normal");
             persons.push(domain);
-
+            console.log(count);
             if (i == count) {
                 //console.log(persons);
                 // console.log("sssss");
@@ -207,11 +216,13 @@ jQuery(document).ready(function() {
 
     function process_login_savenft(curr_user, persons, count) {
 
-        create_link_crypto_connect_login('nounce', '', 'savenft', curr_user, persons, count);
-        // console.log(persons);
+
+        create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'savenft', curr_user,
+            persons, count);
+        console.log(persons);
         setTimeout(function() {
             jQuery('#crypto_connect_ajax_process').trigger('click');
-        }, 1000);
+        }, 100);
 
     }
 
@@ -232,7 +243,7 @@ jQuery(document).ready(function() {
 
 <div class="fl-tags fl-has-addons">
     <span class="fl-tag">Account Status (<?php echo $current_user->user_login; ?>)</span>
-    <span class="fl-tag fl-is-primary"><?php echo "." . $this->domain_name; ?> domain holder</span>
+    <span class="fl-tag fl-is-primary"><?php echo "." . $this->domain_name; ?> sub-domain holder</span>
 </div>
 <?php
                 } else {
@@ -240,7 +251,7 @@ jQuery(document).ready(function() {
 
 <div class="fl-tags fl-has-addons">
     <span class="fl-tag">Account Status (<?php echo $current_user->user_login; ?>)</span>
-    <span class="fl-tag fl-is-danger"><?php echo "." . $this->domain_name; ?> domain required</span>
+    <span class="fl-tag fl-is-danger"><?php echo "." . $this->domain_name; ?> sub-domain required</span>
 </div>
 <?php
                 }

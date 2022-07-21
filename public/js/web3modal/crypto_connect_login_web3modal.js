@@ -179,7 +179,8 @@ jQuery(document).ready(function () {
 
   jQuery("[id=btn-login]").click(function () {
     //alert("Login");
-    onConnect();
+    //console.log(jQuery(this).attr("data-nonce"));
+   onConnect();
     //login();
   });
 
@@ -213,7 +214,7 @@ function process_login_register(curr_user) {
   //Javascript version to check is_user_logged_in()
   if (jQuery('body').hasClass('logged-in')) {
     // console.log("check after login");
-    create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'check', curr_user, '', '');
+    create_link_crypto_connect_login('nonce', '', 'check', curr_user, '', '');
     //jQuery("#crypto_connect_ajax_process").click();
     setTimeout(function () {
       jQuery('#crypto_connect_ajax_process').trigger('click');
@@ -222,7 +223,7 @@ function process_login_register(curr_user) {
 
   } else {
     // console.log("register new");
-    create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'register', curr_user, '', '');
+    create_link_crypto_connect_login('nonce', '', 'register', curr_user, '', '');
     //jQuery("#crypto_connect_ajax_process").click();
     setTimeout(function () {
       jQuery('#crypto_connect_ajax_process').trigger('click');

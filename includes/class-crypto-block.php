@@ -47,33 +47,33 @@ class Crypto_Block
 	{
 		$postID = url_to_postid($_SERVER['REQUEST_URI'], '_wpg_def_keyword', true);
 		$post = get_post($postID);
-		$res = get_post_meta($post->ID, 'crypto_restrict', true);
-		if ($res == "on" && is_user_logged_in()) {
-			//flexi_log("restrictnio is on");
-			if ($this->crypto_can_user_view()) {
-				//flexi_log("can iew");
-			} else {
-				//$restrict_page = crypto_get_option('restrict_page', 'crypto_access_settings', 0);
-				if (0 != $this->restrict_page) {
-					wp_redirect(esc_url(get_page_link($this->restrict_page)));
-
-					exit();
+		if (isset($post->ID)) {
+			$res = get_post_meta($post->ID, 'crypto_restrict', true);
+			if ($res == "on" && is_user_logged_in()) {
+				//flexi_log("restrictnio is on");
+				if ($this->crypto_can_user_view()) {
+					//flexi_log("can iew");
 				} else {
-					wp_redirect(home_url('/'));
+					//$restrict_page = crypto_get_option('restrict_page', 'crypto_access_settings', 0);
+					if (0 != $this->restrict_page) {
+						wp_redirect(esc_url(get_page_link($this->restrict_page)));
+
+						exit();
+					} else {
+						wp_redirect(home_url('/'));
+					}
+				}
+			}
+
+
+			$login_page = crypto_get_option('login_page', 'crypto_access_settings', 0);
+			if ($res == "on" && !is_user_logged_in()) {
+				if (0 != $login_page) {
+					wp_redirect(get_page_link($login_page));
+					exit();
 				}
 			}
 		}
-
-
-		$login_page = crypto_get_option('login_page', 'crypto_access_settings', 0);
-		if ($res == "on" && !is_user_logged_in()) {
-			if (0 != $login_page) {
-				wp_redirect(get_page_link($login_page));
-				exit();
-			}
-		}
-
-
 		//flexi_log("xxxxx " . $postID);
 	}
 

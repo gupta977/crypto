@@ -13,6 +13,7 @@ class crypto_connect_ajax_process
     public function crypto_connect_ajax_process()
     {
         $id = $_REQUEST["id"];
+        $nonce = $_REQUEST["nonce"];
         $param1 = $_REQUEST["param1"];
         $param2 = $_REQUEST["param2"];
         $param3 = $_REQUEST["param3"];
@@ -24,7 +25,17 @@ class crypto_connect_ajax_process
             'count' => '0',
         );
 
-        $msg = $this->$method_name($id, $param1, $param2, $param3);
+        $system_nonce = wp_create_nonce('crypto_ajax');
+        //  flexi_log($nonce . "---" . $system_nonce);
+
+        if (wp_verify_nonce($nonce, 'crypto_ajax') || $method_name == 'register'  || $method_name == 'check') {
+
+            $msg = $this->$method_name($id, $param1, $param2, $param3);
+            // flexi_log("PASSED");
+        } else {
+            $msg = "System error";
+            //  flexi_log("FAIL " . $method_name);
+        }
         $response['msg'] = $msg;
         echo wp_json_encode($response);
 
@@ -185,21 +196,23 @@ class crypto_connect_ajax_process
         $check = "gupta";
         // flexi_log("Counting...");
         // flexi_log(get_user_meta(get_current_user_id(),  'domain_count'));
-        $matches  = preg_grep('/.' . $check . '$/', $saved_array[0]);
-        // flexi_log($matches);
-        if (count($matches) > 0) {
-            //   flexi_log("login...");
-            update_user_meta(
-                get_current_user_id(),
-                'domain_block',
-                'false'
-            );
-        } else {
-            update_user_meta(
-                get_current_user_id(),
-                'domain_block',
-                'true'
-            );
+        if (is_array($saved_array) && !empty($saved_array[0])) {
+            $matches  = preg_grep('/.' . $check . '$/', $saved_array[0]);
+            // flexi_log($matches);
+            if (count($matches) > 0) {
+                //   flexi_log("login...");
+                update_user_meta(
+                    get_current_user_id(),
+                    'domain_block',
+                    'false'
+                );
+            } else {
+                update_user_meta(
+                    get_current_user_id(),
+                    'domain_block',
+                    'true'
+                );
+            }
         }
     }
 
