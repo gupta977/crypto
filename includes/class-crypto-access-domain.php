@@ -48,7 +48,7 @@ class Crypto_Access
             array(
                 'id' => 'crypto_access_settings',
                 'title' => __('Web3Domain Access', 'crypto'),
-                'description' => __('Restrict user to access certain part of the website based on domain/NFT availability. ', 'crypto') . "<br>" . "<b>Shortcode to restrict content</b><br><code>[crypto-block] Private information or content between shortcode. [/crypto-block]</code><b><br><br>Restrict full page</b><br><code>Edit the page and choose option from setting panel</code>",
+                'description' => __('Restrict user to access certain part of the website based on Web3Domain availability. ', 'crypto') . "<br>Get domain from <a href='" . esc_url('https://web3domain.org/') . "' target='_blank'>Web3Domain.org</a><br><br>" . "<b>Shortcode to restrict content</b><br><code>[crypto-block] Private information or content between shortcode. [/crypto-block]</code><b><br><br>Restrict full page</b><br><code>Edit the page and choose option from setting panel</code>",
                 'tab' => 'access',
             ),
         );
