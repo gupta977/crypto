@@ -192,15 +192,38 @@ class crypto_connect_ajax_process
 
     public function checknft($user_id, $saved_array)
     {
-        // flexi_log($saved_array[0]);
-        $check = "gupta";
-        // flexi_log("Counting...");
-        // flexi_log(get_user_meta(get_current_user_id(),  'domain_count'));
-        if (is_array($saved_array) && !empty($saved_array[0])) {
-            $matches  = preg_grep('/.' . $check . '$/', $saved_array[0]);
-            // flexi_log($matches);
-            if (count($matches) > 0) {
-                //   flexi_log("login...");
+        $default_access = crypto_get_option('select_access_control', 'crypto_access_settings_start', 'web3domain');
+        if ($default_access == 'web3domain') {
+
+
+
+            $check = "gupta";
+            // flexi_log("Counting...");
+            // flexi_log(get_user_meta(get_current_user_id(),  'domain_count'));
+            if (is_array($saved_array) && !empty($saved_array[0])) {
+                $matches  = preg_grep('/.' . $check . '$/', $saved_array[0]);
+                // flexi_log($matches);
+                if (count($matches) > 0) {
+                    //   flexi_log("login...");
+                    update_user_meta(
+                        get_current_user_id(),
+                        'domain_block',
+                        'false'
+                    );
+                } else {
+                    update_user_meta(
+                        get_current_user_id(),
+                        'domain_block',
+                        'true'
+                    );
+                }
+            }
+        } else {
+            $nft_count = get_user_meta(get_current_user_id(),  'domain_count')[0];
+
+            $system_nft_count_value = crypto_get_option('nft_count', 'crypto_access_other', '1');
+            flexi_log($nft_count . " u...s " . $system_nft_count_value);
+            if ($nft_count >=   $system_nft_count_value) {
                 update_user_meta(
                     get_current_user_id(),
                     'domain_block',

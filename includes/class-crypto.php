@@ -158,7 +158,7 @@ class Crypto
 		//Access controls
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-access-domain.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-block.php';
-		//require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-access-nft.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-access-nft.php';
 
 		//Widgets
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/widgets/login.php';

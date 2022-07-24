@@ -1,22 +1,21 @@
 <?php
 class Crypto_Access
 {
-    private $help = ' <a style="text-decoration: none;" href="#" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>';
-
-    private $api;
-    private $cache;
     private $domain_name;
+    private $default_access;
 
     public function __construct()
     {
-        $this->api = strtoupper(crypto_get_option('alchemy_api', 'crypto_access_settings', 'USD'));
-        $this->cache = crypto_get_option('alchemy_cache', 'crypto_access_settings', '600');
+        $this->default_access = crypto_get_option('select_access_control', 'crypto_access_settings_start', 'web3domain');
         $this->domain_name = crypto_get_option('domain_name', 'crypto_access_settings', 'web3');
         add_shortcode('crypto-access-domain', array($this, 'crypto_access_box'));
         add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
+        add_filter('crypto_settings_sections', array($this, 'add_section_extension'));
         add_filter('crypto_settings_sections', array($this, 'add_section'));
         add_filter('crypto_settings_fields', array($this, 'add_fields'));
 
+
+        add_filter('crypto_settings_fields', array($this, 'add_extension'));
         //add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
     }
 
@@ -40,7 +39,7 @@ class Crypto_Access
     }
 
 
-    //Add Section title
+
     public function add_section($new)
     {
 
@@ -49,6 +48,22 @@ class Crypto_Access
                 'id' => 'crypto_access_settings',
                 'title' => __('Web3Domain Access', 'crypto'),
                 'description' => __('Restrict user to access certain part of the website based on Web3Domain availability. ', 'crypto') . "<br>Get domain from <a href='" . esc_url('https://web3domain.org/') . "' target='_blank'>Web3Domain.org</a><br><br>" . "<b>Shortcode to restrict content</b><br><code>[crypto-block] Private information or content between shortcode. [/crypto-block]</code><b><br><br>Restrict full page</b><br><code>Edit the page and choose option from setting panel</code>",
+                'tab' => 'access',
+            ),
+        );
+        $new = array_merge($new, $sections);
+
+        return $new;
+    }
+
+    public function add_section_extension($new)
+    {
+
+        $sections = array(
+            array(
+                'id' => 'crypto_access_settings_start',
+                'title' => __('Access Control Settings', 'crypto'),
+                'description' => __('You can use only one access control at a time. Select your preference.', 'crypto'),
                 'tab' => 'access',
             ),
         );
@@ -86,6 +101,27 @@ class Crypto_Access
         return $new;
     }
 
+    public function add_extension($new)
+    {
+
+        $fields = array('crypto_access_settings_start' => array(
+            array(
+                'name' => 'select_access_control',
+                'label' => __('Select Access Control', 'flexi'),
+                'description' => '',
+                'type' => 'radio',
+                'options' => array(
+                    'web3domain' => __('Web3Domain Access', 'flexi'),
+                    'nft' => __('NFT & Crypto Access', 'flexi'),
+                ),
+                'sanitize_callback' => 'sanitize_key',
+            ),
+        ));
+        $new = array_merge_recursive($new, $fields);
+
+        return $new;
+    }
+
     public function crypto_access_box()
     {
 
@@ -97,10 +133,12 @@ class Crypto_Access
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
         if ("web3modal" == $enable_addon) {
             if (is_user_logged_in()) {
-                $saved_array = get_user_meta(get_current_user_id(),  'domain_names');
-                // flexi_log($saved_array);
-                $check = new crypto_connect_ajax_process();
-                $check->checknft(get_current_user_id(),  $saved_array);
+                $default_access = crypto_get_option('select_access_control', 'crypto_access_settings_start', 'web3domain');
+                if ($default_access == 'web3domain') {
+                    $saved_array = get_user_meta(get_current_user_id(),  'domain_names');
+                    // flexi_log($saved_array);
+                    $check = new crypto_connect_ajax_process();
+                    $check->checknft(get_current_user_id(),  $saved_array);
 ?>
 <script>
 jQuery(document).ready(function() {
@@ -235,27 +273,27 @@ jQuery(document).ready(function() {
 });
 </script>
 <?php
-                $check_access = new Crypto_Block();
-                $current_user = wp_get_current_user();
-                if ($check_access->crypto_can_user_view()) {
+                    $check_access = new Crypto_Block();
+                    $current_user = wp_get_current_user();
+                    if ($check_access->crypto_can_user_view()) {
 
-                ?>
+                    ?>
 
 <div class="fl-tags fl-has-addons">
     <span class="fl-tag">Account Status (<?php echo $current_user->user_login; ?>)</span>
     <span class="fl-tag fl-is-primary"><?php echo "." . $this->domain_name; ?> sub-domain holder</span>
 </div>
 <?php
-                } else {
-                ?>
+                    } else {
+                    ?>
 
 <div class="fl-tags fl-has-addons">
     <span class="fl-tag">Account Status (<?php echo $current_user->user_login; ?>)</span>
     <span class="fl-tag fl-is-danger"><?php echo "." . $this->domain_name; ?> sub-domain required</span>
 </div>
 <?php
-                }
-                ?>
+                    }
+                    ?>
 <br>
 <div class="fl-message fl-is-dark">
     <div class="fl-message-body">
@@ -285,8 +323,11 @@ jQuery(document).ready(function() {
 </a>
 <br>
 <?php
+                } else {
+                    echo "Web3Domain access is disabled. Enable it from settings";
+                }
             } else {
-            ?>
+                ?>
 <br>
 <div class="fl-message">
     <div class="fl-message-header">
