@@ -149,7 +149,7 @@ jQuery(document).ready(function() {
             }, ];
 
 
-            const contractAddress = '0x55110C24859411822932a5263C6E44318cc3E682';
+            const contractAddress = '<?php echo $this->contract; ?>';
             const myContract = new web3.eth.Contract(balanceOfABI, contractAddress);
             var curr_user = accounts[0];
             console.log(curr_user);
@@ -161,7 +161,7 @@ jQuery(document).ready(function() {
             myContract.methods.balanceOf(curr_user).call().then(function(count) {
 
                 const formattedResult = web3.utils.fromWei(count, "ether");
-                //console.log("Balance is " + count);
+                console.log(count + " Balance is " + formattedResult + " -- " + count / 100000000);
                 jQuery("[id=crypto_msg_ul]").empty();
                 jQuery("[id=crypto_msg_ul]").append("<li>Found: <strong>" +
                     count +
