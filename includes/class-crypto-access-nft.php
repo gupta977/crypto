@@ -91,6 +91,7 @@ class Crypto_Access_NFT
 	public function crypto_access_box()
 	{
 
+		$arr = array('1' => 'Ethereum Mainnet', '137' => 'Matic - Polygon Mainnet', '56' => 'BNB Smart Chain');
 
 
 		$put = "";
@@ -126,8 +127,8 @@ jQuery(document).ready(function() {
         const chainId_new = crypto_connectChainAjax.chainId;
 
         if ((chainId != '<?php echo $this->chainid; ?>')) {
-            var msg = "Change your network to <?php echo $this->chainid; ?>. Your connected network is " +
-                chainId;
+            var msg =
+                "Change your network to <?php echo  $arr[$this->chainid]; ?>";
             jQuery("[id=crypto_msg_ul]").empty();
             jQuery("[id=crypto_msg_ul]").append(msg).fadeIn("normal");
         } else {
@@ -161,15 +162,15 @@ jQuery(document).ready(function() {
             myContract.methods.balanceOf(curr_user).call().then(function(count) {
 
                 const formattedResult = web3.utils.fromWei(count, "ether");
-                console.log(count + " Balance is " + formattedResult + " -- " + count / 100000000);
+                //      console.log(count + " Balance is " + formattedResult + " -- " + count / 100000000);
                 jQuery("[id=crypto_msg_ul]").empty();
                 jQuery("[id=crypto_msg_ul]").append("<li>Found: <strong>" +
-                    count +
+                    formattedResult +
                     "</strong></li>").fadeIn("normal");
-                if (count < <?php echo $this->nft_count; ?>) {
+                if (formattedResult < <?php echo $this->nft_count; ?>) {
                     // console.log("zero domain");
                     jQuery("[id=crypto_msg_ul]").append(
-                            "<li>Your wallet do not have sufficient '<?php echo $this->nft_name; ?>'. <strong>Account restricted.</strong> </li>"
+                            "<li>Your wallet do not have sufficient '<?php echo $this->nft_name; ?>'. <br>Required: <strong><?php echo $this->nft_count; ?></strong> <br><strong>Account restricted.</strong> </li>"
                         )
                         .fadeIn("normal");
 
@@ -179,7 +180,7 @@ jQuery(document).ready(function() {
 
                 create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '',
                     'savenft',
-                    curr_user, '', count);
+                    curr_user, '', formattedResult);
 
                 setTimeout(function() {
                     jQuery('#crypto_connect_ajax_process').trigger('click');
@@ -187,6 +188,10 @@ jQuery(document).ready(function() {
 
             }).catch(function(tx) {
                 console.log(tx);
+                jQuery("[id=crypto_msg_ul]").append(
+                        "<li>Wrong contract address or network seems unstable. </li>"
+                    )
+                    .fadeIn("normal");
                 // coin_toggle_loading("end");
 
             });
@@ -199,6 +204,10 @@ jQuery(document).ready(function() {
         // alert("hello");
 
     });
+
+    setTimeout(function() {
+        jQuery('#check_domain').trigger('click');
+    }, 1000);
 
 });
 </script>
@@ -236,7 +245,7 @@ jQuery(document).ready(function() {
 <br>
 <div class="fl-message" id="crypto_msg">
     <div class="fl-message-header">
-        <p>Available domains into network ID : <b><?php echo $this->chainid; ?></b></p>
+        <p>Available domains into network ID : <b><?php echo $arr[$this->chainid]; ?></b></p>
     </div>
     <div class="fl-message-body" id="crypto_msg_body">
         <ul id="crypto_msg_ul">

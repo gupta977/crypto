@@ -34,7 +34,7 @@
 function crypto_wallet_short(str, keep) {
     var len = str.length,
         re = new RegExp("(.{" + keep + "})(.{" + (len - keep * 2) + "})(.{" + keep + "})", "g")
-    console.log(re)
+   // console.log(re)
     return str.replace(re, function(match, a, b, c) {
         var xx = a + ("" + b).replace(/./g, "*") + c;
         return xx.replace('**********************************', '***');

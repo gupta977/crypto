@@ -326,10 +326,10 @@ function init() {
         disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
     });
 
-    console.log("Web3Modal instance is", web3Modal);
+    //console.log("Web3Modal instance is", web3Modal);
     starting();
     async function starting() {
-        console.log(localStorage.getItem("WEB3_CONNECT_CACHED_PROVIDER"));
+        //console.log(localStorage.getItem("WEB3_CONNECT_CACHED_PROVIDER"));
         if (web3Modal.cachedProvider) {
             // connected now you can get accounts
             const provider = await web3Modal.connect();

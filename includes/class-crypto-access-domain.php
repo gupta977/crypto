@@ -270,6 +270,10 @@ jQuery(document).ready(function() {
 
     });
 
+    setTimeout(function() {
+        jQuery('#check_domain').trigger('click');
+    }, 1000);
+
 });
 </script>
 <?php
