@@ -85,6 +85,16 @@ These are all the providers available with Web3Modal:
 * Restrict part of the content controlled by shortcode. 
 * `[crypto-block] Private article [/crypto-block]`
 
+= Option 1: Restrict by Web3Domain =
+* User must have specified NFT web3domain name from web3domain.org into wallet
+* Restrict page shortcode: `[crypto-access-domain]`
+
+= Option 2: Restrict by NFT or Crypto =
+* User must have specified NFT & or number of tokens into wallet
+* Select network chain (Ethereum Mainnet, Binance BNB Chain , Polygon Chain)
+* Works with any smart contract address. 
+* Restrict page shortcode: `[crypto-access-nft]`
+
 
 [Live Demo](https://web3domain.org/user-dashboard/)
 
@@ -117,9 +127,9 @@ Moralis is SDK for rapid blockchain development.
 == Changelog ==
 
 = 1.17 =
-* Content restriction based on web3domain 
-* Short wallet address after wallet connect
-* Logout cross button added along with address
+* Content restriction based on web3domain & NFT tokens
+* Short wallet address display after wallet connect
+* Logout cross button added along with short address
 
 = 1.16 =
 * Fixed [crypto-connect] shortcode
