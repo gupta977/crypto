@@ -7,6 +7,10 @@ class Crypto_Domain
         add_filter('query_vars', array($this,  'rw_query_vars'));
         add_filter('init', array($this, 'start'));
         add_shortcode('crypto-domain', array($this, 'start'));
+
+
+        add_filter('crypto_dashboard_tab', array($this, 'dashboard_add_tabs'));
+        add_action('crypto_dashboard_tab_content', array($this, 'dashboard_add_content'));
     }
 
     public function rw_query_vars($aVars)
@@ -146,6 +150,53 @@ ID <input id="web3domain_id" value=".."><br>
 URI <input id="web3domain_uri" value="..">
 <?php
         }
+    }
+
+    public function dashboard_add_tabs($tabs)
+    {
+
+        $extra_tabs = array("access" => 'Member Restrict');
+
+        // combine the two arrays
+        $new = array_merge($tabs, $extra_tabs);
+        //crypto_log($new);
+        return $new;
+    }
+
+    public function dashboard_add_content()
+    {
+        if (isset($_GET['tab']) && 'access' == $_GET['tab']) {
+            echo wp_kses_post($this->crypto_dashboard_content());
+        }
+    }
+
+    public function crypto_dashboard_content()
+    {
+        ob_start();
+        ?>
+<div class="changelog section-getting-started">
+    <div class="feature-section">
+        <h2>Access restrictions for Member</h2>
+        <div class="wrap">
+            <b>Restrict content/pages based on crypto/NFT holding inside 'crypto wallet'</b>
+            <br><br><a class="button button-primary"
+                href="<?php echo admin_url('admin.php?page=crypto_settings&tab=access&section=crypto_access_settings_start'); ?>">Settings</a>
+            <br><br>
+            <b>Tips</b>
+            <ul>
+                <li>* You must use correct smart contract address which starts from 0x.... </li>
+                <li>* Crypto & NFT count is calculated as balanceOf ether function. </li>
+                <li>* You wallet may have 100 'Some Token' but while calculating it may show as 10000. So you must enter
+                    10000 instead 100</li>
+                <li>By default public API is used in Web3 Modal. Get your own free for faster and uptime.</li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<?php
+        $content = ob_get_clean();
+        return $content;
     }
 }
 new Crypto_Domain();

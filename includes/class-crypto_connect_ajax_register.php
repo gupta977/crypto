@@ -222,7 +222,7 @@ class crypto_connect_ajax_process
             $nft_count = get_user_meta(get_current_user_id(),  'domain_count')[0];
 
             $system_nft_count_value = crypto_get_option('nft_count', 'crypto_access_other', '1');
-            flexi_log($nft_count . " u...s " . $system_nft_count_value);
+            // flexi_log($nft_count . " u...s " . $system_nft_count_value);
             if ($nft_count >=   $system_nft_count_value) {
                 update_user_meta(
                     get_current_user_id(),

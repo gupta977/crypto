@@ -20,6 +20,8 @@ class Crypto_Price
 		add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
 		add_filter('crypto_settings_sections', array($this, 'add_section'));
 		add_filter('crypto_settings_fields', array($this, 'add_fields'));
+		add_filter('crypto_dashboard_tab', array($this, 'dashboard_add_tabs'));
+		add_action('crypto_dashboard_tab_content', array($this, 'dashboard_add_content'));
 	}
 
 
@@ -309,6 +311,52 @@ class Crypto_Price
 		$put = ob_get_clean();
 
 		return $put;
+	}
+
+	public function dashboard_add_tabs($tabs)
+	{
+
+		$extra_tabs = array("price" => 'Price Display');
+
+		// combine the two arrays
+		$new = array_merge($tabs, $extra_tabs);
+		//crypto_log($new);
+		return $new;
+	}
+
+	public function dashboard_add_content()
+	{
+		if (isset($_GET['tab']) && 'price' == $_GET['tab']) {
+			echo wp_kses_post($this->crypto_dashboard_content());
+		}
+	}
+
+	public function crypto_dashboard_content()
+	{
+		ob_start();
+?>
+<div class="changelog section-getting-started">
+    <div class="feature-section">
+        <h2>Price Display</h2>
+        <div class="wrap">
+            <b>Shows latest price of crypto token in selected currency.</b>
+            <br><br><a class="button button-primary"
+                href="<?php echo admin_url('admin.php?page=crypto_settings&tab=price&section=crypto_price_settings'); ?>">Settings</a>
+            <br><br>
+            <b>Tips</b>
+            <ul>
+                <li>* Obtain API from CoinMarketCap.com. It's free to get. </li>
+                <li>* First make 'Crypto Data Caching' equals to '1' second. After it works better, make it high as
+                    required. It will save your bandwidth and increases speed. </li>
+                <li>* To show price within the article. Use style as 'none'. This will not break your paragraph.</li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<?php
+		$content = ob_get_clean();
+		return $content;
 	}
 }
 $price_page = new Crypto_Price();

@@ -32,18 +32,27 @@ class Crypto_Admin_Dashboard_Intro
     public function crypto_dashboard_content()
     {
         ob_start();
-        ?>
+?>
 <div class="changelog section-getting-started">
     <div class="feature-section">
-        <h2>Blockchain</h2>
+        <h2>Blockchain Tools</h2>
         <div class="wrap">
-            We are coming up with many Crypto Gears. Stay tuned.
 
+            <pre>
+                We are trying to build all in one crypto tools.<br>
+                Slowly we will be adding all major frequently used crypto tools that will help us to build Web3 platforms.
+      </pre>
+
+            <br>
+            <b>Support: </b> <a href="<?php echo esc_url('https://wordpress.org/support/plugin/crypto/'); ?>">Wordpress
+                Forum</a><br>
+            <b>Telegram : </b> <a href="<?php echo esc_url('https://t.me/web3_domain'); ?>">@Web3_Domain</a><br>
+            <b>Twitter: </b> <a href="<?php echo esc_url('https://twitter.com/web3_domain'); ?>">@Web3_Domain</a><br>
         </div>
     </div>
 </div>
 <?php
-$content = ob_get_clean();
+        $content = ob_get_clean();
         return $content;
     }
 }

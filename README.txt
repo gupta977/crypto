@@ -1,15 +1,15 @@
 === Crypto ===
 Contributors: odude
 Donate link: https://odude.com/
-Tags: crypto, login, metamask, walletconnect, blockchain, donation
+Tags: crypto, login, metamask, NFT, Blockchain, Token
 Requires at least: 3.0.1
 Requires PHP: 5.5
-Tested up to: 5.9
+Tested up to: 6.0.1
 Stable tag: 1.17
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Crypto wallet login, donation, price & more..
+Crypto wallet login, donation, price box, content restrict & more..
 
 == Description ==
 

@@ -25,6 +25,9 @@ class Crypto_Connect_Metamask
         add_filter('crypto_settings_sections', array($this, 'add_section'));
         add_filter('crypto_settings_fields', array($this, 'add_fields'));
         add_filter('crypto_settings_fields', array($this, 'add_extension'));
+
+        add_filter('crypto_dashboard_tab', array($this, 'dashboard_add_tabs'));
+        add_action('crypto_dashboard_tab_content', array($this, 'dashboard_add_content'));
     }
 
 
@@ -192,6 +195,54 @@ class Crypto_Connect_Metamask
             }
         }
         return false;
+    }
+
+    public function dashboard_add_tabs($tabs)
+    {
+
+        $extra_tabs = array("login" => 'Login & Register');
+
+        // combine the two arrays
+        $new = array_merge($tabs, $extra_tabs);
+        //crypto_log($new);
+        return $new;
+    }
+
+    public function dashboard_add_content()
+    {
+        if (isset($_GET['tab']) && 'login' == $_GET['tab']) {
+            echo wp_kses_post($this->crypto_dashboard_content());
+        }
+    }
+
+    public function crypto_dashboard_content()
+    {
+        ob_start();
+        ?>
+<div class="changelog section-getting-started">
+    <div class="feature-section">
+        <h2>Login & Register</h2>
+        <div class="wrap">
+            <b>It connects your MetaMask or other crypto wallet.<br>After
+                connection user automatically logged in without registration. </b>
+            <br><br><a class="button button-primary"
+                href="<?php echo admin_url('admin.php?page=crypto_settings&tab=login&section=crypto_general_login'); ?>">Settings</a>
+            <br><br>
+            <b>Tips</b>
+            <ul>
+                <li>* Web3 Modal login is better to use as it has wider options. </li>
+                <li>* If user already logged by traditional username & password. It will bind current wallet address. So
+                    that next time same username auto logged in if same wallet is used. </li>
+                <li>* 'Network Chain ID' means the crypto blockchain. Eg. Ethereum mainnet id is 1.</li>
+                <li>By default public API is used in Web3 Modal. Get your own free for faster and uptime.</li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<?php
+        $content = ob_get_clean();
+        return $content;
     }
 }
 $connect_page = new Crypto_Connect_Metamask();
