@@ -117,7 +117,7 @@ class Crypto_Public
                 'chainId' => $chainId,
             );
         } else if ("web3modal" == $enable_addon) {
-            $chainId = crypto_get_option('chainid', 'crypto_login_web3', '');
+            $chainId = crypto_get_option('chainid', 'crypto_login_web3', '1');
             $execute_js = crypto_get_option('execute_js', 'crypto_login_web3', '');
             $translation_array = array(
                 'delete_string' => __('Are you sure you want to delete?', 'crypto'),
