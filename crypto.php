@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Crypto
  * Plugin URI:        http://odude.com
- * Description:       Crypto everyday use tools. 
+ * Description:       Crypto - everyday use tools. 
  * Version:           1.17
  * Author:            ODude
  * Author URI:        https://odude.com/

@@ -188,7 +188,20 @@ URI <input id="web3domain_uri" value="..">
                 <li>* Crypto & NFT count is calculated as balanceOf ether function. </li>
                 <li>* You wallet may have 100 'Some Token' but while calculating it may show as 10000. So you must enter
                     10000 instead 100</li>
-                <li>By default public API is used in Web3 Modal. Get your own free for faster and uptime.</li>
+                <li>* By default public API is used in Web3 Modal. Get your own free for faster and site uptime.</li>
+            </ul>
+            <hr>
+            <b>Do you know about <a href='<?php echo esc_url('https://web3domain.org/'); ?>'
+                    target='_blank'>Web3Domain</a> ? </b><br>
+            <ul>
+                <li>
+                    * It is best option to earn for membership by letting user to obtain subdomain of your web3 primary
+                    domain.</li>
+                <li>* Each subdomain sold will have 80% commission in your wallet and rest 20% is commission fees.</li>
+                <li>* You can set the price for your subdomain yourself.</li>
+                <li>* You can also restrict not to be minted by public. Only you can mint it and transfer. Hence you can
+                    save commission fees too. </li>
+                <li>* All Web3Domains are NFTs. Which you can sell at opensea.io</li>
             </ul>
 
         </div>

@@ -130,6 +130,7 @@ Moralis is SDK for rapid blockchain development.
 * Content restriction based on web3domain & NFT tokens
 * Short wallet address display after wallet connect
 * Logout cross button added along with short address
+* Updated language crypto.pot file.
 
 = 1.16 =
 * Fixed [crypto-connect] shortcode
