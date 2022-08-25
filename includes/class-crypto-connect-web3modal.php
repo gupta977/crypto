@@ -218,22 +218,25 @@ class Crypto_Connect_Web3
     {
         $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
         if ("web3modal" == $enable_addon) {
-            wp_register_script('crypto_connect_ajax_process', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_ajax_process.js', array('jquery'), CRYPTO_VERSION);
-            wp_enqueue_script('crypto_connect_ajax_process');
+            global $post;
+            if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'crypto-connect')) {
+                wp_register_script('crypto_connect_ajax_process', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_ajax_process.js', array('jquery'), CRYPTO_VERSION);
+                wp_enqueue_script('crypto_connect_ajax_process');
 
 
-            $display = crypto_get_option('provider_list', 'crypto_login_web3', '');
-            if (is_array($display)) {
-                foreach ($display as $x => $x_value) {
-                    // flexi_log("Key=" . $x . ", Value=" . $x_value);
-                    wp_enqueue_script('crypto_wallet_' . $x, plugin_dir_url(__DIR__) . 'public/js/web3modal/' . $x . '.js', array('jquery'), '', false);
+                $display = crypto_get_option('provider_list', 'crypto_login_web3', '');
+                if (is_array($display)) {
+                    foreach ($display as $x => $x_value) {
+                        // flexi_log("Key=" . $x . ", Value=" . $x_value);
+                        wp_enqueue_script('crypto_wallet_' . $x, plugin_dir_url(__DIR__) . 'public/js/web3modal/' . $x . '.js', array('jquery'), '', false);
+                    }
                 }
+                wp_enqueue_script('crypto_web3', plugin_dir_url(__DIR__) . 'public/js/web3modal/web3.min.js', array('jquery'), '', false);
+                // wp_enqueue_script('crypto_web3-provider', plugin_dir_url(__DIR__) . 'public/js/web3modal/walletconnect.js', array('jquery'), '', false);
+                wp_enqueue_script('crypto_index', plugin_dir_url(__DIR__) . 'public/js/web3modal/index.js', array('jquery'), '', false);
+                wp_enqueue_script('crypto_index_min', plugin_dir_url(__DIR__) . 'public/js/web3modal/index.min.js', array('jquery'), '', false);
+                wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/web3modal/crypto_connect_login_web3modal.js', array('jquery'), '', false);
             }
-            wp_enqueue_script('crypto_web3', plugin_dir_url(__DIR__) . 'public/js/web3modal/web3.min.js', array('jquery'), '', false);
-            // wp_enqueue_script('crypto_web3-provider', plugin_dir_url(__DIR__) . 'public/js/web3modal/walletconnect.js', array('jquery'), '', false);
-            wp_enqueue_script('crypto_index', plugin_dir_url(__DIR__) . 'public/js/web3modal/index.js', array('jquery'), '', false);
-            wp_enqueue_script('crypto_index_min', plugin_dir_url(__DIR__) . 'public/js/web3modal/index.min.js', array('jquery'), '', false);
-            wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/web3modal/crypto_connect_login_web3modal.js', array('jquery'), '', false);
         }
     }
 
@@ -261,31 +264,30 @@ class Crypto_Connect_Web3
             ob_start();
 
 ?>
-<span>
-    <?php
+            <span>
+                <?php
                 if ($this->enable_metamask == "1") {
                 ?>
-    <a href="#" id="btn-login" data-nonce="<?php echo wp_create_nonce('crypto_ajax'); ?>"
-        class="<?php echo esc_attr($class); ?>"><?php echo esc_attr($label); ?></a>
-    <?php
+                    <a href="#" id="btn-login" data-nonce="<?php echo wp_create_nonce('crypto_ajax'); ?>" class="<?php echo esc_attr($class); ?>"><?php echo esc_attr($label); ?></a>
+                <?php
                 }
 
                 ?>
 
-    <div class="fl-notification fl-is-primary fl-is-light fl-mt-1" id="flexi_notification_box">
-        <button class="fl-delete" id="delete_notification"></button>
-        <div id="wallet_msg">&nbsp;</div>
-    </div>
+                <div class="fl-notification fl-is-primary fl-is-light fl-mt-1" id="flexi_notification_box">
+                    <button class="fl-delete" id="delete_notification"></button>
+                    <div id="wallet_msg">&nbsp;</div>
+                </div>
 
-    <div id="wallet_addr_box">
-        <div class="fl-tags fl-has-addons">
-            <span id="wallet_addr" class="fl-tag fl-is-success fl-is-light">Loading...</span>
-            <a class="fl-tag fl-is-delete" id="wallet_logout" title="Logout"></a>
-        </div>
-    </div>
-</span>
+                <div id="wallet_addr_box">
+                    <div class="fl-tags fl-has-addons">
+                        <span id="wallet_addr" class="fl-tag fl-is-success fl-is-light">Loading...</span>
+                        <a class="fl-tag fl-is-delete" id="wallet_logout" title="Logout"></a>
+                    </div>
+                </div>
+            </span>
 
-<?php
+        <?php
             $put = ob_get_clean();
 
             return $put;
@@ -299,72 +301,72 @@ class Crypto_Connect_Web3
         ob_start();
         ?>
 
-<script>
-/**
- * Setup the orchestra
- * 
- * 
- */
+        <script>
+            /**
+             * Setup the orchestra
+             * 
+             * 
+             */
 
-function init() {
+            function init() {
 
-    jQuery("[id=wallet_addr_box]").hide();
-    jQuery("[id=crypto_donation_box]").hide();
-    //console.log("Initializing example");
-    //console.log("WalletConnectProvider is", WalletConnectProvider);
-    // console.log("Fortmatic is", Fortmatic);
-    // console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
+                jQuery("[id=wallet_addr_box]").hide();
+                jQuery("[id=crypto_donation_box]").hide();
+                //console.log("Initializing example");
+                //console.log("WalletConnectProvider is", WalletConnectProvider);
+                // console.log("Fortmatic is", Fortmatic);
+                // console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
 
-    // Tell Web3modal what providers we have available.
-    // Built-in web browser provider (only one can exist as a time)
-    // like MetaMask, Brave or Opera is added automatically by Web3modal
-    <?php echo wp_kses_post($this->provider); ?>
+                // Tell Web3modal what providers we have available.
+                // Built-in web browser provider (only one can exist as a time)
+                // like MetaMask, Brave or Opera is added automatically by Web3modal
+                <?php echo wp_kses_post($this->provider); ?>
 
-    web3Modal = new Web3Modal({
-        cacheProvider: true, // optional
-        providerOptions, // required
-        disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
-    });
+                web3Modal = new Web3Modal({
+                    cacheProvider: true, // optional
+                    providerOptions, // required
+                    disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
+                });
 
-    //console.log("Web3Modal instance is", web3Modal);
-    starting();
-    async function starting() {
-        //console.log(localStorage.getItem("WEB3_CONNECT_CACHED_PROVIDER"));
-        if (web3Modal.cachedProvider) {
-            // connected now you can get accounts
-            const provider = await web3Modal.connect();
-            const web3 = new Web3(provider);
-            const accounts = await web3.eth.getAccounts();
-            console.log(accounts);
-            jQuery("[id=wallet_addr]").empty();
-            jQuery("#wallet_addr_box").fadeIn("slow");
-            jQuery("[id=wallet_addr]").append(crypto_wallet_short(accounts[0], 4)).fadeIn("normal");
-            jQuery("[id=btn-login]").hide();
-        } else {
-            console.log("no provider");
-            jQuery("[id=wallet_addr_box]").hide();
-        }
+                //console.log("Web3Modal instance is", web3Modal);
+                starting();
+                async function starting() {
+                    //console.log(localStorage.getItem("WEB3_CONNECT_CACHED_PROVIDER"));
+                    if (web3Modal.cachedProvider) {
+                        // connected now you can get accounts
+                        const provider = await web3Modal.connect();
+                        const web3 = new Web3(provider);
+                        const accounts = await web3.eth.getAccounts();
+                        console.log(accounts);
+                        jQuery("[id=wallet_addr]").empty();
+                        jQuery("#wallet_addr_box").fadeIn("slow");
+                        jQuery("[id=wallet_addr]").append(crypto_wallet_short(accounts[0], 4)).fadeIn("normal");
+                        jQuery("[id=btn-login]").hide();
+                    } else {
+                        console.log("no provider");
+                        jQuery("[id=wallet_addr_box]").hide();
+                    }
 
-        jQuery("[id=wallet_logout]").click(function() {
-            // alert("logout");
-            web3Modal.clearCachedProvider();
-            jQuery("[id=btn-login]").show();
-            jQuery("[id=wallet_addr]").empty();
-            jQuery("[id=wallet_addr_box]").hide();
+                    jQuery("[id=wallet_logout]").click(function() {
+                        // alert("logout");
+                        web3Modal.clearCachedProvider();
+                        jQuery("[id=btn-login]").show();
+                        jQuery("[id=wallet_addr]").empty();
+                        jQuery("[id=wallet_addr_box]").hide();
 
-            create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'logout', '', '',
-                '');
-            //jQuery("#crypto_connect_ajax_process").click();
-            setTimeout(function() {
-                jQuery('#crypto_connect_ajax_process').trigger('click');
-            }, 1000);
-        });
-    }
+                        create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'logout', '', '',
+                            '');
+                        //jQuery("#crypto_connect_ajax_process").click();
+                        setTimeout(function() {
+                            jQuery('#crypto_connect_ajax_process').trigger('click');
+                        }, 1000);
+                    });
+                }
 
 
 
-}
-</script>
+            }
+        </script>
 <?php
 
         $put = ob_get_clean();
