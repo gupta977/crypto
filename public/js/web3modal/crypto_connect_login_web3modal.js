@@ -114,6 +114,7 @@ async function onConnect() {
     jQuery("[id=wallet_msg]").empty();
     jQuery("#flexi_notification_box").fadeIn("slow");
     jQuery("[id=wallet_msg]").append("Could not get a wallet connection").fadeIn("normal");
+    web3Modal.clearCachedProvider();
     return;
   }
 
