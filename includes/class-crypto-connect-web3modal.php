@@ -361,6 +361,10 @@ function init() {
             setTimeout(function() {
                 jQuery('#crypto_connect_ajax_process').trigger('click');
             }, 1000);
+
+            setTimeout(function() {
+                location.reload();
+            }, 2000);
         });
     }
 
