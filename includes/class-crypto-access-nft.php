@@ -5,6 +5,7 @@ class Crypto_Access_NFT
 	private $contract;
 	private $nft_name;
 	private $nft_count;
+	private $nft_type;
 
 	public function __construct()
 	{
@@ -13,6 +14,7 @@ class Crypto_Access_NFT
 		$this->contract = crypto_get_option('chain_contract', 'crypto_access_other', '0x.......');
 		$this->nft_name = crypto_get_option('nft_name', 'crypto_access_other', 'NFT of Something');
 		$this->nft_count = crypto_get_option('nft_count', 'crypto_access_other', '1');
+		$this->nft_type = crypto_get_option('nft_type', 'crypto_access_other', 'coin');
 		add_filter('crypto_settings_sections', array($this, 'add_section'));
 		add_filter('crypto_settings_fields', array($this, 'add_fields'));
 		add_shortcode('crypto-access-nft', array($this, 'crypto_access_box'));
@@ -73,8 +75,24 @@ class Crypto_Access_NFT
 					'description' => __('Enter the number of NFT/crypto must be available.', 'crypto'),
 					'type' => 'number',
 					'size' => 'medium',
-					'sanitize_callback' => 'intval',
+					'min' => '0.0',
+					'max' => '9999999999999999999999999',
+					'step' => 'any'
 				),
+
+				array(
+					'name'              => 'nft_type',
+					'label'             => __('Crypto Type', 'flexi'),
+					'description'       => '',
+					'type'              => 'radio',
+					'options'           => array(
+						'coin'   => __('Coin (Eg. ERC-20)', 'flexi'),
+						'nft' => __('NFT (Eg. ERC-721)', 'flexi'),
+					),
+					'sanitize_callback' => 'sanitize_key',
+				),
+
+
 				array(
 					'name' => 'restrict_page',
 					'label' => __('Restrict Page', 'crypto'),
@@ -106,6 +124,7 @@ class Crypto_Access_NFT
 					// flexi_log($saved_array);
 					//$check = new crypto_connect_ajax_process();
 					//$check->checknft(get_current_user_id(),  $saved_array);
+
 ?>
 <script>
 jQuery(document).ready(function() {
@@ -161,12 +180,39 @@ jQuery(document).ready(function() {
             // alert(claim_id);
             myContract.methods.balanceOf(curr_user).call().then(function(count) {
 
+                <?php
+										if ($this->nft_type == 'coin') {
+										?>
+
                 const formattedResult = web3.utils.fromWei(count, "ether");
                 //      console.log(count + " Balance is " + formattedResult + " -- " + count / 100000000);
                 jQuery("[id=crypto_msg_ul]").empty();
-                jQuery("[id=crypto_msg_ul]").append("<li>Found: <strong>" +
+                jQuery("[id=crypto_msg_ul]").append("<li>Crypto Found: <strong>" +
+                    formattedResult * 1000000000000 +
+                    "</strong></li>").fadeIn("normal");
+                console.log(formattedResult);
+
+                if (formattedResult < <?php echo $this->nft_count; ?> / 1000000000000) {
+                    // console.log("zero domain");
+                    jQuery("[id=crypto_msg_ul]").append(
+                            "<li>Your wallet do not have sufficient '<?php echo $this->nft_name; ?>'. <br>Required: <strong><?php echo $this->nft_count; ?></strong> <br><strong>Account restricted.</strong> </li>"
+                        )
+                        .fadeIn("normal");
+
+                } else {
+                    console.log("sufficient");
+                }
+                <?php
+										} else {
+										?>
+                const formattedResult = web3.utils.fromWei(count, "wei");
+                //      console.log(count + " Balance is " + formattedResult + " -- " + count / 100000000);
+                jQuery("[id=crypto_msg_ul]").empty();
+                jQuery("[id=crypto_msg_ul]").append("<li>NFT Found: <strong>" +
                     formattedResult +
                     "</strong></li>").fadeIn("normal");
+                console.log(formattedResult);
+
                 if (formattedResult < <?php echo $this->nft_count; ?>) {
                     // console.log("zero domain");
                     jQuery("[id=crypto_msg_ul]").append(
@@ -177,6 +223,10 @@ jQuery(document).ready(function() {
                 } else {
                     console.log("sufficient");
                 }
+
+                <?php
+										}
+										?>
 
                 create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '',
                     'savenft',
