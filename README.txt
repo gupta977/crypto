@@ -5,7 +5,7 @@ Tags: crypto, login, metamask, NFT, Blockchain, Token
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 6.0.1
-Stable tag: 1.17
+Stable tag: 1.18
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,9 @@ Moralis is SDK for rapid blockchain development.
 3. Crypto Price
 
 == Changelog ==
+
+= 1.18 =
+* Bug fixes during login & logout Web3Modal
 
 = 1.17 =
 * Content restriction based on web3domain & NFT tokens

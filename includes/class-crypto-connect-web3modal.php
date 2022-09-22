@@ -50,6 +50,7 @@ class Crypto_Connect_Web3
         add_filter('crypto_settings_fields', array($this, 'add_fields'));
         add_filter('crypto_settings_fields', array($this, 'add_extension'));
         add_action('wp_head', array($this, 'crypto_head_script'));
+        //add_action('wp_logout',  array($this, 'logout_user'));
     }
 
     /*
@@ -339,6 +340,7 @@ function init() {
             const web3 = new Web3(provider);
             const accounts = await web3.eth.getAccounts();
             console.log(accounts);
+            // process_login_register(accounts[0]);
             jQuery("[id=wallet_addr]").empty();
             jQuery("#wallet_addr_box").fadeIn("slow");
             jQuery("[id=wallet_addr]").append(crypto_wallet_short(accounts[0], 4)).fadeIn("normal");
@@ -364,7 +366,7 @@ function init() {
 
             setTimeout(function() {
                 location.reload();
-            }, 2000);
+            }, 1500);
         });
     }
 
@@ -418,6 +420,23 @@ function init() {
             }
         }
         return false;
+    }
+
+    public function logout_user()
+    {
+        flexi_log("hi");
+        $put = "";
+        ob_start();
+    ?>
+
+<script>
+console.log("hi");
+</script>
+<?php
+
+        $put = ob_get_clean();
+
+        return $put;
     }
 }
 $connect_page = new Crypto_Connect_Web3();

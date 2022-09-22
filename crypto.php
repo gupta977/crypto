@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://odude.com/
- * @since             1.17
+ * @since             1.18
  * @package           Crypto
  *
  * @wordpress-plugin
  * Plugin Name:       Crypto
  * Plugin URI:        http://odude.com
  * Description:       Crypto - everyday use tools. 
- * Version:           1.17
+ * Version:           1.8
  * Author:            ODude
  * Author URI:        https://odude.com/
  * License:           GPL-2.0+
@@ -30,7 +30,7 @@ if (!defined('WPINC')) {
     die;
 }
 
-define('CRYPTO_VERSION', '1.17');
+define('CRYPTO_VERSION', '1.18');
 define('CRYPTO_FOLDER', dirname(plugin_basename(__FILE__)));
 define('CRYPTO_PLUGIN_URL', content_url('/plugins/' . CRYPTO_FOLDER));
 define('CRYPTO_BASE_DIR', WP_CONTENT_DIR . '/plugins/' . CRYPTO_FOLDER . '/');
