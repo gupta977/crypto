@@ -18,7 +18,6 @@ class Crypto_Connect_Metamask
         $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_metamask', 'fl-button fl-is-danger');
 
         add_shortcode('crypto-connect-metamask', array($this, 'crypto_connect_Metamask'));
-        add_action('flexi_login_form', array($this, 'crypto_connect_Metamask_small_flexi'));
         add_action('woocommerce_login_form', array($this, 'crypto_connect_Metamask_small_woocommerce'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         // add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
@@ -82,15 +81,6 @@ class Crypto_Connect_Metamask
         $fields = array(
             'crypto_login_metamask' => array(
 
-
-                array(
-                    'name' => 'enable_flexi',
-                    'label' => __('Enable at Flexi', 'crypto'),
-                    'description' => __('Display connect button at Flexi login form.', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/flexi/') . "'>https://wordpress.org/plugins/flexi/</a>",
-                    'type' => 'checkbox',
-                    'sanitize_callback' => 'intval',
-
-                ),
                 array(
                     'name' => 'enable_woocommerce',
                     'label' => __('Enable at WooCommerce', 'crypto'),
@@ -161,15 +151,6 @@ class Crypto_Connect_Metamask
 
                 return $put;
             }
-        }
-    }
-
-    public function crypto_connect_Metamask_small_flexi()
-    {
-        //Display at Flexi Form
-        $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_metamask', 1);
-        if ("1" == $enable_addon) {
-            echo wp_kses_post($this->crypto_connect_Metamask());
         }
     }
 

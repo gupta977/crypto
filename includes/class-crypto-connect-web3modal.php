@@ -42,7 +42,7 @@ class Crypto_Connect_Web3
 
 
         add_shortcode('crypto-connect', array($this, 'crypto_connect_option'));
-        add_action('flexi_login_form', array($this, 'crypto_connect_small_flexi'));
+
         add_action('woocommerce_login_form', array($this, 'crypto_connect_small_woocommerce'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         // add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
@@ -104,15 +104,6 @@ class Crypto_Connect_Web3
                     'type' => 'number',
                     'size' => 'small',
                     'sanitize_callback' => 'intval',
-                ),
-
-                array(
-                    'name' => 'enable_flexi',
-                    'label' => __('Enable at Flexi', 'crypto'),
-                    'description' => __('Display connect button at Flexi login form.', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/flexi/') . "'>https://wordpress.org/plugins/flexi/</a>",
-                    'type' => 'checkbox',
-                    'sanitize_callback' => 'intval',
-
                 ),
                 array(
                     'name' => 'enable_woocommerce',
@@ -382,19 +373,6 @@ function init() {
     }
 
 
-    public function crypto_connect_small_flexi()
-    {
-
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("web3modal" == $enable_addon) {
-            //Display at Flexi Form
-
-            $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_web3', 1);
-            if ("1" == $enable_addon) {
-                echo wp_kses_post($this->crypto_connect_option(''));
-            }
-        }
-    }
 
     public function crypto_connect_small_woocommerce()
     {

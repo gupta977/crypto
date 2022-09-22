@@ -21,7 +21,6 @@ class Crypto_Connect_Moralis
         $this->enable_walletconnect = crypto_get_option('enable_walletconnect', 'crypto_login_moralis', 1);
 
         add_shortcode('crypto-connect-moralis', array($this, 'crypto_connect_moralis'));
-        add_action('flexi_login_form', array($this, 'crypto_connect_small_flexi'));
         add_action('woocommerce_login_form', array($this, 'crypto_connect_small_woocommerce'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         // add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
@@ -103,14 +102,6 @@ class Crypto_Connect_Moralis
                     'name' => 'enable_walletconnect',
                     'label' => __('WalletConnect Button', 'crypto'),
                     'description' => __('Display WalletConnect Button', 'crypto'),
-                    'type' => 'checkbox',
-                    'sanitize_callback' => 'intval',
-
-                ),
-                array(
-                    'name' => 'enable_flexi',
-                    'label' => __('Enable at Flexi', 'crypto'),
-                    'description' => __('Display connect button at Flexi login form.', 'crypto') . " <a target='_blank' href='" . esc_url('https://wordpress.org/plugins/flexi/') . "'>https://wordpress.org/plugins/flexi/</a>",
                     'type' => 'checkbox',
                     'sanitize_callback' => 'intval',
 
@@ -230,17 +221,6 @@ class Crypto_Connect_Moralis
         }
     }
 
-    public function crypto_connect_small_flexi()
-    {
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("moralis" == $enable_addon) {
-            //Display at Flexi Form
-            $enable_addon = crypto_get_option('enable_flexi', 'crypto_login_moralis', 1);
-            if ("1" == $enable_addon) {
-                echo wp_kses_post($this->crypto_connect_moralis());
-            }
-        }
-    }
 
     public function crypto_connect_small_woocommerce()
     {
