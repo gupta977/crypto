@@ -115,7 +115,7 @@ class Crypto_Connect_Web3
                 ),
                 array(
                     'name' => 'metamask_label',
-                    'label' => __('Crypto Login button label', 'crypto'),
+                    'label' => __('Crypto Login button label', 'crypto') . ' *',
                     'description' => __('Label to display at crypto connect button', 'crypto'),
                     'size' => 20,
                     'type' => 'text',
@@ -124,7 +124,7 @@ class Crypto_Connect_Web3
 
                 array(
                     'name' => 'connect_class',
-                    'label' => __('Connect button class rule', 'crypto'),
+                    'label' => __('Connect button class rule', 'crypto') . ' *',
                     'description' => __('fl-button fl-is-info fl-is-rounded', 'crypto'),
                     'type' => 'text',
                 ),
@@ -134,7 +134,7 @@ class Crypto_Connect_Web3
                     'type' => 'textarea',
                     'size' => 'large',
                     'placeholder' => 'Leave blank for default values',
-                    'label' => __('providerOptions Javascript Array', 'crypto'),
+                    'label' => __('providerOptions Javascript Array', 'crypto') . ' *',
                     'description' => __('Manual javascript array based on', 'crypto') . ' <a href="https://github.com/Web3Modal/web3modal/tree/master/docs/providers" target="_blank">https://github.com/Web3Modal/web3modal/tree/master/docs/providers</a>',
                 ),
 
@@ -147,7 +147,7 @@ class Crypto_Connect_Web3
 
                 array(
                     'name' => 'provider_list',
-                    'label' => 'Includes related javascript of selected provider',
+                    'label' => 'Select provider' . ' *',
                     'description' => 'Only select visible provider to prevent unnecessary files.',
                     'type' => 'multicheck',
                     'options' => array(

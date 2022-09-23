@@ -155,7 +155,7 @@ URI <input id="web3domain_uri" value="..">
     public function dashboard_add_tabs($tabs)
     {
 
-        $extra_tabs = array("access" => 'Member Restrict');
+        $extra_tabs = array("access" => 'Restrict User');
 
         // combine the two arrays
         $new = array_merge($tabs, $extra_tabs);
@@ -186,9 +186,7 @@ URI <input id="web3domain_uri" value="..">
             <ul>
                 <li>* You must use correct smart contract address which starts from 0x.... </li>
                 <li>* Crypto & NFT count is calculated as balanceOf ether function. </li>
-                <li>* You wallet may have 100 'Some Token' but while calculating it may show as 10000. So you must enter
-                    10000 instead 100</li>
-                <li>* By default public API is used in Web3 Modal. Get your own free for faster and site uptime.</li>
+                <li>* By default public API is used in Web3 Modal. Get your own free API for faster response.</li>
             </ul>
             <hr>
             <b>Do you know about <a href='<?php echo esc_url('https://web3domain.org/'); ?>'
@@ -197,7 +195,7 @@ URI <input id="web3domain_uri" value="..">
                 <li>
                     * It is best option to earn for membership by letting user to obtain subdomain of your web3 primary
                     domain.</li>
-                <li>* Each subdomain sold will have 80% commission in your wallet and rest 20% is commission fees.</li>
+                <li>* You earn as soon as domain minted.</li>
                 <li>* You can set the price for your subdomain yourself.</li>
                 <li>* You can also restrict not to be minted by public. Only you can mint it and transfer. Hence you can
                     save commission fees too. </li>

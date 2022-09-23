@@ -128,6 +128,7 @@ Moralis is SDK for rapid blockchain development.
 
 = 1.18 =
 * Bug fixes during login & logout Web3Modal
+* Removed Flexi support
 
 = 1.17 =
 * Content restriction based on web3domain & NFT tokens
