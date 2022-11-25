@@ -34,7 +34,7 @@ async function login() {
             return true
         } catch (error) {
             // User denied access
-            console.log("ooo");
+          //  console.log("ooo");
             jQuery("[id=wallet_msg]").empty();
             jQuery("#flexi_notification_box").fadeIn("slow");
             jQuery("[id=wallet_msg]").append(error.message).fadeIn("normal");

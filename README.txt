@@ -126,6 +126,12 @@ Moralis is SDK for rapid blockchain development.
 
 == Changelog ==
 
+
+= 1.19 =
+* Removed moralis & web3modal due to security reasons
+* All login shortcode now only supports [crypto-connect]
+
+
 = 1.18 =
 * Bug fixes during login & logout Web3Modal
 * Removed Flexi support
@@ -136,48 +142,8 @@ Moralis is SDK for rapid blockchain development.
 * Logout cross button added along with short address
 * Updated language crypto.pot file.
 
-= 1.16 =
-* Fixed [crypto-connect] shortcode
-
-= 1.15 =
-* All 3 login system in tab menu.
-* Everyone requested to update settings again.
-
-= 1.14 =
-* Execute javascript function as soon as wallet connected in Web3Modal
-
-= 1.13 =
-* Added parameters for [crypto-connect] shortcode
-* fixed error in login action hook
 
 
-= 1.12 =
-* Change cache time of price to 1 second if error. 
-
-= 1.11 =
-* Added Crypto Price, based on shortcode
-
-= 1.10 =
-* Added donation widget
-
-= 1.9 =
-* If username matches with wallet address, access login (It ignores linked wallet to any other username)
-
-= 1.8 =
-* Added Web3Modal login option
-
-= 1.7 =
-* Fixed error
-
-= 1.6 =
-* Added standalone Metamask login
-
-= 1.5 =
-* Added WooCommerce support
-
-= 1.4 =
-* Added wordpress assets images
-* Localize online javascripts
 
 
 == Upgrade Notice ==

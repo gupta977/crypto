@@ -103,39 +103,16 @@ class Crypto_Public
 
         wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/crypto_connect_login-public.js', array('jquery'), $this->version, false);
 
-        $enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-        if ("moralis" == $enable_addon) {
-            $serverUrl = crypto_get_option('moralis_url', 'crypto_login_moralis', '');
-            $appId = crypto_get_option('moralis_appid', 'crypto_login_moralis', '');
-            $chainId = crypto_get_option('moralis_chainid', 'crypto_login_moralis', '');
 
-            $translation_array = array(
-                'delete_string' => __('Are you sure you want to delete?', 'crypto'),
-                'ajaxurl' => admin_url('admin-ajax.php'),
-                'serverUrl' => $serverUrl,
-                'appId' => $appId,
-                'chainId' => $chainId,
-            );
-        } else if ("web3modal" == $enable_addon) {
-            $chainId = crypto_get_option('chainid', 'crypto_login_web3', '1');
-            $execute_js = crypto_get_option('execute_js', 'crypto_login_web3', '');
-            $translation_array = array(
-                'delete_string' => __('Are you sure you want to delete?', 'crypto'),
-                'ajaxurl' => admin_url('admin-ajax.php'),
-                'chainId' => $chainId,
-                'executeJS' => $execute_js,
-            );
-        } else {
-            $translation_array = array(
-                'delete_string' => __('Are you sure you want to delete?', 'crypto'),
-                'ajaxurl' => admin_url('admin-ajax.php'),
-            );
-        }
-
-
-
-
-
+        $chainId = crypto_get_option('chainid', 'crypto_login_metamask', '1');
+        $execute_js = crypto_get_option('execute_js', 'crypto_login_metamask', '');
+        $translation_array = array(
+            'delete_string' => __('Are you sure you want to delete?', 'crypto'),
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'chainId' => $chainId,
+            'executeJS' => $execute_js,
+            'crypto_plugin_url' => CRYPTO_PLUGIN_URL,
+        );
 
         wp_localize_script('crypto_connect_ajax_process', 'crypto_connectChainAjax', $translation_array);
         wp_enqueue_script('crypto_connect_ajax_process');

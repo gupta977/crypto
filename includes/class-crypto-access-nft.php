@@ -6,10 +6,11 @@ class Crypto_Access_NFT
 	private $nft_name;
 	private $nft_count;
 	private $nft_type;
+	private $default_access;
 
 	public function __construct()
 	{
-
+		$this->default_access = crypto_get_option('select_access_control', 'crypto_access_settings_start', 'web3domain');
 		$this->chainid = crypto_get_option('chainid', 'crypto_access_other', '1');
 		$this->contract = crypto_get_option('chain_contract', 'crypto_access_other', '0x.......');
 		$this->nft_name = crypto_get_option('nft_name', 'crypto_access_other', 'NFT of Something');
@@ -53,26 +54,27 @@ class Crypto_Access_NFT
 						'1' => __('Ethereum Mainnet', 'crypto'),
 						'137' => __('Matic - Polygon Mainnet', 'crypto'),
 						'56' => __('BNB Smart Chain', 'crypto'),
+						'80001' => __('Mumbai Testnet', 'crypto'),
 					)
 				),
 				array(
 					'name' => 'chain_contract',
-					'label' => __('NFT contract address', 'crypto'),
-					'description' => __('Contract address of NFT starts with 0x...', 'crypto'),
+					'label' => __('Contract address', 'crypto'),
+					'description' => __('Contract address of NFT or token starts with 0x...', 'crypto'),
 					'size' => 'large',
 					'type' => 'text',
 				),
 				array(
 					'name' => 'nft_name',
-					'label' => __('NFT Name', 'crypto'),
-					'description' => __('Name of the NFT Token for visitors', 'crypto'),
+					'label' => __('Token Name', 'crypto'),
+					'description' => __('Name of the NFT or token', 'crypto'),
 					'size' => 'large',
 					'type' => 'text',
 				),
 				array(
 					'name' => 'nft_count',
 					'label' => __('NFT or Crypto count', 'crypto'),
-					'description' => __('Enter the number of NFT/crypto must be available.', 'crypto'),
+					'description' => __('Enter the number of NFT/token must be available.', 'crypto'),
 					'type' => 'number',
 					'size' => 'medium',
 					'min' => '0.0',
@@ -106,93 +108,60 @@ class Crypto_Access_NFT
 		return $new;
 	}
 
+
 	public function crypto_access_box()
 	{
-
-		$arr = array('1' => 'Ethereum Mainnet', '137' => 'Matic - Polygon Mainnet', '56' => 'BNB Smart Chain');
-
-
+		$arr = array('1' => 'Ethereum Mainnet', '137' => 'Matic - Polygon Mainnet', '56' => 'BNB Smart Chain', '80001' => 'Mumbai Testnet');
 		$put = "";
 		ob_start();
 		$nonce = wp_create_nonce('crypto_ajax');
-		$enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-		if ("web3modal" == $enable_addon) {
-			if (is_user_logged_in()) {
-				$default_access = crypto_get_option('select_access_control', 'crypto_access_settings_start', 'web3domain');
-				if ($default_access == 'nft') {
-					$saved_array = get_user_meta(get_current_user_id(),  'domain_names');
-					// flexi_log($saved_array);
-					//$check = new crypto_connect_ajax_process();
-					//$check->checknft(get_current_user_id(),  $saved_array);
-
+		if (is_user_logged_in()) {
+			if ($this->default_access == 'nft') {
+				$saved_array = get_user_meta(get_current_user_id(),  'domain_names');
 ?>
+
+
 <script>
-jQuery(document).ready(function() {
+crypto_is_metamask_Connected().then(acc => {
+    if (acc.addr == '') {
+        console.log("Metamask not connected. Please connect first");
+    } else {
+        console.log("Connected to:" + acc.addr + "\n Network:" + acc.network);
 
-
-
-    async function access() {
-
-        if (provider == undefined) {
-            provider = await web3Modal.connect();
-        }
-
-        // Get a Web3 instance for the wallet
-        const web3 = new Web3(provider);
-        const accounts = await web3.eth.getAccounts();
-        console.log(accounts);
-        // Get connected chain id from Ethereum node
-        const chainId = await web3.eth.getChainId();
-        const chainId_new = crypto_connectChainAjax.chainId;
-
-        if ((chainId != '<?php echo $this->chainid; ?>')) {
+        if ((acc.network != '<?php echo $this->chainid; ?>')) {
             var msg =
-                "Change your network to <?php echo  $arr[$this->chainid]; ?>";
+                "Change your network to <?php echo $arr[$this->chainid]; ?>. Your connected network is " +
+                acc.network;
             jQuery("[id=crypto_msg_ul]").empty();
             jQuery("[id=crypto_msg_ul]").append(msg).fadeIn("normal");
         } else {
+            //  crypto_init();
+            web3 = new Web3(window.ethereum);
 
-            const balanceOfABI = [{
-                "constant": true,
-                "inputs": [{
-                    "name": "_owner",
-                    "type": "address"
-                }],
-                "name": "balanceOf",
-                "outputs": [{
-                    "name": "balance",
-                    "type": "uint256"
-                }],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            }, ];
-
-
-            const contractAddress = '<?php echo $this->contract; ?>';
-            const myContract = new web3.eth.Contract(balanceOfABI, contractAddress);
-            var curr_user = accounts[0];
-            console.log(curr_user);
-            run_start(myContract, curr_user);
-        }
-
-        function run_start(myContract, curr_user) {
-            // alert(claim_id);
-            myContract.methods.balanceOf(curr_user).call().then(function(count) {
+            const connectWallet = async () => {
+                const accounts = await ethereum.request({
+                    method: "eth_requestAccounts"
+                });
+                var persons = [];
+                account = accounts[0];
+                // console.log(`Connected..... account...........: ${account}`);
+                // getBalance(account);
+                await crypto_sleep(1000);
+                var nft_count = await balanceOf(account);
+                console.log(nft_count);
 
                 <?php
-										if ($this->nft_type == 'coin') {
-										?>
-
-                const formattedResult = web3.utils.fromWei(count, "ether");
+									if ($this->nft_type == 'coin') {
+									?>
+                const formattedResult = web3.utils.fromWei(nft_count, "ether");
                 //      console.log(count + " Balance is " + formattedResult + " -- " + count / 100000000);
                 jQuery("[id=crypto_msg_ul]").empty();
                 jQuery("[id=crypto_msg_ul]").append("<li>Crypto Found: <strong>" +
-                    formattedResult * 1000000000000 +
+                    formattedResult +
                     "</strong></li>").fadeIn("normal");
                 console.log(formattedResult);
 
-                if (formattedResult < <?php echo $this->nft_count; ?> / 1000000000000) {
+                if (formattedResult < <?php echo $this->nft_count; ?>) {
                     // console.log("zero domain");
                     jQuery("[id=crypto_msg_ul]").append(
                             "<li>Your wallet do not have sufficient '<?php echo $this->nft_name; ?>'. <br>Required: <strong><?php echo $this->nft_count; ?></strong> <br><strong>Account restricted.</strong> </li>"
@@ -202,10 +171,11 @@ jQuery(document).ready(function() {
                 } else {
                     console.log("sufficient");
                 }
+
                 <?php
-										} else {
-										?>
-                const formattedResult = web3.utils.fromWei(count, "wei");
+									} else {
+									?>
+                const formattedResult = web3.utils.fromWei(nft_count, "wei");
                 //      console.log(count + " Balance is " + formattedResult + " -- " + count / 100000000);
                 jQuery("[id=crypto_msg_ul]").empty();
                 jQuery("[id=crypto_msg_ul]").append("<li>NFT Found: <strong>" +
@@ -224,57 +194,47 @@ jQuery(document).ready(function() {
                     console.log("sufficient");
                 }
 
+
                 <?php
-										}
-										?>
+									}
+									?>
 
                 create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '',
                     'savenft',
-                    curr_user, '', formattedResult);
+                    account, '', formattedResult);
 
                 setTimeout(function() {
                     jQuery('#crypto_connect_ajax_process').trigger('click');
                 }, 1000);
+                // console.log(contract);
 
-            }).catch(function(tx) {
-                console.log(tx);
-                jQuery("[id=crypto_msg_ul]").append(
-                        "<li>Wrong contract address or network seems unstable. </li>"
-                    )
-                    .fadeIn("normal");
-                // coin_toggle_loading("end");
+            };
 
-            });
+            connectWallet();
+            const nft_contractAddress = '<?php echo $this->contract; ?>';
+            console.log("NFT Contract address: " + nft_contractAddress);
+            connectContract(contractAbi, nft_contractAddress);
+
+
 
         }
     }
-
-    jQuery("#check_domain").click(function() {
-        access();
-        // alert("hello");
-
-    });
-
-    setTimeout(function() {
-        jQuery('#check_domain').trigger('click');
-    }, 1000);
-
 });
 </script>
-<?php
-					$check_access = new Crypto_Block();
-					$current_user = wp_get_current_user();
-					if ($check_access->crypto_can_user_view()) {
 
-					?>
+<?php
+				$check_access = new Crypto_Block();
+				$current_user = wp_get_current_user();
+				if ($check_access->crypto_can_user_view()) {
+				?>
 
 <div class="fl-tags fl-has-addons">
     <span class="fl-tag">Account Status (<?php echo $current_user->user_login; ?>)</span>
     <span class="fl-tag fl-is-primary"><?php echo "." . $this->nft_name; ?> holder</span>
 </div>
 <?php
-					} else {
-					?>
+				} else {
+				?>
 
 <div class="fl-tags fl-has-addons">
     <span class="fl-tag">Account Status (<?php echo $current_user->user_login; ?>)</span>
@@ -282,17 +242,14 @@ jQuery(document).ready(function() {
         required</span>
 </div>
 <?php
-					}
-					?>
-<br>
-<br>
+				}
+				?>
 <div class="fl-message fl-is-dark">
     <div class="fl-message-body">
         Some content or pages on the site is accessible only to the selected member who owns
         <strong><?php echo $this->nft_name; ?></strong>
     </div>
 </div>
-<br>
 <div class="fl-message" id="crypto_msg">
     <div class="fl-message-header">
         <p>Available domains into network ID : <b><?php echo $arr[$this->chainid]; ?></b></p>
@@ -303,22 +260,22 @@ jQuery(document).ready(function() {
         </ul>
     </div>
 </div>
-<a href="#" id="check_domain" class="fl-button fl-is-link fl-is-light">Check <?php echo $this->nft_name; ?></a>
-
-<a class="fl-button" href="#" onclick="location.reload();" title="Refresh">
-    <span class="fl-icon fl-is-small">
-        <i class="fas fa-sync"></i>
-    </span>
-</a>
-<br>
+<div>
+    <a href="#" id="check_domain" onclick="location.reload();" class="fl-button fl-is-link fl-is-light">Check again for
+        :
+        <?php echo $this->nft_name; ?></a>
+</div>
 
 <br>
+
+<br>
+
 <?php
-				} else {
-					echo "NFT & Crypto access is disabled. Enable it from settings";
-				}
 			} else {
-				?>
+				echo " <div class='fl-message-body'>NFT & Crypto access is disabled. Enable it from settings</div>";
+			}
+		} else {
+			?>
 <br>
 <div class="fl-message">
     <div class="fl-message-header">
@@ -330,10 +287,8 @@ jQuery(document).ready(function() {
     </div>
 </div>
 <?php
-			}
-		} else {
-			echo "Login provider must be 'Web3Modal'. Access control is not supported with other login provider.";
 		}
+
 		$put = ob_get_clean();
 		return $put;
 	}

@@ -184,8 +184,9 @@ class crypto_connect_ajax_process
                 'domain_count',
                 $param3
             );
-
+            //  crypto_log($id . "-" . $param1 . "-" . $param2 . "-" . $param3);
             $saved_array = get_user_meta(get_current_user_id(),  'domain_names');
+
             $this->checknft(get_current_user_id(),  $saved_array);
         }
     }
@@ -196,21 +197,23 @@ class crypto_connect_ajax_process
         if ($default_access == 'web3domain') {
 
 
-
-            $check = "gupta";
-            // flexi_log("Counting...");
-            // flexi_log(get_user_meta(get_current_user_id(),  'domain_count'));
+            $check = crypto_get_option('domain_name', 'crypto_access_settings', 'web3');
+            //  crypto_log("Counting...");
+            // crypto_log(get_user_meta(get_current_user_id(),  'domain_count'));
+            // crypto_log($saved_array);
             if (is_array($saved_array) && !empty($saved_array[0])) {
                 $matches  = preg_grep('/.' . $check . '$/', $saved_array[0]);
-                // flexi_log($matches);
+                // crypto_log($matches);
+                //if (in_array($check, $saved_array[0])) {
                 if (count($matches) > 0) {
-                    //   flexi_log("login...");
+                    //crypto_log("login...");
                     update_user_meta(
                         get_current_user_id(),
                         'domain_block',
                         'false'
                     );
                 } else {
+                    // crypto_log("block...");
                     update_user_meta(
                         get_current_user_id(),
                         'domain_block',

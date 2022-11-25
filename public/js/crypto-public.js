@@ -40,3 +40,27 @@ function crypto_wallet_short(str, keep) {
         return xx.replace('**********************************', '***');
     });
 }
+
+
+/** add a parameter at the end of the URL. Manage '?'/'&', but not the existing parameters.
+   *  does escape the value (but not the key)
+   */
+
+
+const crypto_uniqueId = (length=16) => {
+	return parseInt(Math.ceil(Math.random() * Date.now()).toPrecision(length).toString().replace(".", ""))
+  }
+
+  //if (crypto_connectChainAjax == 'undefined') {
+	
+	const crypto_plugin_url = crypto_connectChainAjax.crypto_plugin_url;
+	const contractAbi = crypto_plugin_url+"/public/js/web3domain.json?8"; // Update with an ABI file, for example "./sampleAbi.json"
+
+  //}
+
+//console.log(crypto_plugin_url);
+   // const contractAddress = "0x8344FbC87f18830054f7b6BA82F02E0fe4ACab61"; // Update with the address of your smart contract
+	const contractAddress = "0x545c3915f30204081A05894ee91330d9728C3718"; // Update with the address of your smart contract
+     let web3; // Web3 instance
+    let contract; // Contract instance
+    let account; // Your account as will be reported by Metamask

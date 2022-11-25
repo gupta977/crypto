@@ -17,7 +17,7 @@ class Crypto_Connect_Metamask
         $this->connect_class = crypto_get_option('connect_class', 'crypto_login_metamask', 'fl-button fl-is-info');
         $this->disconnect_class = crypto_get_option('disconnect_class', 'crypto_login_metamask', 'fl-button fl-is-danger');
 
-        add_shortcode('crypto-connect-metamask', array($this, 'crypto_connect_Metamask'));
+        add_shortcode('crypto-connect', array($this, 'crypto_connect_Metamask'));
         add_action('woocommerce_login_form', array($this, 'crypto_connect_Metamask_small_woocommerce'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         // add_filter('crypto_settings_tabs', array($this, 'add_tabs'));
@@ -27,6 +27,8 @@ class Crypto_Connect_Metamask
 
         add_filter('crypto_dashboard_tab', array($this, 'dashboard_add_tabs'));
         add_action('crypto_dashboard_tab_content', array($this, 'dashboard_add_content'));
+
+        add_action('wp_head', array($this, 'crypto_head_script'));
     }
 
 
@@ -40,7 +42,7 @@ class Crypto_Connect_Metamask
             array(
                 'id' => 'crypto_login_metamask',
                 'title' => __('Metamask Login', 'crypto'),
-                'description' => __('Login with Metamask without any 3rd party provider', 'crypto') . "<br>" . "No API required<br>Shortcode eg. <code>[crypto-connect-metamask label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code><br>You must select provider at <a href='" . admin_url('admin.php?page=crypto_settings&tab=login&section=crypto_general_login') . "'>Login Settings</a>. Only one provider works at a time.",
+                'description' => __('Login with Metamask without any 3rd party provider', 'crypto') . "<br>" . "No API required<br>Shortcode eg. <code>[crypto-connect label=\"Connect to Login\" class=\"fl-button fl-is-info fl-is-light\"]</code><br>You must select provider at <a href='" . admin_url('admin.php?page=crypto_settings&tab=login&section=crypto_general_login') . "'>Login Settings</a>. Only one provider works at a time.",
                 'tab' => 'login',
             ),
         );
@@ -60,8 +62,8 @@ class Crypto_Connect_Metamask
                 'description' => '',
                 'type' => 'radio',
                 'options' => array(
-                    'web3modal' => __('Connect using Web3Modal', 'flexi'),
-                    'moralis' => __('Connect using moralis.io API - Metamask & WalletConnect', 'flexi'),
+                    //  'web3modal' => __('Connect using Web3Modal', 'flexi'),
+                    //  'moralis' => __('Connect using moralis.io API - Metamask & WalletConnect', 'flexi'),
                     'metamask' => __('Connect using Metamask without any provider', 'flexi'),
 
                 ),
@@ -80,6 +82,15 @@ class Crypto_Connect_Metamask
         //  if ("metamask" == $enable_addon) {
         $fields = array(
             'crypto_login_metamask' => array(
+
+                array(
+                    'name' => 'chainid',
+                    'label' => __('Default Network Chain ID', 'crypto'),
+                    'description' => __('If specified, network wallet changes notice displayed. Eg. 1 for Ethereum Mainnet & 137 for Matic', 'crypto'),
+                    'type' => 'number',
+                    'size' => 'small',
+                    'sanitize_callback' => 'intval',
+                ),
 
                 array(
                     'name' => 'enable_woocommerce',
@@ -106,6 +117,14 @@ class Crypto_Connect_Metamask
                     'type' => 'text',
                 ),
 
+                array(
+                    'name' => 'execute_js',
+                    'label' => __('Javascript function', 'crypto'),
+                    'description' => __('Execute javascript function as soon as wallet connected. Eg. alert("Hello"); ', 'crypto'),
+                    'size' => 20,
+                    'type' => 'text',
+                ),
+
 
             ),
         );
@@ -122,9 +141,10 @@ class Crypto_Connect_Metamask
                 wp_register_script('crypto_connect_ajax_process', plugin_dir_url(__DIR__) . 'public/js/crypto_connect_ajax_process.js', array('jquery'), CRYPTO_VERSION);
                 wp_enqueue_script('crypto_connect_ajax_process');
                 wp_enqueue_script('crypto_login', plugin_dir_url(__DIR__) . 'public/js/metamask/crypto_connect_login_metamask.js', array('jquery'), '', false);
+                wp_enqueue_script('crypto_metamask_library', plugin_dir_url(__DIR__) . 'public/js/metamask/library.js', array('jquery'), '', false);
 
                 wp_enqueue_script('crypto_web3', plugin_dir_url(__DIR__) . 'public/js/web3.min.js', array('jquery'), '', false);
-                wp_enqueue_script('crypto_web3-provider', plugin_dir_url(__DIR__) . 'public/js/web3-provider.min.js', array('jquery'), '', false);
+                //wp_enqueue_script('crypto_web3-provider', plugin_dir_url(__DIR__) . 'public/js/web3-provider.min.js', array('jquery'), '', false);
             }
         }
     }
@@ -138,19 +158,47 @@ class Crypto_Connect_Metamask
                 $put = "";
                 ob_start();
                 $nonce = wp_create_nonce("crypto_connect_Metamask_ajax_process");
+
+                if (!is_user_logged_in()) {
+
+
 ?>
-<a href="#" id="btn-login"
-    class="<?php echo esc_attr($this->connect_class); ?>"><?php echo esc_attr($this->metamask); ?></a>
+<div>
+    <a href="#" id="btn-login"
+        class="<?php echo esc_attr($this->connect_class); ?>"><?php echo esc_attr($this->metamask); ?></a>
+    <div class="fl-notification fl-is-primary fl-is-light fl-mt-1" id="flexi_notification_box">
+        <button class="fl-delete" id="delete_notification"></button>
+        <div id="wallet_msg">&nbsp;</div>
+    </div>
+</div>
+<?php
+                } else {
+                ?>
+<script>
+isConnected();
+crypto_state_check();
+</script>
+
 <div class="fl-notification fl-is-primary fl-is-light fl-mt-1" id="flexi_notification_box">
     <button class="fl-delete" id="delete_notification"></button>
     <div id="wallet_msg">&nbsp;</div>
 </div>
 
+<div id="wallet_addr_box">
+    <div class="fl-tags fl-has-addons">
+        <span id="wallet_addr" class="fl-tag fl-is-success fl-is-light">Loading...</span>
+        <a class="fl-tag fl-is-delete" id="wallet_logout" title="Logout"></a>
+    </div>
+</div>
+
 <?php
+                }
                 $put = ob_get_clean();
 
                 return $put;
             }
+        } else {
+            echo "Select login provider as Metamask in settings.";
         }
     }
 
@@ -196,10 +244,111 @@ class Crypto_Connect_Metamask
         }
     }
 
+    public function crypto_head_script()
+    {
+        $nonce = wp_create_nonce('crypto_ajax');
+        $put = "";
+        ob_start();
+        ?>
+
+<script>
+async function isConnected() {
+    const accounts = await ethereum.request({
+        method: 'eth_accounts'
+    });
+
+
+    if (accounts.length) {
+        console.log(`You're connected to: ${accounts[0]}`);
+        jQuery("[id=wallet_addr]").empty();
+        jQuery("#wallet_addr_box").fadeIn("slow");
+        jQuery("[id=wallet_addr]").append(crypto_wallet_short(accounts[0], 4)).fadeIn("normal");
+        jQuery("[id=btn-login]").hide();
+
+        const networkId = await ethereum.request({
+            method: 'net_version'
+        });
+
+        console.log(networkId);
+        crypto_check_network(networkId);
+
+        //console.log(window.ethereum.networkName);
+    } else {
+        console.log("Metamask is not connected");
+        jQuery("[id=wallet_addr_box]").hide();
+    }
+}
+jQuery(document).ready(function() {
+    jQuery("[id=wallet_logout]").click(function() {
+        //alert("logout");
+
+        jQuery("[id=btn-login]").show();
+        jQuery("[id=wallet_addr]").empty();
+        jQuery("[id=wallet_addr_box]").hide();
+
+        create_link_crypto_connect_login('<?php echo sanitize_key($nonce); ?>', '', 'logout', '', '',
+            '');
+        //jQuery("#crypto_connect_ajax_process").click();
+        setTimeout(function() {
+            jQuery('#crypto_connect_ajax_process').trigger('click');
+        }, 1000);
+
+        setTimeout(function() {
+            location.reload();
+        }, 1500);
+    });
+});
+
+function crypto_state_check() {
+
+    window.addEventListener("load", function() {
+        if (window.ethereum) {
+
+            window.ethereum.enable(); // get permission to access accounts
+
+            // detect Metamask account change
+            window.ethereum.on('accountsChanged', function(accounts) {
+                console.log('accountsChanges', accounts);
+                window.location.reload();
+
+            });
+
+            // detect Network account change
+            window.ethereum.on('networkChanged', function(networkId) {
+                console.log('networkChanged', networkId);
+                window.location.reload();
+
+            });
+        } else {
+            console.log("No web3 detected");
+        }
+    });
+}
+
+function crypto_check_network(networkId) {
+    const chainId_new = crypto_connectChainAjax.chainId;
+    console.log(chainId_new);
+    if ((chainId_new != networkId)) {
+        var msg = "Change your network to.. :" + chainId_new;
+        jQuery("[id=wallet_msg]").empty();
+        jQuery("#flexi_notification_box").fadeIn("slow");
+        jQuery("[id=wallet_msg]").append(msg).fadeIn("normal");
+    }
+
+}
+</script>
+<?php
+
+        $put = ob_get_clean();
+
+        echo $put;
+    }
+
+
     public function crypto_dashboard_content()
     {
         ob_start();
-        ?>
+    ?>
 <div class="changelog section-getting-started">
     <div class="feature-section">
         <h2>Login & Register</h2>

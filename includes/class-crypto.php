@@ -143,10 +143,10 @@ class Crypto
 		$enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
 		//if ("moralis" == $enable_addon) {
 		//Connect Page
-		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-moralis.php';
+
 		//	} else if ("web3modal" == $enable_addon) {
 		//Connect Page
-		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-web3modal.php';
+		//require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-web3modal.php';
 		//} else {
 		//Connect Page
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-connect-metamask.php';
@@ -167,8 +167,15 @@ class Crypto
 		//Connect Facebook
 		//require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-facebook.php';
 
-		//Crypto Domains
-		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-domain.php';
+		//Crypto Domains URL redirect
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-domain-url.php';
+
+		//Generate JSON
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-json.php';
+
+
+		//Crypto Domains search
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-crypto-domain-search.php';
 
 		$this->loader = new Crypto_Loader();
 	}
