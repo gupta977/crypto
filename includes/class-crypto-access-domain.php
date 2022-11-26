@@ -21,7 +21,7 @@ class Crypto_Access
 
     public function enqueue_scripts()
     {
-        wp_enqueue_script('crypto_web3domain', plugin_dir_url(__DIR__) . 'public/js/web3domain.js', array('jquery'), '', false);
+        wp_enqueue_script('crypto_web3domain', plugin_dir_url(__DIR__) . 'public/js/web3domain.js?', array('jquery'), '', false);
     }
 
 

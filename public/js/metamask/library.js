@@ -88,6 +88,16 @@ const titleOf = async (id) => {
 };
 
 //Get title of a domain with ID
+const getAllow = async (id) => {
+  try {
+    const did = await contract.methods.getAllow(id).call();
+    return did;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+//get allow status & fee
 const getOwner = async (id) => {
   try {
     const did = await contract.methods.getOwner(id).call();
@@ -97,6 +107,7 @@ const getOwner = async (id) => {
     console.log(error.message);
   }
 };
+
 
 //get Web3Domain balance of user
 const balanceOf = async (address) => {
@@ -132,6 +143,20 @@ const setNftPrice = async (price) => {
       .setNftPrice(price)
       .send({ from: account,maxPriorityFeePerGas: null,  maxFeePerGas: null, });
     console.log("setNftPrice : " + result.status);
+    console.log(result);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
+const setAllow = async (id,price) => {
+  console.log("Set subdomain Price");
+  try {
+    const result = await contract.methods
+      .setAllow(id,price)
+      .send({ from: account,maxPriorityFeePerGas: null,  maxFeePerGas: null, });
+    console.log("setAllow : " + result.status);
     console.log(result);
   } catch (error) {
     console.log(error.message);
