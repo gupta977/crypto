@@ -142,8 +142,8 @@ const setNftPrice = async (price) => {
     const result = await contract.methods
       .setNftPrice(price)
       .send({ from: account,maxPriorityFeePerGas: null,  maxFeePerGas: null, });
-    console.log("setNftPrice : " + result.status);
     console.log(result);
+    return result.status;
   } catch (error) {
     console.log(error.message);
   }
@@ -151,13 +151,13 @@ const setNftPrice = async (price) => {
 
 
 const setAllow = async (id,price) => {
-  console.log("Set subdomain Price");
+  console.log("Set subdomain ID:"+id+" Price: "+price);
   try {
     const result = await contract.methods
       .setAllow(id,price)
       .send({ from: account,maxPriorityFeePerGas: null,  maxFeePerGas: null, });
-    console.log("setAllow : " + result.status);
     console.log(result);
+    return result.status;
   } catch (error) {
     console.log(error.message);
   }
@@ -170,8 +170,8 @@ const setTokenURI = async (id,url) => {
     const result = await contract.methods
       .setTokenURI(id,url)
       .send({ from: account, value: Web3.utils.toWei(fee, 'ether'), maxPriorityFeePerGas: null,  maxFeePerGas: null, });
-    console.log("setTokenURI : " + result.status);
     console.log(result);
+    return result.status;
   } catch (error) {
     console.log(error.message);
   }
@@ -185,7 +185,7 @@ const transferFrom = async (to, id) => {
       .transferFrom(account, to, id)
       .send({ from: account,maxPriorityFeePerGas: null,  maxFeePerGas: null, });
     console.log("transferFrom : " + result.status);
-    return true;
+    return result.status;
   } catch (error) {
     console.log(error.message);
     return error.message;
