@@ -77,7 +77,10 @@ class Crypto_Domain_URL
                     src="<?php echo esc_url(CRYPTO_PLUGIN_URL . '/public/img/loading.gif'); ?>">
             </div>
 
-
+            <div id="crypto_loading_url" style="text-align:center;"> Redirection on progress..
+                <br>
+                <a href="#" id="crypto_loading_url_link">External Link</a>
+            </div>
             <article class="fl-message fl-is-danger" id="crypto_unavailable">
                 <div class="fl-message-body">
                     <div class="fl-tags fl-has-addons">
@@ -105,6 +108,7 @@ class Crypto_Domain_URL
         <script>
         jQuery(document).ready(function() {
             jQuery("#crypto_unavailable").hide();
+            jQuery("#crypto_loading_url").hide();
             jQuery("[id=crypto_domain_name]").html('<?php echo $subdomain; ?>');
             jQuery("#transfer_box").hide();
             jQuery("#crypto_claim_box").hide();
@@ -385,15 +389,16 @@ class Crypto_Domain_URL
             crypto_check_w3d_name_json('<?php echo $subdomain; ?>');
 
             function crypto_check_w3d_name_json(domain_name) {
-                fetch('https://w3d.name/api/v1/.php?domain=' + domain_name)
+                jQuery("[id=crypto_domain_name]").html(domain_name + "");
+                fetch('https://w3d.name/api/v1/index.php?domain=' + domain_name)
                     .then(res => res.json())
                     .then((out) => {
                         console.log('Output: ', out);
                         if (typeof out.error !== 'undefined') {
-                            console.log("This domain name is available to mint.");
-                            jQuery("[id=crypto_domain_name]").html(domain_name + "");
+                            //      console.log("This domain name is available to mint.");
+                            //  jQuery("[id=crypto_domain_name]").html(domain_name + "");
                             jQuery("#crypto_loading").hide();
-                            // jQuery("#crypto_available").show();
+                            jQuery("#crypto_loading_url").hide();
                             jQuery("#crypto_unavailable").show();
                         } else {
                             console.log("Already registered");
@@ -405,19 +410,19 @@ class Crypto_Domain_URL
                             if (out.records.hasOwnProperty('51')) {
                                 var web3_url = out.records["51"].value;
                             }
-
+                            jQuery("#crypto_loading_url").show();
+                            jQuery("#crypto_loading_url_link").attr("href", web_url);
                             if (web3_url != '') {
                                 // console.log(web3_url);
                                 window.location.href = web3_url;
                             } else {
                                 //  console.log(web_url);
-                                // chrome.tabs.create({ active: true, url: web_url });
+
                                 window.location.href = web_url;
-                                // window.location.replace(web_url);
+
                             }
 
-                            //   jQuery("#crypto_loading").hide();
-                            //    jQuery("#crypto_unavailable").show();
+
                         }
                     }).catch(err => console.error(err));
             }

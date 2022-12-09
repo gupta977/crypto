@@ -54,7 +54,7 @@ const crypto_uniqueId = (length=16) => {
   //if (crypto_connectChainAjax == 'undefined') {
 	
 	const crypto_plugin_url = crypto_connectChainAjax.crypto_plugin_url;
-	const contractAbi = crypto_plugin_url+"/public/js/web3domain.json?8g"; // Update with an ABI file, for example "./sampleAbi.json"
+	const contractAbi = crypto_plugin_url+"/public/js/web3domain.json?"; // Update with an ABI file, for example "./sampleAbi.json"
 
   //}
 

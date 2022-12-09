@@ -1,9 +1,12 @@
 <?php
 class CryptoDonation_Widget extends WP_Widget
 {
-
+	private $chainid;
 	public function __construct()
 	{
+		add_action('wp_enqueue_scripts', 'enqueue_scripts');
+		$this->chainid = crypto_get_option('chainid', 'crypto_access_other', '1');
+
 		parent::__construct(
 			'cryptodonation_widget',
 			esc_html__('Crypto Donation', 'crypto'),
@@ -22,7 +25,7 @@ class CryptoDonation_Widget extends WP_Widget
 		array(
 			'label' => 'Amount title',
 			'id' => 'amount_title',
-			'default' => 'Enter number of token',
+			'default' => 'Enter number of tokens',
 			'type' => 'text',
 		),
 		array(
@@ -55,9 +58,6 @@ class CryptoDonation_Widget extends WP_Widget
 		if (!empty($instance['title'])) {
 			echo $args['before_title'] . apply_filters('widget_title', $instance['title']) . $args['after_title'];
 		}
-
-		$enable_addon = crypto_get_option('enable_crypto_login', 'crypto_general_login', 'metamask');
-		if ("web3modal" == $enable_addon) {
 ?>
 <script>
 jQuery(document).ready(function() {
@@ -86,45 +86,66 @@ jQuery(document).ready(function() {
             '<?php echo isset($instance['wallet_address']) ? $instance['wallet_address'] : '0xC3bC7e78Dd1aB7c64aAACc98abCd052DB91A37f4'; ?>';
         var fee = jQuery('#amount_fee').val();
         //alert("hi");
-        if (provider == undefined) {
-            provider = await web3Modal.connect();
-        }
-        const web3 = new Web3(provider);
-        const accounts = await web3.eth.getAccounts();
-        //console.log(accounts);
-        var curr_user = accounts[0];
-        console.log(curr_user);
-        const chainId = await web3.eth.getChainId();
-        //console.log("Connected chainId: "+chainId);
-        const chainId_new = crypto_connectChainAjax.chainId;
-        //console.log("chainid new: "+chainId_new);
 
-        if ((chainId != chainId_new) && chainId_new != '') {
-            var msg = "Change your network to: " + chainId_new + ". Your connected network is " + chainId;
-            crypto_donation_msg(msg);
-        } else {
-            web3.eth.sendTransaction({
-                    to: MY_ADDRESS,
-                    from: curr_user,
-                    value: Web3.utils.toWei(fee, 'ether'),
-                },
-                function(err, transactionHash) {
-                    if (err) return crypto_donation_msg('There was a problem!: ' + err.message)
-                    crypto_donation_msg('Thanks for the generosity!!')
-                })
-        }
+
+        crypto_is_metamask_Connected().then(acc => {
+            if (acc.addr == '') {
+
+                crypto_donation_msg("Metamask not connected.");
+            } else {
+                // console.log("Connected to:" + acc.addr + "\n Network:" + acc.network);
+
+                var curr_user = acc.addr;
+                if ((acc.network == '<?php echo $this->chainid; ?>')) {
+
+                    // window.ethereum.enable(); // get permission to access accounts
+                    const web3 = new Web3(Web3.givenProvider);
+                    // web3 = new Web3(window.ethereum);
+
+
+                    const params = {
+                        from: curr_user,
+                        to: MY_ADDRESS,
+                        value: Web3.utils.toWei(fee, 'ether'),
+                        maxPriorityFeePerGas: null,
+                        maxFeePerGas: null,
+                    };
+                    // console.log(params);
+                    const sendHash = web3.eth.sendTransaction(params, function(err,
+                        transactionHash) {
+                        if (err) {
+                            crypto_donation_msg(err.message);
+                            //console.log(err);
+                        } else {
+                            crypto_donation_msg("Transaction started");
+                        }
+                    });
+                    // console.log('txnHash is ' + sendHash);
+                    crypto_donation_msg('Processing...');
+
+
+                } else {
+
+                    crypto_donation_msg('Change your network to: <?php echo $this->chainid; ?>');
+                }
+
+
+
+            }
+        });
+
     }
 
 });
 </script>
 <?php
-			if (isset($instance['hide_amount']) && '1' == $instance['hide_amount']) {
-			?>
+		if (isset($instance['hide_amount']) && '1' == $instance['hide_amount']) {
+		?>
 <input id="amount_fee" class="input" type="hidden"
     value="<?php echo isset($instance['amount']) ? $instance['amount'] : '1'; ?>">
 <?php
-			} else {
-			?>
+		} else {
+		?>
 <div class="fl-field">
     <label
         class="fl-label"><?php echo isset($instance['amount_title']) ? $instance['amount_title'] : 'Token Quantity'; ?></label>
@@ -134,8 +155,8 @@ jQuery(document).ready(function() {
     </div>
 </div>
 <?php
-			}
-			?>
+		}
+		?>
 
 <div class="fl-field">
     <div class="fl-control">
@@ -152,9 +173,7 @@ jQuery(document).ready(function() {
 
 
 <?php
-		} else {
-			echo "Donation only works on 'Connect using web3modal' on Login Settings.";
-		}
+
 		echo $args['after_widget'];
 	}
 
@@ -202,7 +221,7 @@ jQuery(document).ready(function() {
 	{
 		$title = !empty($instance['title']) ? $instance['title'] : '';
 		$cat = !empty($instance['cat']) ? $instance['cat'] : '';
-		?>
+	?>
 <p>
     <label
         for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_attr_e('Widget Title:', 'crypto'); ?></label>
@@ -233,6 +252,14 @@ jQuery(document).ready(function() {
 function register_crypto_donation_widget()
 {
 	register_widget('CryptoDonation_Widget');
+}
+function enqueue_scripts()
+{
+	//wp_enqueue_script('crypto_login', CRYPTO_PLUGIN_URL . '/public/js/metamask/crypto_connect_login_metamask.js', array('jquery'), '', false);
+
+	wp_enqueue_script('crypto_metamask_library', CRYPTO_PLUGIN_URL . '/public/js/metamask/library.js', array('jquery'), '', false);
+
+	wp_enqueue_script('crypto_web3', CRYPTO_PLUGIN_URL . '/public/js/web3.min.js', array('jquery'), '', false);
 }
 add_action('widgets_init', 'register_crypto_donation_widget');
 ?>

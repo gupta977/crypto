@@ -350,7 +350,8 @@ crypto_is_metamask_Connected().then(acc => {
         <a href="#" class="fl-card-footer-item" id="crypto_register_domain">Register
             Domain</a>
         <a href="#" class="fl-card-footer-item" id="crypto_manage_domain">Manage Domain</a>
-        <a href="#" target="_blank" class="fl-card-footer-item" id="crypto_ipfs_domain">Visit Site</a>
+        <a href="<?php echo $this->url_page; ?>" target="_blank" class="fl-card-footer-item"
+            id="crypto_ipfs_domain">Visit Site</a>
     </footer>
 </div>
 

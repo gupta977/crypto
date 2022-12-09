@@ -80,7 +80,7 @@ const getId = async (name) => {
 const titleOf = async (id) => {
   try {
     const did = await contract.methods.titleOf(id).call();
-    //console.log("Title of " + id + " - Domain: " + did);
+    console.log("Title of " + id + " - Domain: " + did);
     return did;
   } catch (error) {
     console.log(error.message);
@@ -88,16 +88,6 @@ const titleOf = async (id) => {
 };
 
 //Get title of a domain with ID
-const getAllow = async (id) => {
-  try {
-    const did = await contract.methods.getAllow(id).call();
-    return did;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-//get allow status & fee
 const getOwner = async (id) => {
   try {
     const did = await contract.methods.getOwner(id).call();
@@ -107,7 +97,6 @@ const getOwner = async (id) => {
     console.log(error.message);
   }
 };
-
 
 //get Web3Domain balance of user
 const balanceOf = async (address) => {
@@ -141,51 +130,22 @@ const setNftPrice = async (price) => {
   try {
     const result = await contract.methods
       .setNftPrice(price)
-      .send({ from: account,maxPriorityFeePerGas: null,  maxFeePerGas: null, });
+      .send({ from: account });
+    console.log("setNftPrice : " + result.status);
     console.log(result);
-    return result.status;
   } catch (error) {
     console.log(error.message);
   }
 };
-
-
-const setAllow = async (id,price) => {
-  console.log("Set subdomain ID:"+id+" Price: "+price);
-  try {
-    const result = await contract.methods
-      .setAllow(id,price)
-      .send({ from: account,maxPriorityFeePerGas: null,  maxFeePerGas: null, });
-    console.log(result);
-    return result.status;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-const setTokenURI = async (id,url) => {
-  console.log("Set Token URI");
-  var fee = '0.1';
-  try {
-    const result = await contract.methods
-      .setTokenURI(id,url)
-      .send({ from: account, value: Web3.utils.toWei(fee, 'ether'), maxPriorityFeePerGas: null,  maxFeePerGas: null, });
-    console.log(result);
-    return result.status;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
 
 const transferFrom = async (to, id) => {
   console.log("Transfer processing...");
   try {
     const result = await contract.methods
       .transferFrom(account, to, id)
-      .send({ from: account,maxPriorityFeePerGas: null,  maxFeePerGas: null, });
+      .send({ from: account });
     console.log("transferFrom : " + result.status);
-    return result.status;
+    return true;
   } catch (error) {
     console.log(error.message);
     return error.message;
