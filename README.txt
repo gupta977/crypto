@@ -5,7 +5,7 @@ Tags: crypto, login, metamask, NFT, Blockchain, Token
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 6.0.1
-Stable tag: 1.18
+Stable tag: 1.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,49 +20,9 @@ No more require to remember passwords for website.
 **[crypto-connect]** -  Use shortcode to any of your pages for login button.
 **Secure** - Any transaction on your site has no connection with our server. It's totally dependent your server. If you are using any server's API, it only help wallet to connect but no controls over transactions. 
 
-== Login/Register with Crypto Wallet ==
+== Login/Register with Crypto Metamask Wallet ==
 
 example: `[crypto-connect label="Connect Wallet" class="fl-button fl-is-info fl-is-light"]`
-
-= Option 1: Web3Modal =
-These are all the providers available with Web3Modal:
-
-* WalletConnect
-* Fortmatic
-* Torus
-* Portis
-* Authereum
-* Frame
-* Bitski
-* Venly
-* DCent
-* BurnerConnect
-* MEWConnect
-* Binance Chain Wallet
-* WalletLink
-* MetaMask
-
-- Force to connect specified Chain ID
-- Enable login button at Flexi & WooCommerce
-- Execute specified javascript function as soon as wallet connected.
-- [crypto-connect] Shortcode
-
-= Option 2: Metamask Standalone =
-
-* No API required
-* Let user to login/register
-* Login buttons at Flexi Gallery Login Form
-* Login buttons at WooCommerce Login Form
-* [crypto-connect-metamask] Shortcode
-
-= Option 3: Metamask & WalletConnect by Moralis.io =
-
-* Free API required from moralis.io
-* Let user to login/register
-* Auto switch to selected network chain
-* Flexi Form support
-* WooCommerce login form support
-* [crypto-connect-moralis] Shortcode
 
 
 == Donation Widget ==
@@ -114,9 +74,9 @@ e.g.
 
 == Frequently Asked Questions ==
 
-= What is Moralis ? =
+= What is Metamask ? =
 
-Moralis is SDK for rapid blockchain development.
+MetaMask is a software cryptocurrency wallet used to interact with the Ethereum blockchain. It allows users to access their Ethereum wallet through a browser extension or mobile app, which can then be used to interact with decentralized applications.
 
 == Screenshots ==
 
@@ -125,6 +85,11 @@ Moralis is SDK for rapid blockchain development.
 3. Crypto Price
 
 == Changelog ==
+
+= 1.20 =
+* Added Web3Domain Marketplace
+* Fixes lots of bugs and optimized
+* Upgraded donation widgets to support Metamask
 
 
 = 1.19 =

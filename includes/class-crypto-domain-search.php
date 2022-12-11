@@ -6,6 +6,7 @@ class Crypto_Domain_Search
     private $url_page;
     private $primary_domain;
     private $price_ether;
+    private $info_page;
 
     function __construct()
     {
@@ -16,6 +17,7 @@ class Crypto_Domain_Search
         add_filter('crypto_settings_sections', array($this, 'add_section'));
         add_filter('crypto_settings_fields', array($this, 'add_fields'));
         $this->search_page = crypto_get_option('search_page', 'crypto_marketplace_settings', 0);
+        $this->info_page = crypto_get_option('info_page', 'crypto_marketplace_settings', 0);
         $this->market_page = crypto_get_option('market_page', 'crypto_marketplace_settings', 0);
         $this->url_page = crypto_get_option('url_page', 'crypto_marketplace_settings', 0);
         $this->primary_domain = crypto_get_option('primary_domain', 'crypto_marketplace_settings', 'web3');
@@ -83,7 +85,13 @@ class Crypto_Domain_Search
                     'type' => 'pages',
                     'sanitize_callback' => 'sanitize_key',
                 ),
-
+                array(
+                    'name' => 'info_page',
+                    'label' => __('Domain Information', 'crypto'),
+                    'description' => __('View domain information saved on blockchain ', 'crypto') . '[crypto-domain-info]',
+                    'type' => 'pages',
+                    'sanitize_callback' => 'sanitize_key',
+                ),
 
                 array(
                     'name' => 'primary_domain',
@@ -124,6 +132,11 @@ class Crypto_Domain_Search
             $this->market_page = esc_url(get_page_link($this->market_page));
         } else {
             $this->market_page = "#";
+        }
+        if (0 != $this->info_page) {
+            $this->info_page = esc_url(get_page_link($this->info_page));
+        } else {
+            $this->info_page = "#";
         }
 ?>
 <script>
@@ -282,6 +295,11 @@ crypto_is_metamask_Connected().then(acc => {
         } else {
             $this->market_page = "#";
         }
+        if (0 != $this->info_page) {
+            $this->info_page = esc_url(get_page_link($this->info_page));
+        } else {
+            $this->info_page = "#";
+        }
     ?>
 
 <div class="fl-columns">
@@ -329,6 +347,7 @@ crypto_is_metamask_Connected().then(acc => {
                     <div class="fl-tags fl-has-addons">
                         <span class="fl-tag fl-is-large" id="crypto_domain_name">Domain Name</span>
                         <span class="fl-tag fl-is-primary fl-is-large">Available</span>
+
                     </div>
                 </div>
             </article>
@@ -338,6 +357,7 @@ crypto_is_metamask_Connected().then(acc => {
                     <div class="fl-tags fl-has-addons">
                         <span class="fl-tag fl-is-large" id="crypto_domain_name">Domain Name</span>
                         <span class="fl-tag fl-is-danger fl-is-large">Unavailable</span>
+                        <a href="#" id="crypto_domain_info_url"> info</a>
                     </div>
                 </div>
             </article>
@@ -414,6 +434,11 @@ jQuery(document).ready(function() {
                     jQuery("#crypto_ipfs_domain").attr("href",
                         "<?php echo get_site_url(); ?>/web3/" + final_domain +
                         "/");
+
+                    var domain_info_url = new URL("<?php echo $this->info_page; ?>");
+                    //console.log(domain_info_url);
+                    domain_info_url.searchParams.append('domain', final_domain)
+                    jQuery("#crypto_domain_info_url").attr("href", domain_info_url);
                 }
             }).catch(err => console.error(err));
     }
