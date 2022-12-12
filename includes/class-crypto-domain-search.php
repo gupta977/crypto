@@ -7,6 +7,7 @@ class Crypto_Domain_Search
     private $primary_domain;
     private $price_ether;
     private $info_page;
+    private $crypto_network;
 
     function __construct()
     {
@@ -22,6 +23,7 @@ class Crypto_Domain_Search
         $this->url_page = crypto_get_option('url_page', 'crypto_marketplace_settings', 0);
         $this->primary_domain = crypto_get_option('primary_domain', 'crypto_marketplace_settings', 'web3');
         $this->price_ether = crypto_get_option('price_ether', 'crypto_marketplace_settings', '5');
+        $this->crypto_network = crypto_get_option('crypto_network', 'crypto_marketplace_settings', '137');
 
 
         add_filter('crypto_dashboard_tab', array($this, 'dashboard_add_tabs'));
@@ -64,6 +66,18 @@ class Crypto_Domain_Search
     {
         $fields = array(
             'crypto_marketplace_settings' => array(
+                array(
+                    'name' => 'crypto_network',
+                    'label' => __('Select Network', 'crypto'),
+                    'description' => __('Blockchain network where primary TLD is minted.', 'crypto'),
+                    'type' => 'select',
+                    'options' => array(
+                        '137' => __('Polygon - Matic', 'crypto'),
+                        '18' => __('Filecoin - tFIL', 'crypto'),
+                        '80001' => __('Mumbai Testnet', 'crypto'),
+                    ),
+                    'sanitize_callback' => 'sanitize_key',
+                ),
                 array(
                     'name' => 'search_page',
                     'label' => __('Domain Search', 'crypto'),
@@ -160,9 +174,9 @@ crypto_is_metamask_Connected().then(acc => {
     } else {
         console.log("Connected to:" + acc.addr + "\n Network:" + acc.network);
 
-        if ((acc.network != '137')) {
+        if ((acc.network != '<?php echo $this->crypto_network; ?>')) {
             var msg =
-                "Change your network to Polygon (MATIC). Your connected network is " +
+                "Change your network to Polygon (MATIC)... Your connected network is " +
                 acc.network;
             // jQuery("[id=crypto_msg_ul]").empty();
             // jQuery("[id=crypto_msg_ul]").append(msg).fadeIn("normal");

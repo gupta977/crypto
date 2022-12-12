@@ -42,7 +42,7 @@ jQuery(document).ready(function() {
     jQuery("#crypto_manage_domain").hide();
     jQuery("#crypto_ipfs_domain").hide();
     jQuery("#crypto_blockchain_url").hide();
-
+    jQuery("#crypto_register_domain").hide();
 
     var final_domain = "<?php echo $_GET['domain']; ?>";
 
@@ -170,7 +170,10 @@ jQuery(document).ready(function() {
                                 '<div class="crypto_alert-box crypto_notice"> This domain not minted yet.</div>'
                             );
                             jQuery("#crypto_loading").hide();
-                            jQuery("#crypto_claim_box").show();
+                            jQuery("#crypto_register_domain").attr("href",
+                                "<?php echo get_site_url(); ?>/web3/" + final_domain +
+                                "/?domain=manage");
+                            jQuery("#crypto_register_domain").show();
                         }
 
                         // console.log(contract);
@@ -238,6 +241,9 @@ jQuery(document).ready(function() {
         <a href="#" class="fl-card-footer-item" id="crypto_manage_domain">Manage Domain</a>
         <a href="<?php echo $this->url_page; ?>" target="_blank" class="fl-card-footer-item"
             id="crypto_ipfs_domain">Visit Site</a>
+        <a href="#" class="fl-card-footer-item" id="crypto_register_domain">Register
+            Domain</a>
+
     </footer>
 </div>
 <?php

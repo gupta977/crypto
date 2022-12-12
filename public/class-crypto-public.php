@@ -99,9 +99,6 @@ class Crypto_Public
          * class.
          */
 
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/crypto-public.js', array('jquery'), $this->version, false);
-
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/crypto_connect_login-public.js', array('jquery'), $this->version, false);
 
 
         $chainId = crypto_get_option('chainid', 'crypto_login_metamask', '1');
@@ -116,5 +113,9 @@ class Crypto_Public
 
         wp_localize_script('crypto_connect_ajax_process', 'crypto_connectChainAjax', $translation_array);
         wp_enqueue_script('crypto_connect_ajax_process');
+
+        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/crypto-public.js', array('jquery'), $this->version, false);
+
+        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/crypto_connect_login-public.js', array('jquery'), $this->version, false);
     }
 }
