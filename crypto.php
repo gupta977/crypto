@@ -35,6 +35,7 @@ define('CRYPTO_FOLDER', dirname(plugin_basename(__FILE__)));
 define('CRYPTO_PLUGIN_URL', content_url('/plugins/' . CRYPTO_FOLDER));
 define('CRYPTO_BASE_DIR', WP_CONTENT_DIR . '/plugins/' . CRYPTO_FOLDER . '/');
 define('CRYPTO_ROOT_URL', plugin_dir_url(__FILE__));
+define('CRYPTO_POLYGON_URL', 'https://polygonscan.com/token/0x545c3915f30204081a05894ee91330d9728c3718?a=');
 
 // Path to the plugin directory
 if (!defined('CRYPTO_PLUGIN_DIR')) {

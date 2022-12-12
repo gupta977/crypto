@@ -205,9 +205,16 @@ crypto_is_metamask_Connected().then(acc => {
                         console.log(nft + ' = ' + domain_name);
                         // jQuery("[id=crypto_msg_ul]").append("<li>" + domain_name + "</li>").fadeIn("normal");
 
+
+
+                        var domain_info_url = new URL("<?php echo $this->info_page; ?>");
+                        //console.log(domain_info_url);
+                        domain_info_url.searchParams.append('domain', domain_name)
+                        // jQuery("#crypto_domain_info_url").attr("href", domain_info_url);
+
                         var new_row =
-                            '<a href="<?php echo get_site_url(); ?>/web3/' + domain_name +
-                            '/?domain=manage" class="fl-panel-block fl-is-active"><span class="fl-panel-icon"><i class="fas fa-book" aria-hidden="true"></i></span>' +
+                            '<a href="' + domain_info_url +
+                            '" class="fl-panel-block fl-is-active"><span class="fl-panel-icon"><i class="fas fa-book" aria-hidden="true"></i></span>' +
                             domain_name + '</a>';
                         jQuery("[id=crypto_domain_result]").append(new_row).fadeIn("normal");
 
@@ -357,7 +364,7 @@ crypto_is_metamask_Connected().then(acc => {
                     <div class="fl-tags fl-has-addons">
                         <span class="fl-tag fl-is-large" id="crypto_domain_name">Domain Name</span>
                         <span class="fl-tag fl-is-danger fl-is-large">Unavailable</span>
-                        <a href="#" id="crypto_domain_info_url"> info</a>
+
                     </div>
                 </div>
             </article>
@@ -369,9 +376,8 @@ crypto_is_metamask_Connected().then(acc => {
     <footer class="fl-card-footer">
         <a href="#" class="fl-card-footer-item" id="crypto_register_domain">Register
             Domain</a>
-        <a href="#" class="fl-card-footer-item" id="crypto_manage_domain">Manage Domain</a>
-        <a href="<?php echo $this->url_page; ?>" target="_blank" class="fl-card-footer-item"
-            id="crypto_ipfs_domain">Visit Site</a>
+
+        <a href="#" class="fl-card-footer-item" id="crypto_domain_info_url">Domain Information</a>
     </footer>
 </div>
 
@@ -417,7 +423,7 @@ jQuery(document).ready(function() {
                     jQuery("#crypto_register_domain").attr("href",
                         "<?php echo get_site_url(); ?>/web3/" + final_domain +
                         "/?domain=manage");
-                    jQuery("#crypto_manage_domain").hide();
+                    jQuery("#crypto_domain_info_url").hide();
                     jQuery("#crypto_ipfs_domain").hide();
                     jQuery("#crypto_register_domain").show();
 
