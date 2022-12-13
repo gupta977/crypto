@@ -3,6 +3,7 @@ class Crypto_Access
 {
     private $domain_name;
     private $default_access;
+    private $crypto_network;
 
     public function __construct()
     {
@@ -13,6 +14,7 @@ class Crypto_Access
         add_filter('crypto_settings_sections', array($this, 'add_section_extension'));
         add_filter('crypto_settings_sections', array($this, 'add_section'));
         add_filter('crypto_settings_fields', array($this, 'add_fields'));
+        $this->crypto_network = crypto_get_option('crypto_network', 'crypto_marketplace_settings', '137');
 
 
         add_filter('crypto_settings_fields', array($this, 'add_extension'));
@@ -144,7 +146,7 @@ crypto_is_metamask_Connected().then(acc => {
     } else {
         console.log("Connected to:" + acc.addr + "\n Network:" + acc.network);
 
-        if ((acc.network != '137')) {
+        if ((acc.network != '<?php echo $this->crypto_network; ?>')) {
             var msg =
                 "Change your network to Polygon (MATIC). Your connected network is " +
                 acc.network;

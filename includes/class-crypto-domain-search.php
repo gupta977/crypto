@@ -195,8 +195,10 @@ crypto_is_metamask_Connected().then(acc => {
                 var persons = [];
                 account = accounts[0];
                 //  console.log(`Connectedxxxxxxx account...........: ${account}`);
-                jQuery("[id=crypto_wallet_address]").append(crypto_wallet_short(account, 4)).fadeIn(
-                    "normal");
+                jQuery("[id=crypto_wallet_address]").html(crypto_network_arr[acc
+                        .network])
+                    .fadeIn(
+                        "normal");
                 // getBalance(account);
                 await crypto_sleep(1000);
                 var domain_count = await balanceOf(account);
@@ -266,7 +268,8 @@ crypto_is_metamask_Connected().then(acc => {
         </div>
     </div>
     <div class="fl-column">
-        <div id="crypto_wallet_address" class="fl-tag"></div>
+        <div id="crypto_wallet_address" class="fl-tag fl-is-warning"><img
+                src="<?php echo esc_url(CRYPTO_PLUGIN_URL . '/public/img/loading.gif'); ?>" width="15"></div>
     </div>
 
 </div>
@@ -332,7 +335,7 @@ crypto_is_metamask_Connected().then(acc => {
         </div>
     </div>
     <div class="fl-column">
-        <div id="crypto_wallet_address"></div>
+
     </div>
 
 </div>

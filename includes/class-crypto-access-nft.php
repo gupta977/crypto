@@ -7,6 +7,7 @@ class Crypto_Access_NFT
 	private $nft_count;
 	private $nft_type;
 	private $default_access;
+	private $crypto_network;
 
 	public function __construct()
 	{
@@ -19,6 +20,7 @@ class Crypto_Access_NFT
 		add_filter('crypto_settings_sections', array($this, 'add_section'));
 		add_filter('crypto_settings_fields', array($this, 'add_fields'));
 		add_shortcode('crypto-access-nft', array($this, 'crypto_access_box'));
+		$this->crypto_network = crypto_get_option('crypto_network', 'crypto_marketplace_settings', '137');
 	}
 
 	//Add Section title

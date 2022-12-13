@@ -103,12 +103,22 @@ class Crypto_Public
 
         $chainId = crypto_get_option('chainid', 'crypto_login_metamask', '1');
         $execute_js = crypto_get_option('execute_js', 'crypto_login_metamask', '');
+        $crypto_network = crypto_get_option('crypto_network', 'crypto_marketplace_settings', '137');
+
+        if ($crypto_network == '137') {
+            $contract_addr = '0x545c3915f30204081A05894ee91330d9728C3718';
+        } else {
+            $contract_addr = '0x0b4a63248496a1bC85a6Bd4aca1C4250DC04Ecb8'; //wallaby
+        }
+
         $translation_array = array(
             'delete_string' => __('Are you sure you want to delete?', 'crypto'),
             'ajaxurl' => admin_url('admin-ajax.php'),
             'chainId' => $chainId,
             'executeJS' => $execute_js,
             'crypto_plugin_url' => CRYPTO_PLUGIN_URL,
+            'crypto_network' => $crypto_network,
+            'crypto_contract' => $contract_addr
         );
 
         wp_localize_script('crypto_connect_ajax_process', 'crypto_connectChainAjax', $translation_array);

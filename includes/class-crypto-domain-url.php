@@ -5,6 +5,7 @@ class Crypto_Domain_URL
     private $search_page;
     private $url_page;
     private $price_ether;
+    private $crypto_network;
 
     public function __construct()
     {
@@ -15,6 +16,7 @@ class Crypto_Domain_URL
         $this->market_page = crypto_get_option('market_page', 'crypto_marketplace_settings', 0);
         $this->url_page = crypto_get_option('url_page', 'crypto_marketplace_settings', 0);
         $this->price_ether = crypto_get_option('price_ether', 'crypto_marketplace_settings', '5');
+        $this->crypto_network = crypto_get_option('crypto_network', 'crypto_marketplace_settings', '137');
     }
 
     public function rw_query_vars($aVars)
@@ -60,7 +62,8 @@ class Crypto_Domain_URL
         </div>
     </div>
     <div class="fl-column">
-        <div id="crypto_wallet_address" class="fl-tag"></div>
+        <div id="crypto_wallet_address" class="fl-tag fl-is-warning"><img
+                src="<?php echo esc_url(CRYPTO_PLUGIN_URL . '/public/img/loading.gif'); ?>" width="15"></div>
     </div>
 
 </div>
@@ -142,7 +145,7 @@ class Crypto_Domain_URL
                     jQuery("#crypto_loading").show();
                     console.log("Connected to:" + acc.addr + "\n Network:" + acc.network);
 
-                    if ((acc.network != '137')) {
+                    if ((acc.network != '<?php echo $this->crypto_network; ?>')) {
                         var msg =
                             "Change your network to Polygon (MATIC). Your connected network is " +
                             acc.network;
@@ -163,7 +166,8 @@ class Crypto_Domain_URL
                             var persons = [];
                             account = accounts[0];
                             // console.log(`Connectedxxxxxxx account...........: ${account}`);
-                            jQuery("[id=crypto_wallet_address]").append(crypto_wallet_short(account, 4))
+                            jQuery("[id=crypto_wallet_address]").html(crypto_network_arr[acc
+                                    .network])
                                 .fadeIn(
                                     "normal");
 
@@ -265,7 +269,7 @@ class Crypto_Domain_URL
                     jQuery("#crypto_loading").show();
                     console.log("Connected to:" + acc.addr + "\n Network:" + acc.network);
 
-                    if ((acc.network != '137')) {
+                    if ((acc.network != '<?php echo $this->crypto_network; ?>')) {
                         var msg =
                             "Change your network to Polygon (MATIC). Your connected network is " +
                             acc.network;

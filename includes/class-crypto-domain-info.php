@@ -5,6 +5,7 @@ class Crypto_Domain_INFO
     private $search_page;
     private $url_page;
     private $price_ether;
+    private $crypto_network;
 
     public function __construct()
     {
@@ -14,6 +15,7 @@ class Crypto_Domain_INFO
         $this->market_page = crypto_get_option('market_page', 'crypto_marketplace_settings', 0);
         $this->url_page = crypto_get_option('url_page', 'crypto_marketplace_settings', 0);
         $this->price_ether = crypto_get_option('price_ether', 'crypto_marketplace_settings', '5');
+        $this->crypto_network = crypto_get_option('crypto_network', 'crypto_marketplace_settings', '137');
     }
 
     public function start()
@@ -70,7 +72,7 @@ jQuery(document).ready(function() {
                 jQuery("#crypto_loading").show();
                 console.log("Connected to:" + acc.addr + "\n Network:" + acc.network);
 
-                if ((acc.network != '137')) {
+                if ((acc.network != '<?php echo $this->crypto_network; ?>')) {
                     var msg =
                         "Change your network to Polygon (MATIC). Your connected network is " +
                         acc.network;
@@ -91,8 +93,9 @@ jQuery(document).ready(function() {
                         var persons = [];
                         account = accounts[0];
                         // console.log(`Connectedxxxxxxx account...........: ${account}`);
-                        jQuery("[id=crypto_wallet_address]").append(crypto_wallet_short(account,
-                                4))
+
+                        jQuery("[id=crypto_wallet_address]").html(crypto_network_arr[acc
+                                .network])
                             .fadeIn(
                                 "normal");
 
@@ -101,8 +104,13 @@ jQuery(document).ready(function() {
                         var domain_id = await getId('<?php echo $_GET['domain']; ?>');
                         jQuery('#json_container').html('Checking ownership...');
                         if (typeof domain_id !== 'undefined') {
-                            jQuery("#crypto_blockchain_url").attr("href",
-                                "<?php echo CRYPTO_POLYGON_URL; ?>" + domain_id);
+                            if (acc.network == '137') {
+                                jQuery("#crypto_blockchain_url").attr("href",
+                                    "<?php echo CRYPTO_POLYGON_URL; ?>" + domain_id);
+                            } else {
+                                jQuery("#crypto_blockchain_url").attr("href",
+                                    "<?php echo CRYPTO_FILECOIN_URL; ?>" + domain_id);
+                            }
                             //console.log(domain_id);
 
                             jQuery("#crypto_manage_domain").show();
@@ -204,7 +212,8 @@ jQuery(document).ready(function() {
         </div>
     </div>
     <div class="fl-column">
-        <div id="crypto_wallet_address" class="fl-tag"></div>
+        <div id="crypto_wallet_address" class="fl-tag fl-is-warning"><img
+                src="<?php echo esc_url(CRYPTO_PLUGIN_URL . '/public/img/loading.gif'); ?>" width="15"></div>
     </div>
 
 </div>
