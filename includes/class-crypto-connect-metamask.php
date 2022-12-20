@@ -326,8 +326,9 @@ function crypto_state_check() {
 function crypto_check_network(networkId) {
     const chainId_new = crypto_connectChainAjax.chainId;
     console.log(chainId_new);
-    if ((chainId_new != networkId)) {
-        var msg = "Change your network to.. :" + chainId_new;
+    console.log(crypto_network_arr[networkId]);
+    if ((chainId_new != networkId && chainId_new != 0)) {
+        var msg = "Change your network to:" + chainId_new;
         jQuery("[id=wallet_msg]").empty();
         jQuery("#flexi_notification_box").fadeIn("slow");
         jQuery("[id=wallet_msg]").append(msg).fadeIn("normal");

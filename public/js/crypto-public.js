@@ -60,6 +60,8 @@ const crypto_uniqueId = (length=16) => {
 	var crypto_network_arr = new Array(); // OR var  arr  = [];
 	crypto_network_arr['137'] = 'Polygon - MATIC';
 	crypto_network_arr['18'] = 'Filecoin - tFIL';
+	crypto_network_arr['0'] = 'Global - EVM';
+	crypto_network_arr['80001'] = 'Mumbai - Testnet';
 
 //console.log(crypto_plugin_url);
   // const contractAddress = "0x0b4a63248496a1bC85a6Bd4aca1C4250DC04Ecb8"; // Wallaby 

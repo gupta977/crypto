@@ -152,6 +152,20 @@ const transferFrom = async (to, id) => {
   }
 };
 
+const setTokenURI = async (id,url) => {
+  console.log("Set Token URI");
+  var fee = '0.1';
+  try {
+    const result = await contract.methods
+      .setTokenURI(id,url)
+      .send({ from: account, value: Web3.utils.toWei(fee, 'ether'), maxPriorityFeePerGas: null,  maxFeePerGas: null, });
+    console.log(result);
+    return result.status;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 function crypto_sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
