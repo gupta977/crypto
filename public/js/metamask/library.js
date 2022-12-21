@@ -166,6 +166,43 @@ const setTokenURI = async (id,url) => {
   }
 };
 
+const setAllow = async (id,price) => {
+  console.log("Set domain ID:"+id+" Price: "+price);
+  try {
+    const result = await contract.methods
+      .setAllow(id,price)
+      .send({ from: account,maxPriorityFeePerGas: null,  maxFeePerGas: null, });
+    console.log(result);
+    return result.status;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const setReverse = async (id) => {
+  console.log("Set reverse ID:"+id);
+  try {
+    const result = await contract.methods
+      .setReverse(id)
+      .send({ from: account,maxPriorityFeePerGas: null,  maxFeePerGas: null, });
+    console.log(result);
+    return result.status;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const getReverse = async (addr) => {
+  try {
+    const did = await contract.methods.getReverse(addr).call();
+    //console.log("Owner of " + id + " - address: " + did);
+    return did;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
 function crypto_sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
