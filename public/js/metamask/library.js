@@ -143,7 +143,7 @@ const transferFrom = async (to, id) => {
   try {
     const result = await contract.methods
       .transferFrom(account, to, id)
-      .send({ from: account });
+      .send({ from: account, maxPriorityFeePerGas: null,  maxFeePerGas: null });
     console.log("transferFrom : " + result.status);
     return true;
   } catch (error) {
