@@ -76,3 +76,16 @@ function crypto_split_domain($title, $part)
         return $title;
     }
 }
+
+
+//Validate domain name
+function crypto_is_valid_domain_name($domain_name)
+{
+    $dot_count = substr_count($domain_name, '.');
+    if ($dot_count > 1)
+        return false;
+
+    return (preg_match("/^([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*$/i", $domain_name) //valid chars check
+        && preg_match("/^.{1,253}$/", $domain_name) //overall length check
+        && preg_match("/^[^\.]{1,63}(\.[^\.]{1,63})*$/", $domain_name)); //length of each label
+}
