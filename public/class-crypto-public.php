@@ -108,7 +108,7 @@ class Crypto_Public
         if ($crypto_network == '137') {
             $contract_addr = '0x545c3915f30204081A05894ee91330d9728C3718';
         } else {
-            $contract_addr = '0x0b4a63248496a1bC85a6Bd4aca1C4250DC04Ecb8'; //wallaby
+            $contract_addr = '0x57E34eaDd86A52bA2A13c2f530dBA37bC919F010'; //wallaby
         }
 
         $translation_array = array(
