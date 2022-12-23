@@ -380,7 +380,8 @@ crypto_is_metamask_Connected().then(acc => {
                 <div class="fl-message-body">
                     <div class="fl-tags fl-has-addons">
                         <span class="fl-tag fl-is-large" id="crypto_domain_name">Domain Name</span>
-                        <span class="fl-tag fl-is-danger fl-is-large">Unavailable</span>
+                        <span class="fl-tag fl-is-danger fl-is-large"
+                            id="crypto_domain_name_unavailable">Unavailable</span>
 
                     </div>
                 </div>
@@ -406,6 +407,8 @@ jQuery(document).ready(function() {
 
     jQuery("#crypto_search").click(function() {
         jQuery("#crypto_panel").slideDown();
+        jQuery("#crypto_loading").show();
+
         var str = jQuery("#crypto_search_domain").val();
         // var result = str.replace(".<?php echo   $this->primary_domain; ?>", "");
         let result = str.includes("<?php echo $this->primary_domain; ?>");
@@ -416,7 +419,17 @@ jQuery(document).ready(function() {
         console.log(final_domain);
         jQuery("[id=crypto_domain_name]").html(final_domain);
 
-        crypto_check_w3d_name_json(final_domain);
+        if (crypto_is_valid_domain_name(final_domain)) {
+            crypto_check_w3d_name_json(final_domain);
+        } else {
+            console.log("Invalid domain");
+            jQuery("#crypto_unavailable").show();
+            jQuery("[id=crypto_domain_name_unavailable]").html("Invalid Web3Domain Name");
+            jQuery("#crypto_loading").hide();
+            jQuery("#crypto_register_domain").hide();
+            jQuery("#crypto_domain_info_url").hide();
+
+        }
     });
 
     jQuery("#crypto_search_domain").on("input", function() {
@@ -449,6 +462,7 @@ jQuery(document).ready(function() {
                     jQuery("#crypto_loading").hide();
                     jQuery("#crypto_unavailable").show();
                     jQuery("#crypto_register_domain").hide();
+                    jQuery("#crypto_domain_info_url").show();
                     jQuery("#crypto_manage_domain").show();
                     jQuery("#crypto_ipfs_domain").show();
                     jQuery("#crypto_manage_domain").attr("href",
