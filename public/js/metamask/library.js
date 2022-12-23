@@ -202,6 +202,16 @@ const getReverse = async (addr) => {
   }
 };
 
+//Get title of a domain with ID
+const getAllow = async (id) => {
+  try {
+    const did = await contract.methods.getAllow(id).call();
+    return did;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 
 function crypto_sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
