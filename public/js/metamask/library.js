@@ -54,6 +54,7 @@ const connectContract = async (contractAbi, contractAddress) => {
   const contractABI = data.abi;
   contract = new web3.eth.Contract(contractABI, contractAddress);
   // return contract;
+  //console.log(contractAddress);
 };
 
 // Get Balance of ether
