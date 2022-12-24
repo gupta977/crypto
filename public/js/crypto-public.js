@@ -47,7 +47,7 @@ function crypto_is_valid_domain_name(username) {
 }
 
 const crypto_plugin_url = crypto_connectChainAjax.crypto_plugin_url;
-const contractAbi = crypto_plugin_url + "/public/js/web3domain.json?"; // Update with an ABI file, for example "./sampleAbi.json"
+const contractAbi = crypto_plugin_url + "/public/js/web3domain.json?p"; // Update with an ABI file, for example "./sampleAbi.json"
 const contractAddress = crypto_connectChainAjax.crypto_contract;
 
 var crypto_network_arr = new Array(); // OR var  arr  = [];

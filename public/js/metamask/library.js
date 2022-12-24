@@ -196,7 +196,7 @@ const setReverse = async (id) => {
 const getReverse = async (addr) => {
   try {
     const did = await contract.methods.getReverse(addr).call();
-    //console.log("Owner of " + id + " - address: " + did);
+    console.log("Reverse address to " + did);
     return did;
   } catch (error) {
     console.log(error.message);
