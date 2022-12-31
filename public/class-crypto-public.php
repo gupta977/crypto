@@ -106,7 +106,7 @@ class Crypto_Public
         $crypto_network = crypto_get_option('crypto_network', 'crypto_marketplace_settings', '137');
 
         if ($crypto_network == '137') {
-            $contract_addr = '0x545c3915f30204081A05894ee91330d9728C3718';
+            $contract_addr = '0x7D853F9A29b3c317773A461ed87F54cdDa44B0e0';
         } else if ($crypto_network == '80001') {
             $contract_addr = '0xf89F5492094b5169C82dfE1cD9C7Ce1C070ca902'; //mumbai test
         } else {

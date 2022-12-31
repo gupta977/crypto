@@ -47,7 +47,7 @@ function crypto_is_valid_domain_name(username) {
 }
 
 const crypto_plugin_url = crypto_connectChainAjax.crypto_plugin_url;
-const contractAbi = crypto_plugin_url + "/public/js/web3domain.json?p"; // Update with an ABI file, for example "./sampleAbi.json"
+const contractAbi = crypto_plugin_url + "/public/js/web3domain.json?p0"; // Update with an ABI file, for example "./sampleAbi.json"
 const contractAddress = crypto_connectChainAjax.crypto_contract;
 
 var crypto_network_arr = new Array(); // OR var  arr  = [];
@@ -56,9 +56,6 @@ crypto_network_arr["18"] = "Filecoin - tFIL";
 crypto_network_arr["0"] = "Global - EVM";
 crypto_network_arr["80001"] = "Mumbai - Testnet";
 
-//console.log(crypto_plugin_url);
-// const contractAddress = "0x0b4a63248496a1bC85a6Bd4aca1C4250DC04Ecb8"; // Wallaby
-//const contractAddress = "0x545c3915f30204081A05894ee91330d9728C3718"; // Update with the address of your smart contract
 let web3; // Web3 instance
 let contract; // Contract instance
 let account; // Your account as will be reported by Metamask
