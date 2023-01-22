@@ -62,9 +62,9 @@ class Crypto_Domain_INFO
                     function crypto_start(method) {
                         crypto_is_metamask_Connected().then(acc => {
                             if (acc.addr == '') {
-                                //console.log("Metamask not connected. Please connect first");
+                                //console.log("Metamask is not connected. Please connect to it first.");
                                 jQuery('#json_container').html(
-                                    '<div class="crypto_alert-box crypto_error">Metamask not connected. Please connect first</div>'
+                                    '<div class="crypto_alert-box crypto_error">Metamask is not connected. Please connect to it first.</div>'
                                 );
                                 jQuery("#crypto_loading").hide();
 
@@ -74,7 +74,7 @@ class Crypto_Domain_INFO
 
                                 if ((acc.network != '<?php echo $this->crypto_network; ?>')) {
                                     var msg =
-                                        "Change your network to Polygon (MATIC). Your connected network is " +
+                                        "Please change your network to Polygon (MATIC). Your currently connected network is " +
                                         acc.network;
                                     jQuery('#json_container').html(
                                         '<div class="crypto_alert-box crypto_error">' + msg + '</div>'
@@ -175,7 +175,7 @@ class Crypto_Domain_INFO
                                         } else {
                                             //  console.log("Domain not minted yet");
                                             jQuery('#json_container').html(
-                                                '<div class="crypto_alert-box crypto_notice"> This domain not minted yet.</div>'
+                                                '<div class="crypto_alert-box crypto_notice"> This domain has not been minted yet. </div>'
                                             );
                                             jQuery("#crypto_loading").hide();
                                             jQuery("#crypto_register_domain").attr("href",

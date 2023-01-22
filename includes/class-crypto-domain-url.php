@@ -133,9 +133,9 @@ class Crypto_Domain_URL
                             function crypto_start(method) {
                                 crypto_is_metamask_Connected().then(acc => {
                                     if (acc.addr == '') {
-                                        //console.log("Metamask not connected. Please connect first");
+                                        //console.log("Metamask is not connected. Please connect to it first.");
                                         jQuery('#json_container').html(
-                                            '<div class="crypto_alert-box crypto_error">Metamask not connected. Please connect first</div>'
+                                            '<div class="crypto_alert-box crypto_error">Metamask is not connected. Please connect to it first.</div>'
                                         );
                                         jQuery("#crypto_loading").hide();
 
@@ -145,7 +145,7 @@ class Crypto_Domain_URL
 
                                         if ((acc.network != '<?php echo $this->crypto_network; ?>')) {
                                             var msg =
-                                                "Change your network to Polygon (MATIC). Your connected network is " +
+                                                "Please change your network to " + crypto_network_arr['<?php echo $this->crypto_network; ?>'] + ". Your currently connected network is " +
                                                 acc.network;
                                             jQuery('#json_container').html(
                                                 '<div class="crypto_alert-box crypto_error">' + msg + '</div>'
@@ -231,7 +231,7 @@ class Crypto_Domain_URL
                                                 } else {
                                                     //  console.log("Domain not minted yet");
                                                     jQuery('#json_container').html(
-                                                        '<div class="crypto_alert-box crypto_notice"> This domain not minted yet.</div>'
+                                                        '<div class="crypto_alert-box crypto_notice"> This domain has not been minted yet. </div>'
                                                     );
                                                     jQuery("#crypto_loading").hide();
                                                     jQuery("#crypto_claim_box").show();
@@ -258,9 +258,9 @@ class Crypto_Domain_URL
                             function crypto_claim() {
                                 crypto_is_metamask_Connected().then(acc => {
                                     if (acc.addr == '') {
-                                        //console.log("Metamask not connected. Please connect first");
+                                        //console.log("Metamask is not connected. Please connect to it first.");
                                         jQuery('#json_container').html(
-                                            '<div class="crypto_alert-box crypto_error">Metamask not connected. Please connect first</div>'
+                                            '<div class="crypto_alert-box crypto_error">Metamask is not connected. Please connect to it first.</div>'
                                         );
                                         jQuery("#crypto_loading").hide();
                                     } else {
@@ -269,7 +269,7 @@ class Crypto_Domain_URL
 
                                         if ((acc.network != '<?php echo $this->crypto_network; ?>')) {
                                             var msg =
-                                                "Change your network to Polygon (MATIC). Your connected network is " +
+                                                "Please change your network to Polygon (MATIC). Your currently connected network is " +
                                                 acc.network;
                                             jQuery('#json_container').html(
                                                 '<div class="crypto_alert-box crypto_error">' + msg + '</div>'
@@ -334,16 +334,17 @@ class Crypto_Domain_URL
                             <div class="fl-column fl-is-full">
                                 <div class="fl-box">
                                     <div class="fl-field">
-                                        <label class="fl-label">Transfer Web3Domain (<?php echo $subdomain; ?>) to another
-                                            wallet</label>
+                                        <label class="fl-label">Transfer the Web3Domain "<?php echo $subdomain; ?>" to another wallet</label>
                                         <div class="fl-control">
                                             <input class="fl-input" id="to_add" placeholder="e.g. 0xf11a4fac7b7839771da0a526145198e99d0575be">
                                         </div>
                                     </div>
-                                    <p class="fl-help fl-is-success">This will transfer current NFT domain to new owner.<br>You will not
-                                        have
-                                        any controls later <br> You must enter polygon chain wallet address. <br>This transaction cannot
-                                        be reverted.<br><br></p>
+                                    <p class="fl-help fl-is-success">
+                                        This will transfer ownership of the current NFT domain to a new owner.<br>
+                                        Please ensure to enter the correct wallet address for the selected network.<br>
+                                        This transaction cannot be undone.
+                                        <br>
+                                    </p>
 
                                     <div class="fl-control">
                                         <button class="fl-button fl-is-primary" id="transfer">Transfer</button>
@@ -361,12 +362,13 @@ class Crypto_Domain_URL
 
 
                                     <div class="fl-field">
-                                        <label class="fl-label">Mint Web3Domain Name : <?php echo $subdomain; ?></label>
+                                        <label class="fl-label">Create a Web3Domain Name : <?php echo $subdomain; ?></label>
 
                                     </div>
-                                    <p class="fl-help fl-is-success">This will register web3 domain name and save it into your wallet as
-                                        NFT.<br> You Metamask should be connected to Polygon Mainnet <br>Later you can import your
-                                        domain to other site as required.<br><br></p>
+                                    <p class="fl-help fl-is-success">
+                                        This will register a web3 domain name and store it as an NFT in your wallet.<br>
+                                        Please ensure that your Metamask is connected to the specified network.<br>
+                                        Afterwards, you can import your domain to other sites for additional functionality.<br><br></p>
 
                                     <div class="fl-control">
                                         <button class="fl-button fl-is-primary" id="crypto_claim">Claim Now</button>
