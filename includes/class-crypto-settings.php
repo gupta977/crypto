@@ -221,7 +221,7 @@ class crypto_Admin_Settings
                 array(
                     'name' => 'flexi_style_text_color',
                     'label' => __('Information', 'crypto'),
-                    'description' => __('Select appropriate tabs above & do check sub-tabs below them.', 'crypto'),
+                    'description' => __('Choose the relevant tabs above and review the sub-tabs within them.', 'crypto'),
                     'type' => 'html',
 
                 ),

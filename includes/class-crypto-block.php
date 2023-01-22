@@ -267,31 +267,29 @@ class Crypto_Block
 		?>
 <div class="changelog section-getting-started">
     <div class="feature-section">
-        <h2>Access restrictions for Member</h2>
+        <h2>Content/page access restrictions for members</h2>
         <div class="wrap">
-            <b>Restrict content/pages based on crypto/NFT holding inside 'crypto wallet'</b>
+            <b>Limit access to certain content/pages based on crypto/NFT holdings within a "crypto wallet".</b>
             <br><br><a class="button button-primary"
-                href="<?php echo admin_url('admin.php?page=crypto_settings&tab=access&section=crypto_access_settings_start'); ?>">Settings</a>
+                href="<?php echo admin_url('admin.php?page=crypto_settings&tab=access&section=crypto_access_settings_start'); ?>">Restrict
+                User Settings</a>
             <br><br>
             <b>Tips</b>
             <ul>
-                <li>* You must use correct smart contract address which starts from 0x.... </li>
-                <li>* Crypto & NFT count is calculated as balanceOf ether function. </li>
+                <li>* Ensure that you use the correct smart contract address, which should start with "0x..." </li>
+                <li>* The number of Crypto and NFTs is calculated using the "balanceOf" function in Ethereum. </li>
             </ul>
             <hr>
-            <b>Do you know about <a href='<?php echo esc_url('https://web3domain.org/'); ?>'
-                    target='_blank'>Web3Domain</a> ? </b><br>
+            <b>Do you have knowledge about the benefits of Web3Domain for domain resellers?</b><br>
             <ul>
-                <li>
-                    * It is best option to earn for membership by letting user to obtain subdomain of your web3 primary
-                    domain.</li>
-                <li>* You earn as soon as domain minted.</li>
-                <li>* You can set the price for your subdomain yourself.</li>
-                <li>* You can also restrict not to be minted by public. Only you can mint it and transfer. Hence you can
-                    save commission fees too. </li>
-                <li>* All Web3Domains are NFTs. Which you can sell at opensea.io</li>
+                <li>* Allowing users to acquire subdomains on your primary Web3 domain is a great way to earn revenue
+                    through membership.</li>
+                <li>* You will earn money as soon as the domain is minted.</li>
+                <li>* You can set the price for your subdomains yourself.</li>
+                <li>* You can also choose to not allow the public to mint subdomains, and only mint and transfer them
+                    yourself, thereby avoiding commission fees.</li>
+                <li>* All Web3Domains are NFTs which can be sold on opensea.io</li>
             </ul>
-
         </div>
     </div>
 </div>

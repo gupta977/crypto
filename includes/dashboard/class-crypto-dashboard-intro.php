@@ -38,16 +38,16 @@ class Crypto_Admin_Dashboard_Intro
         <h2>Blockchain Tools</h2>
         <div class="wrap">
 
-            <pre>
-                We are trying to build all in one crypto tools.<br>
-                Slowly we will be adding all major frequently used crypto tools that will help us to build Web3 platforms.
-      </pre>
+            <div>
+                We are working towards creating a comprehensive set of cryptocurrency tools. Gradually, we will be
+                adding all the major and frequently used tools that will aid in the development of Web3 platforms.
+            </div>
 
             <br>
             <b>Support: </b> <a href="<?php echo esc_url('https://wordpress.org/support/plugin/crypto/'); ?>">Wordpress
                 Forum</a><br>
-            <b>Telegram : </b> <a href="<?php echo esc_url('https://t.me/web3_domain'); ?>">@Web3_Domain</a><br>
-            <b>Twitter: </b> <a href="<?php echo esc_url('https://twitter.com/web3_domain'); ?>">@Web3_Domain</a><br>
+            <b>Telegram : </b> <a href="<?php echo esc_url('https://t.me/web3yak'); ?>">@Web3Yak</a><br>
+            <b>Twitter: </b> <a href="<?php echo esc_url('https://twitter.com/web3yak'); ?>">@Web3Yak</a><br>
         </div>
     </div>
 </div>

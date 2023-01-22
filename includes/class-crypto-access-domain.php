@@ -49,7 +49,7 @@ class Crypto_Access
             array(
                 'id' => 'crypto_access_settings',
                 'title' => __('Web3Domain Access', 'crypto'),
-                'description' => __('Restrict user to access certain part of the website based on Web3Domain availability. ', 'crypto') . "<br>Get domain from <a href='" . esc_url('https://web3domain.org/') . "' target='_blank'>Web3Domain.org</a><br><br>" . "<b>Shortcode to restrict content</b><br><code>[crypto-block] Private information or content between shortcode. [/crypto-block]</code><b><br><br>Restrict full page</b><br><code>Edit the page and choose option from setting panel</code>",
+                'description' => __('Limit access to specific areas of the website based on the availability of a Web3Domain.', 'crypto') . "<br>Get domain from <a href='" . esc_url('https://web3domain.org/') . "' target='_blank'>Web3Domain.org</a><br><br>" . "<b>Shortcode for limiting access to content</b><br>The shortcode should be written as <code>[crypto-block] for private information or content between the shortcode. [/crypto-block]</code><b><br><br>To limit access to the entire page.</b><br><code>Edit the desired page, and use the option from the setting panel to limit access.</code>",
                 'tab' => 'access',
             ),
         );
@@ -64,8 +64,8 @@ class Crypto_Access
         $sections = array(
             array(
                 'id' => 'crypto_access_settings_start',
-                'title' => __('Access Control Settings', 'crypto'),
-                'description' => __('You can use only one access control at a time. Select your preference.', 'crypto'),
+                'title' => __('Access Control Configuration', 'crypto'),
+                'description' => __('You can only use one access control setting at a time. Choose your preferred option.', 'crypto'),
                 'tab' => 'access',
             ),
         );
@@ -82,16 +82,16 @@ class Crypto_Access
 
                 array(
                     'name' => 'domain_name',
-                    'label' => __('Web3Domain Name', 'crypto'),
-                    'description' => __('Enter Web3Domain primary domain name. Access to page is available to user, only if sub-domain exist in wallet.', 'crypto'),
+                    'label' => __('TLD of the Web3Domain Name', 'crypto'),
+                    'description' => __('Enter the primary Web3Domain name. Access to this page will only be granted to users who have a sub-domain of this name in their wallet.', 'crypto'),
                     'type' => 'text',
                     'sanitize_callback' => 'sanitize_key',
                 ),
 
                 array(
                     'name' => 'restrict_page',
-                    'label' => __('Restrict Page', 'crypto'),
-                    'description' => __('Page must contain shortcode as ', 'crypto') . '[crypto-connect label="Connect Wallet" class="fl-button fl-is-info fl-is-light"] [crypto-access-domain]',
+                    'label' => __('Limit access to the page', 'crypto'),
+                    'description' => __('To limit access to the entire page, add the shortcode [crypto-connect label="Connect Wallet" class="fl-button fl-is-info fl-is-light"] [crypto-access-domain]', 'crypto'),
                     'type' => 'pages',
                     'sanitize_callback' => 'sanitize_key',
                 ),
@@ -109,12 +109,12 @@ class Crypto_Access
         $fields = array('crypto_access_settings_start' => array(
             array(
                 'name' => 'select_access_control',
-                'label' => __('Select Access Control', 'flexi'),
+                'label' => __('Choose Access Control', 'flexi'),
                 'description' => '',
                 'type' => 'radio',
                 'options' => array(
                     'web3domain' => __('Web3Domain Access', 'flexi'),
-                    'nft' => __('NFT & Crypto Access', 'flexi'),
+                    'nft' => __('Cryptocurrency & Non-Fungible Token (NFT) Access', 'flexi'),
                 ),
                 'sanitize_callback' => 'sanitize_key',
             ),

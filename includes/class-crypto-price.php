@@ -339,16 +339,18 @@ class Crypto_Price
     <div class="feature-section">
         <h2>Price Display</h2>
         <div class="wrap">
-            <b>Shows latest price of crypto token in selected currency.</b>
+            <b>The "Crypto" plugin enables users to display current cryptocurrency prices in various currencies.</b>
             <br><br><a class="button button-primary"
-                href="<?php echo admin_url('admin.php?page=crypto_settings&tab=price&section=crypto_price_settings'); ?>">Settings</a>
+                href="<?php echo admin_url('admin.php?page=crypto_settings&tab=price&section=crypto_price_settings'); ?>">Price
+                Display Settings</a>
             <br><br>
             <b>Tips</b>
             <ul>
-                <li>* Obtain API from CoinMarketCap.com. It's free to get. </li>
-                <li>* First make 'Crypto Data Caching' equals to '1' second. After it works better, make it high as
-                    required. It will save your bandwidth and increases speed. </li>
-                <li>* To show price within the article. Use style as 'none'. This will not break your paragraph.</li>
+                <li>* Obtain an API key from CoinMarketCap.com, which is free to acquire.</li>
+                <li>* Initially set the 'Crypto Data Caching' time to 1 second. Once it is working well, increase it as
+                    needed. This will save bandwidth and improve speed.</li>
+                <li>* To display prices within an article, use the 'none' style. This will not disrupt the paragraph's
+                    formatting.</li>
             </ul>
 
         </div>

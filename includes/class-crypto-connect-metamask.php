@@ -354,18 +354,21 @@ function crypto_check_network(networkId) {
     <div class="feature-section">
         <h2>Login & Register</h2>
         <div class="wrap">
-            <b>It connects your MetaMask or other crypto wallet.<br>After
-                connection user automatically logged in without registration. </b>
+            <b>This plugin connects to your MetaMask or other cryptocurrency wallet. Once connected, the user will be
+                automatically logged in without the need for registration.</b>
             <br><br><a class="button button-primary"
-                href="<?php echo admin_url('admin.php?page=crypto_settings&tab=login&section=crypto_general_login'); ?>">Settings</a>
+                href="<?php echo admin_url('admin.php?page=crypto_settings&tab=login&section=crypto_general_login'); ?>">Login
+                Settings</a>
             <br><br>
             <b>Tips</b>
             <ul>
-                <li>* Web3 Modal login is better to use as it has wider options. </li>
-                <li>* If user already logged by traditional username & password. It will bind current wallet address. So
-                    that next time same username auto logged in if same wallet is used. </li>
-                <li>* 'Network Chain ID' means the crypto blockchain. Eg. Ethereum mainnet id is 1.</li>
-                <li>By default public API is used in Web3 Modal. Get your own free for faster and uptime.</li>
+
+                <li>* If a user has already logged in using their traditional username and password, this plugin will
+                    bind their current wallet address. This means that the next time they log in with the same username,
+                    they will be automatically logged in as long as they use the same wallet address. </li>
+                <li>* "Network Chain ID" refers to the specific blockchain network of a cryptocurrency. For example, the
+                    Ethereum mainnet has a Chain ID of 1.</li>
+                <li> * Get your own API for faster and more reliable performance.</li>
             </ul>
 
         </div>

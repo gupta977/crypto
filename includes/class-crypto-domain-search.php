@@ -51,8 +51,8 @@ class Crypto_Domain_Search
         $sections = array(
             array(
                 'id' => 'crypto_marketplace_settings',
-                'title' => __('Sell Web3 Domain Name', 'crypto'),
-                'description' => __('Sell your own web3 domain name like ENS, unstoppable. ', 'crypto'),
+                'title' => __('Sell Web3 Domain Names', 'crypto'),
+                'description' => __('Sell your own web3 domain names, such as ENS or Unstoppable.', 'crypto'),
                 'tab' => 'marketplace',
             ),
         );
@@ -69,7 +69,7 @@ class Crypto_Domain_Search
                 array(
                     'name' => 'crypto_network',
                     'label' => __('Select Network', 'crypto'),
-                    'description' => __('Blockchain network where primary TLD is minted.', 'crypto'),
+                    'description' => __('The blockchain network where the primary top-level domain (TLD) is minted.', 'crypto'),
                     'type' => 'select',
                     'options' => array(
                         '137' => __('Polygon - Matic', 'crypto'),
@@ -81,28 +81,28 @@ class Crypto_Domain_Search
                 array(
                     'name' => 'search_page',
                     'label' => __('Domain Search', 'crypto'),
-                    'description' => __('Search & Mint Web3Domains', 'crypto') . '[crypto-domain-search]',
+                    'description' => __('Search and mint Web3Domains by using the [crypto-domain-search] shortcode on the designated page.', 'crypto'),
                     'type' => 'pages',
                     'sanitize_callback' => 'sanitize_key',
                 ),
                 array(
                     'name' => 'market_page',
                     'label' => __('My Domain', 'crypto'),
-                    'description' => __('List minted Web3Domains', 'crypto') . '[crypto-domain-market]',
+                    'description' => __('View a list of minted Web3Domains by using the [crypto-domain-market] shortcode on the designated page.', 'crypto'),
                     'type' => 'pages',
                     'sanitize_callback' => 'sanitize_key',
                 ),
                 array(
                     'name' => 'url_page',
                     'label' => __('Domain URL', 'crypto'),
-                    'description' => __('Manage & Redirect Domain (http://_your_website_/web3/_web3domain_name_/. ', 'crypto') . '[crypto-domain-url]',
+                    'description' => __('Manage and redirect domains, such as "http://yourwebsite/web3/web3domainname/", by using the [crypto-domain-url] shortcode on a designated page.', 'crypto'),
                     'type' => 'pages',
                     'sanitize_callback' => 'sanitize_key',
                 ),
                 array(
                     'name' => 'info_page',
                     'label' => __('Domain Information', 'crypto'),
-                    'description' => __('View domain information saved on blockchain ', 'crypto') . '[crypto-domain-info]',
+                    'description' => __('View information about domains that exist on the blockchain by using the [crypto-domain-info] shortcode on the designated page.', 'crypto'),
                     'type' => 'pages',
                     'sanitize_callback' => 'sanitize_key',
                 ),
@@ -110,7 +110,7 @@ class Crypto_Domain_Search
                 array(
                     'name' => 'primary_domain',
                     'label' => __('Domain TLD', 'crypto'),
-                    'description' => __('Top level domain name you offer to your visitors.', 'crypto'),
+                    'description' => __('Enter the top-level domain name that you will be offering to your visitors.', 'crypto'),
                     'type' => 'text',
                     'sanitize_callback' => 'sanitize_key',
                 ),
@@ -118,7 +118,7 @@ class Crypto_Domain_Search
                 array(
                     'name' => 'price_ether',
                     'label' => __('Price in Ether', 'crypto'),
-                    'description' => __('Enter the ether amount required to mint domain. It must be equal or greater then specified in contract address of primary domain.', 'crypto'),
+                    'description' => __('Enter the amount of ether required to mint the domain. It must be equal to or greater than the amount specified in the contract address of the primary domain.', 'crypto'),
                     'type' => 'text',
                     'size' => 'small',
                     'sanitize_callback' => 'sanitize_text_field',
@@ -511,12 +511,32 @@ jQuery(document).ready(function() {
     ?>
 <div class="changelog section-getting-started">
     <div class="feature-section">
-        <h2>Become a Web3 Domain Name provider</h2>
+        <h2>Become a provider of Web3Domain Names</h2>
         <div class="wrap">
-            <b>Register your primary top-level domain (TLD) Web3 Domain Name from web3domain.org and start selling
+            <b>Register your primary top-level domain (TLD) Web3 Domain Name on web3domain.org and begin selling
                 subdomains of it.</b>
+            <hr>
+            <a class="button button-primary"
+                href="<?php echo admin_url('admin.php?page=crypto_settings&tab=marketplace&section=crypto_marketplace_settings'); ?>">Manage
+                Marketplace</a>
+            <hr>
+            <h3>Benefits of Reselling Subdomains from Web3Domains</h3>
+            <ul>
+                <li>* Revenue Generation: As a reseller, you can earn money by allowing users to acquire subdomains on
+                    your primary Web3 domain. You will earn revenue as soon as the domain is minted.</li>
 
+                <li>* Pricing Flexibility: You can set the price for your subdomains yourself, giving you the freedom to
+                    adjust pricing based on market demand.</li>
 
+                <li>* Commission Avoidance: You can also choose to not allow the public to mint subdomains, and only
+                    mint and transfer them yourself, thereby avoiding commission fees.</li>
+
+                <li>* NFT Reselling: All Web3Domains are NFTs which can be sold on opensea.io, you can resell them at
+                    the price you want.</li>
+
+                <li>* Branding: As a reseller, you can establish yourself as a provider of unique and valuable web3
+                    domain names, which can help to enhance your brand and reputation in the industry.</li>
+            </ul>
         </div>
     </div>
 </div>

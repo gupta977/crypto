@@ -30,8 +30,8 @@ class Crypto_Access_NFT
 		$sections = array(
 			array(
 				'id' => 'crypto_access_other',
-				'title' => __('NFT & Crypto Access', 'crypto'),
-				'description' => __('Restrict user to access certain part of the website based on NFT token availability. ', 'crypto') . "<br><br><b>Shortcode to restrict content</b><br><code>[crypto-block] Private information or content between shortcode. [/crypto-block]</code><b><br><br>Restrict full page</b><br><code>Edit the page and choose option from setting panel</code>",
+				'title' => __('Cryptocurrency & Non-Fungible Token (NFT) Access', 'crypto'),
+				'description' => __('Limit access to specific sections of the website based on the availability of NFT tokens.', 'crypto') . "<br><br><b>Shortcode for limiting access to content</b><br>The shortcode should be written as <code>[crypto-block] for private information or content between the shortcode. [/crypto-block]</code><b><br><br>To limit access to the entire page.</b><br><code>Edit the desired page, and use the option from the setting panel to limit access.</code>",
 				'tab' => 'access',
 			),
 		);
@@ -49,7 +49,7 @@ class Crypto_Access_NFT
 				array(
 					'name' => 'chainid',
 					'label' => __('Blockchain Network', 'crypto'),
-					'description' => __('Select your blockchain of contract address used', 'crypto'),
+					'description' => __('Choose the blockchain on which the contract address is used.', 'crypto'),
 					'type' => 'select',
 					'options' => array(
 
@@ -62,21 +62,21 @@ class Crypto_Access_NFT
 				array(
 					'name' => 'chain_contract',
 					'label' => __('Contract address', 'crypto'),
-					'description' => __('Contract address of NFT or token starts with 0x...', 'crypto'),
+					'description' => __('Enter the Contract address of the NFT or token, it should start with "0x..."', 'crypto'),
 					'size' => 'large',
 					'type' => 'text',
 				),
 				array(
 					'name' => 'nft_name',
 					'label' => __('Token Name', 'crypto'),
-					'description' => __('Name of the NFT or token', 'crypto'),
+					'description' => __('Enter the name of the NFT or token.', 'crypto'),
 					'size' => 'large',
 					'type' => 'text',
 				),
 				array(
 					'name' => 'nft_count',
 					'label' => __('NFT or Crypto count', 'crypto'),
-					'description' => __('Enter the number of NFT/token must be available.', 'crypto'),
+					'description' => __('Enter the number of NFTs/tokens that must be available for access to be granted.', 'crypto'),
 					'type' => 'number',
 					'size' => 'medium',
 					'min' => '0.0',
@@ -99,8 +99,8 @@ class Crypto_Access_NFT
 
 				array(
 					'name' => 'restrict_page',
-					'label' => __('Restrict Page', 'crypto'),
-					'description' => __('Page must contain shortcode as ', 'crypto') . '[crypto-connect label="Connect Wallet" class="fl-button fl-is-info fl-is-light"] [crypto-access-nft]',
+					'label' => __('Limit access to the page', 'crypto'),
+					'description' => __('To limit access to the entire page, add the shortcode [crypto-connect label="Connect Wallet" class="fl-button fl-is-info fl-is-light"] [crypto-access-nft].', 'crypto'),
 					'type' => 'pages',
 					'sanitize_callback' => 'sanitize_key',
 				),
