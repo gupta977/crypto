@@ -73,7 +73,7 @@ class Crypto_Domain_Search
                     'type' => 'select',
                     'options' => array(
                         '137' => __('Polygon - Matic', 'crypto'),
-                        '18' => __('Filecoin - tFIL', 'crypto'),
+                        '19' => __('Filecoin - tFIL', 'crypto'),
                         '80001' => __('Mumbai Testnet', 'crypto'),
                     ),
                     'sanitize_callback' => 'sanitize_key',
@@ -111,6 +111,7 @@ class Crypto_Domain_Search
                     'name' => 'primary_domain',
                     'label' => __('Domain TLD', 'crypto'),
                     'description' => __('Enter the top-level domain name that you will be offering to your visitors.', 'crypto'),
+                    'size' => 'medium',
                     'type' => 'text',
                     'sanitize_callback' => 'sanitize_key',
                 ),
