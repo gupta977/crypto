@@ -78,15 +78,15 @@ class Crypto_Domain_URL
                     <div id="crypto_loading" style="text-align:center;"> <img src="<?php echo esc_url(CRYPTO_PLUGIN_URL . '/public/img/loading.gif'); ?>" width="100">
                     </div>
 
-                    <div id="crypto_loading_url" style="text-align:center;"> Redirection on progress..
+                    <div id="crypto_loading_url" style="text-align:center;"> Please wait, redirection in progress...
                         <br>
-                        <a href="#" id="crypto_loading_url_link">External Link</a>
+                        <a href="#" id="crypto_loading_url_link">Direct External Link</a>
                     </div>
                     <article class="fl-message fl-is-danger" id="crypto_unavailable">
                         <div class="fl-message-body">
                             <div class="fl-tags fl-has-addons">
                                 <span class="fl-tag fl-is-large" id="crypto_domain_name">Domain Name</span>
-                                <span class="fl-tag fl-is-danger fl-is-large" id="crypto_domain_name_error">Unavailable</span>
+                                <span class="fl-tag fl-is-danger fl-is-large" id="crypto_domain_name_error">Website not available</span>
                             </div>
                         </div>
                     </article>
@@ -397,6 +397,9 @@ class Crypto_Domain_URL
                                         .then(res => res.json())
                                         .then((out) => {
                                             console.log('Output: ', out);
+                                            jQuery("[id=crypto_wallet_address]").html(domain_name)
+                                                .fadeIn(
+                                                    "normal");
                                             if (typeof out.error !== 'undefined') {
                                                 //      console.log("This domain name is available to mint.");
                                                 //  jQuery("[id=crypto_domain_name]").html(domain_name + "");
