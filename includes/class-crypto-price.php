@@ -326,7 +326,7 @@ class Crypto_Price
 
 	public function dashboard_add_content()
 	{
-		if (isset($_GET['tab']) && 'price' == $_GET['tab']) {
+		if (isset($_GET['tab']) && 'price' == sanitize_text_field($_GET['tab'])) {
 			echo wp_kses_post($this->crypto_dashboard_content());
 		}
 	}

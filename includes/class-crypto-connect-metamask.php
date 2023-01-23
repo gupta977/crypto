@@ -237,7 +237,7 @@ crypto_state_check();
 
     public function dashboard_add_content()
     {
-        if (isset($_GET['tab']) && 'login' == $_GET['tab']) {
+        if (isset($_GET['tab']) && 'login' == sanitize_text_field($_GET['tab'])) {
             echo wp_kses_post($this->crypto_dashboard_content());
         }
     }

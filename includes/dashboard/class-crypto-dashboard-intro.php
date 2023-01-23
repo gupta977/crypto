@@ -24,7 +24,7 @@ class Crypto_Admin_Dashboard_Intro
             echo wp_kses_post($this->crypto_dashboard_content());
         }
 
-        if (isset($_GET['tab']) && 'intro' == $_GET['tab']) {
+        if (isset($_GET['tab']) && 'intro' == sanitize_text_field($_GET['tab'])) {
             echo wp_kses_post($this->crypto_dashboard_content());
         }
     }
