@@ -1,6 +1,6 @@
 === Crypto ===
 Contributors: odude
-Donate link: https://odude.com/
+Donate link: https://w3d.name/
 Tags: crypto, login, metamask, NFT, Blockchain, Token
 Requires at least: 3.0.1
 Requires PHP: 5.5
@@ -9,58 +9,69 @@ Stable tag: 1.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Crypto wallet login, donation, price box, content restrict & more..
+Cryptocurrency wallet login, donation, price display, content restriction, and more.
 
 == Description ==
 
-Let your user to login via metamask & WalletConnect.
-Automatic registration.
-No more require to remember passwords for website. 
+Enable your users to log in via Metamask.
+Automatic registration eliminates the need for remembering passwords for the website.
 
-**[crypto-connect]** -  Use shortcode to any of your pages for login button.
-**Secure** - Any transaction on your site has no connection with our server. It's totally dependent your server. If you are using any server's API, it only help wallet to connect but no controls over transactions. 
+**[crypto-connect]** -  Use this shortcode on any of your pages to add a login button that connects to Metamask, allowing users to register on the site without any additional steps.
+**Secure** - All transactions on your site have no connection with our server and are solely dependent on your server. If you are using any server's API, it only facilitates the connection of the wallet but has no control over transactions.
 
-== Login/Register with Crypto Metamask Wallet ==
+== Sign in/Register using a cryptocurrency wallet ==
 
 example: `[crypto-connect label="Connect Wallet" class="fl-button fl-is-info fl-is-light"]`
 
 
 == Donation Widget ==
 
-* Get crypto donation into your desired wallet. 
-* Option to set fixed crypto amount in specified token
+* Receive cryptocurrency donations in your preferred wallet.
+* The option to set a fixed amount in a specific token is available.
 
-== Crypto or Token Price ==
+== Cryptocurrency or Token Price ==
 
-* Show latest price of token in selected currency
-* Based on shortcode.
-* Multiple token price at once.
-* Cache system to restrict from frequent API call.
-* Based no CoinMarketCap free API
-* `[crypto-price symbol="MATIC,BTC,ETH" style="style1" currency="USD"]`
+* Display the latest price of a token in the selected currency.
+* Use shortcode to add it to your website.
+* Show multiple token prices at once.
+* Use a caching system to limit API calls.
+* Data is obtained from CoinMarketCap's free API
+* Example shortcode: `[crypto-price symbol="MATIC,BTC,ETH" style="style1" currency="USD"]`
 
-== Restrict Content/Page ==
-* Show/Hide content if mentioned web3 domain available.
-* Restrict full specific page. 
-* Restrict part of the content controlled by shortcode. 
-* `[crypto-block] Private article [/crypto-block]`
+== Limit Access to Content/Page ==
+​
+
+* Show or hide content based on the availability of a specific Web3Domain.
+* Limit access to a full specific page.
+* Limit access to certain parts of the content using shortcode.
+* Example shortcode: `[crypto-block] Private article [/crypto-block]`
 
 = Option 1: Restrict by Web3Domain =
-* User must have specified NFT web3domain name from web3domain.org into wallet
-* Restrict page shortcode: `[crypto-access-domain]`
+* Users must have a specific NFT web3domain name from web3domain.org in their wallet.
+* Use the shortcode `[crypto-access-domain]` to limit access to a page.
 
-= Option 2: Restrict by NFT or Crypto =
-* User must have specified NFT & or number of tokens into wallet
-* Select network chain (Ethereum Mainnet, Binance BNB Chain , Polygon Chain)
-* Works with any smart contract address. 
-* Restrict page shortcode: `[crypto-access-nft]`
+= Option 2: Restrict by NFT or Cryptocurrency =
+* Users must have a specific NFT and/or number of tokens in their wallet.
+* Select the network chain (Ethereum Mainnet, Binance BNB Chain, Polygon Chain)
+* Compatible with any smart contract address.
+* Use the shortcode [crypto-access-nft] to limit access to a page.
+
+== Marketplace of Web3Domain ==
+             
+Become a Web3Domain provider on your own website by selling subdomains. We will integrate the domain into our ecosystem, providing every domain user access to all of the features that Web3Domain offers.
+
+* It is best option to earn for membership by letting user to obtain subdomain of your web3 primary domain.
+* You earn as soon as domain minted.
+* You can set the price for your subdomain yourself.
+* You can also restrict not to be minted by public. Only you can mint it and transfer. Hence you can save commission fees too. 
+* All Web3Domains are NFTs. Which you can sell at opensea.io
 
 
 [Live Demo](https://web3domain.org/user-dashboard/)
 
-> If any suggestion, contact at navneet@odude.com
+> If any suggestion, contact at admin@web3domain.org
 
-[GitHub](https://github.com/gupta977/crypto/)
+[GitHub](https://github.com/web3yak/crypto/)
 
 == Installation ==
 
@@ -78,6 +89,10 @@ e.g.
 
 MetaMask is a software cryptocurrency wallet used to interact with the Ethereum blockchain. It allows users to access their Ethereum wallet through a browser extension or mobile app, which can then be used to interact with decentralized applications.
 
+= What is Web3Domain ? =
+
+Web3Domain is a platform that allows you to register and sell your own web3 domain names, which are minted on a blockchain network. These domain names can be used to create subdomains, which can be sold to visitors. The Web3Domain platform also provides features such as connecting to a crypto wallet, automatic login, and the ability to earn money by selling subdomains. Additionally, all Web3Domains are Non-Fungible Tokens (NFTs) which can be sold on platforms such as opensea.io.
+
 == Screenshots ==
 
 1. Simple Login Interface with multiple wallet
@@ -86,32 +101,11 @@ MetaMask is a software cryptocurrency wallet used to interact with the Ethereum 
 
 == Changelog ==
 
-= 1.20 =
-* Added Web3Domain Marketplace
-* Fixes lots of bugs and optimized
-* Upgraded donation widgets to support Metamask
-
-
-= 1.19 =
-* Removed moralis & web3modal due to security reasons
-* All login shortcode now only supports [crypto-connect]
-
-
-= 1.18 =
-* Bug fixes during login & logout Web3Modal
-* Removed Flexi support
-
-= 1.17 =
-* Content restriction based on web3domain & NFT tokens
-* Short wallet address display after wallet connect
-* Logout cross button added along with short address
-* Updated language crypto.pot file.
-
-
-
+= 2.0 =
+All starts from scratch
 
 
 == Upgrade Notice ==
 
-= 1.0 =
-Initial installation
+= 2.0 =
+Web3Connect has been removed and now only Metamask is supported. You need to save configuration again. 
